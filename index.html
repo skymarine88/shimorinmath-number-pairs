@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Подбери пару — SHIMORINMATH</title>
+  <link rel="icon" href="SHIMORINMATH_Favicon.svg" type="image/svg+xml" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=STIX+Two+Math&display=swap');
+    :root{
+      --bg:#f2f0e9;
+      --paper:#fffdf7;
+      --ink:#101114;
+      --muted:#66655f;
+      --line:#101114;
+      --soft-line:#d8d5ca;
+      --acid:#eaff46;
+      --blue:#4056f4;
+      --pink:#ff6e91;
+      --good:#087a4b;
+      --bad:#b42318;
+      --warn:#9a5800;
+      --shadow:8px 8px 0 #101114;
+      --radius:20px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background:
+        linear-gradient(rgba(16,17,20,.045) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(16,17,20,.045) 1px, transparent 1px),
+        var(--bg);
+      background-size:28px 28px;
+      color:var(--ink);
+      min-height:100vh;
+    }
+    button,input,select{font:inherit}
+    button:focus-visible,input:focus-visible,select:focus-visible{outline:4px solid rgba(64,86,244,.28);outline-offset:2px}
+    .page{max-width:1240px;margin:0 auto;padding:22px 18px 44px}
+    header{
+      display:flex;align-items:center;justify-content:space-between;gap:18px;
+      color:var(--muted);font-size:13px;letter-spacing:.02em;margin-bottom:18px;
+    }
+    .brand{display:flex;align-items:center;gap:11px;font-weight:950;color:var(--ink);letter-spacing:-.03em}
+    .brand-mark{width:40px;height:40px;display:grid;place-items:center;background:var(--acid);border:2px solid var(--ink);border-radius:11px;transform:rotate(-3deg);font-size:15px}
+    .brand-name{font-size:17px}.brand-name i{font-style:normal;color:var(--blue)}
+    .header-note{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.08em}
+    .hero{
+      position:relative;overflow:hidden;
+      background:var(--ink);color:#fff;
+      border:2px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:32px;
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      gap:28px;
+      align-items:stretch;
+    }
+    .hero:after{content:"x²";position:absolute;right:-24px;bottom:-68px;font-size:220px;font-weight:950;color:rgba(255,255,255,.045);letter-spacing:-.09em;pointer-events:none}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--acid);color:var(--ink);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.09em;margin-bottom:18px}
+    .eyebrow:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--blue)}
+    h1{margin:0 0 12px;font-size:clamp(36px,5.2vw,68px);line-height:.94;letter-spacing:-.065em;max-width:760px}
+    .hero h1 em{font-style:normal;color:var(--acid)}
+    .lead{margin:0;color:#cbc9c1;font-size:18px;line-height:1.5;max-width:760px}
+    .pill-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+    .pill{border:1px solid #4a4b50;background:#222328;color:#f8f7f2;border-radius:999px;padding:8px 12px;font-size:13px}
+    .formula-card{
+      position:relative;z-index:1;border:2px solid var(--ink);background:var(--acid);color:var(--ink);
+      border-radius:18px;padding:22px;display:flex;flex-direction:column;justify-content:center;gap:13px;transform:rotate(1deg);
+    }
+    .formula-title{font-weight:950;font-size:13px;text-transform:uppercase;letter-spacing:.1em}
+    .formula{font-size:25px;line-height:1.28;font-weight:900;letter-spacing:-.035em}
+    .formula small{display:block;color:#37382f;font-weight:650;font-size:14px;margin-top:6px;letter-spacing:0;line-height:1.45}
+
+    .grid{display:grid;grid-template-columns:350px 1fr;gap:22px;margin-top:24px}
+    .panel{background:var(--paper);border:2px solid var(--line);border-radius:var(--radius);box-shadow:5px 5px 0 rgba(16,17,20,.95);padding:22px}
+    .panel h2{margin:0 0 14px;font-size:22px;letter-spacing:-.035em}
+    .section-kicker{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--blue);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+    label{display:block;font-weight:850;margin:14px 0 8px}
+    select, input{
+      width:100%;border:2px solid var(--line);border-radius:13px;padding:13px 14px;background:#fff;color:var(--ink);outline:none;
+    }
+    input:focus, select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(64,86,244,.13)}
+    .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    button{
+      border:2px solid var(--ink);border-radius:13px;padding:12px 15px;font-weight:900;font-size:14px;cursor:pointer;
+      transition:.15s transform ease,.15s box-shadow ease,.15s background ease;box-shadow:3px 3px 0 var(--ink);
+    }
+    button:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+    button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+    .primary{background:var(--blue);color:white}
+    .secondary{background:var(--acid);color:var(--ink)}
+    .ghost{background:#fff;color:var(--ink)}
+    .danger{background:#ffe6e1;color:var(--bad)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+    .stat{background:#fff;border:2px solid var(--line);border-radius:14px;padding:11px 7px;text-align:center}
+    .stat:nth-child(1){background:var(--acid)}
+    .stat b{display:block;font-size:24px;line-height:1}.stat span{font-size:11px;color:#44443f;font-weight:750}
+
+    .task{position:relative;overflow:hidden;min-height:560px}
+    .task-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:18px}
+    .badge{display:inline-flex;align-items:center;gap:7px;border:2px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);padding:7px 11px;font-weight:900;font-size:13px}
+    .quality{margin-top:9px;color:var(--muted);font-size:13px;font-weight:700}
+    .big-numbers{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+    .number-card{
+      position:relative;overflow:hidden;border:2px solid var(--line);border-radius:18px;background:#fff;padding:20px;text-align:center;
+    }
+    .number-card:first-child{background:var(--acid)}
+    .number-card:last-child{background:#dfe3ff}
+    .number-card:after{position:absolute;right:12px;top:6px;font:900 44px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:rgba(16,17,20,.09)}
+    .number-card:first-child:after{content:"S"}.number-card:last-child:after{content:"P"}
+    .number-card span{display:block;color:#44443f;font-weight:850;margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em;font-size:12px}.number-card b{font-size:62px;letter-spacing:-.07em}
+    .inputs{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:end;margin:18px 0 12px}
+    .plus{padding-bottom:12px;font-size:30px;font-weight:950;color:var(--blue)}
+    .feedback{min-height:74px;margin-top:16px;border-radius:16px;padding:16px 18px;border:2px solid var(--line);background:#f5f3ec;color:#34342f;line-height:1.45}
+    .feedback.good{background:#e6f9ed;border-color:var(--good);color:#05603a}.feedback.bad{background:#fff0ed;border-color:var(--bad);color:#912018}.feedback.warn{background:#fff3cf;border-color:var(--warn);color:#7b4600}
+    .steps{margin-top:18px;display:grid;gap:10px}
+    .step{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--soft-line);background:#fff;border-radius:14px;padding:13px 14px;color:#34342f;line-height:1.42}
+    .step-num{flex:0 0 auto;width:28px;height:28px;border:2px solid var(--ink);border-radius:9px;background:var(--acid);display:grid;place-items:center;font-weight:950;color:var(--ink)}
+    .hint-box{display:none;margin-top:14px;border:2px dashed var(--blue);background:#eff1ff;border-radius:16px;padding:15px 16px;color:#2639a8;line-height:1.45}
+    .hint-box.show{display:block}
+    .history{margin-top:18px;max-height:150px;overflow:auto;border-top:2px solid var(--line);padding-top:12px;color:var(--muted);font-size:14px}
+    .history-item{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--soft-line)}.history-item:last-child{border-bottom:0}
+    .mini{font-size:13px;color:var(--muted);line-height:1.45;margin-top:8px}
+    .method-note{margin-top:18px;padding:14px;border-radius:14px;background:#f1efe6;border:1.5px solid var(--soft-line);font-size:12px;color:#5d5c55;line-height:1.5}
+    .method-note b{color:var(--ink)}
+    .print-note{margin-top:22px;color:var(--ink);text-align:center;font-weight:950;letter-spacing:-.03em;font-size:15px}.print-note i{font-style:normal;color:var(--blue)}
+    .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}.confetti i{position:absolute;width:8px;height:14px;border:2px solid var(--ink);border-radius:3px;background:var(--acid);opacity:.95;animation:fall 900ms ease-out forwards}
+    @keyframes fall{0%{transform:translateY(-30px) rotate(0deg);opacity:1}100%{transform:translateY(520px) rotate(320deg);opacity:0}}
+    @media(max-width:900px){.hero,.grid{grid-template-columns:1fr}.hero{padding:26px}.formula-card{transform:none}.number-card b{font-size:48px}.inputs{grid-template-columns:1fr}.plus{display:none}}
+    @media(max-width:560px){.page{padding:12px 10px 30px}header{align-items:flex-start}.header-note{display:none}.hero,.panel{padding:18px;box-shadow:4px 4px 0 var(--ink)}.big-numbers{grid-template-columns:1fr 1fr;gap:8px}.number-card{padding:16px 8px}.number-card b{font-size:42px}.task-top{align-items:center}.task-top .ghost{padding:9px 10px}.btns button{flex:1}.stats{gap:6px}.brand-name{font-size:15px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;transition:none!important}}
+
+    /* SHIMORINMATH brandbook v1.0 — digital product */
+    :root{
+      --bg:#08111F;
+      --paper:#101C2C;
+      --ink:#F8FAFC;
+      --muted:#A9B4C4;
+      --line:#263548;
+      --soft-line:#263548;
+      --blue:#2563EB;
+      --good:#16A34A;
+      --bad:#DC2626;
+      --warn:#D97706;
+      --orange:#EA580C;
+      --surface-deep:#0C1726;
+      --surface-raised:#162437;
+      --shadow:0 16px 50px rgba(0,0,0,.16);
+      --radius:16px;
+      --font:Manrope,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      --math:"STIX Two Math","Cambria Math",Georgia,serif;
+    }
+    html{color-scheme:dark}
+    body{
+      font-family:var(--font);
+      background:
+        radial-gradient(circle at 72% -10%,rgba(37,99,235,.16),transparent 34rem),
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+        var(--bg);
+      background-size:auto,48px 48px,48px 48px,auto;
+      color:var(--ink);
+    }
+    button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid rgba(37,99,235,.45);outline-offset:2px}
+    .page{max-width:1200px;padding:0 20px 48px}
+    header{
+      min-height:72px;margin-bottom:32px;border-bottom:1px solid var(--line);
+      align-items:center;color:var(--muted);font-size:12px;
+    }
+    .brand{gap:12px;color:var(--ink);font-weight:600;letter-spacing:0}
+    .brand-logo{display:block;width:40px;height:40px;flex:0 0 40px}
+    .brand-name{font-size:16px;font-weight:600;letter-spacing:.16em}
+    .header-note{display:flex;align-items:center;gap:10px;font-family:var(--font);text-transform:none;letter-spacing:0}
+    .age-marker{
+      padding:6px 9px;border:1px solid rgba(234,88,12,.48);border-radius:8px;
+      background:rgba(234,88,12,.13);color:#FDBA8C;font-weight:700;
+    }
+    .hero{
+      padding:0 0 32px;background:transparent;color:var(--ink);border:0;border-radius:0;box-shadow:none;
+      grid-template-columns:1.35fr .65fr;gap:40px;align-items:end;overflow:visible;
+    }
+    .hero:after{display:none}
+    .eyebrow{
+      display:flex;align-items:center;gap:9px;padding:0;margin-bottom:14px;background:transparent;color:#93B4FF;
+      border-radius:0;font-size:11px;font-weight:800;letter-spacing:.12em;
+    }
+    .eyebrow:before{width:24px;height:2px;border-radius:0;background:var(--blue)}
+    h1{margin:0 0 14px;font-size:clamp(36px,5vw,58px);line-height:1.02;letter-spacing:-.045em;font-weight:700}
+    .hero h1 em{color:#93B4FF}
+    .lead{color:var(--muted);font-size:16px;line-height:1.65}
+    .pill-row{margin-top:20px}
+    .pill{
+      border:1px solid var(--line);background:rgba(16,28,44,.72);color:#CBD5E1;
+      border-radius:8px;padding:7px 10px;font-size:11px;font-weight:600;
+    }
+    .formula-card{
+      position:relative;border:1px solid var(--line);border-left:2px solid var(--blue);
+      background:rgba(16,28,44,.8);color:var(--ink);border-radius:var(--radius);
+      padding:20px;gap:12px;transform:none;
+    }
+    .formula-title{color:#93B4FF;font-weight:700;font-size:11px}
+    .formula{font-family:var(--math);font-size:25px;line-height:1.35;font-weight:400;letter-spacing:0}
+    .formula small{color:var(--muted);font-family:var(--font);font-weight:500;font-size:13px;margin-top:2px;line-height:1.55}
+    .grid{grid-template-columns:320px 1fr;gap:20px;margin-top:0}
+    .panel{
+      background:rgba(16,28,44,.94);border:1px solid var(--line);border-radius:var(--radius);
+      box-shadow:var(--shadow);padding:22px;
+    }
+    .panel h2{font-size:20px;letter-spacing:-.02em;font-weight:700}
+    .section-kicker{font-family:var(--font);color:#93B4FF;font-size:10px;font-weight:800;letter-spacing:.12em}
+    label{color:#DCE3EC;font-weight:600;font-size:12px;margin:16px 0 8px}
+    select,input{
+      border:1px solid var(--line);border-radius:10px;padding:12px 13px;
+      background:var(--surface-deep);color:var(--ink);
+    }
+    input::placeholder{color:#65758A}
+    input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.13)}
+    button{
+      border:1px solid transparent;border-radius:10px;padding:11px 14px;font-weight:700;font-size:13px;
+      box-shadow:none;transition:.16s background ease,.16s border-color ease,.16s transform ease;
+    }
+    button:hover{transform:translateY(-1px);box-shadow:none}
+    button:active{transform:translateY(0);box-shadow:none}
+    .primary{background:var(--blue);color:#fff}.primary:hover{background:#1D4ED8}
+    .secondary{background:var(--surface-raised);border-color:var(--line);color:#E2E8F0}
+    .secondary:hover,.ghost:hover{background:#1B2B40}
+    .ghost{background:transparent;border-color:var(--line);color:#CBD5E1}
+    .danger{background:transparent;border-color:rgba(220,38,38,.38);color:#FCA5A5}
+    .danger:hover{background:rgba(220,38,38,.13)}
+    .stats{gap:8px;margin-top:20px}
+    .stat{background:var(--surface-deep);border:1px solid var(--line);border-radius:10px;padding:12px 6px}
+    .stat:nth-child(1){background:var(--surface-deep)}
+    .stat b{font-size:23px;font-weight:700}.stat span{font-size:10px;color:var(--muted);font-weight:600}
+    .badge{
+      gap:8px;border:1px solid rgba(234,88,12,.38);border-radius:8px;
+      background:rgba(234,88,12,.13);color:#FDBA8C;padding:6px 9px;
+      font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;
+    }
+    .badge:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orange)}
+    .quality{margin-top:8px;color:var(--muted);font-size:12px;font-weight:500}
+    .big-numbers{gap:12px}
+    .number-card{
+      border:1px solid var(--line);border-radius:14px;background:var(--surface-deep);
+      padding:22px;
+    }
+    .number-card:first-child,.number-card:last-child{background:var(--surface-deep)}
+    .number-card:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--blue)}
+    .number-card:last-child:before{background:var(--orange)}
+    .number-card:after{right:14px;top:10px;font:400 38px/1 var(--math);color:rgba(248,250,252,.06)}
+    .number-card span{color:var(--muted);font-weight:700;margin-bottom:4px;font-size:10px;letter-spacing:.1em}
+    .number-card b{font-family:var(--math);font-size:60px;font-weight:400;line-height:1;letter-spacing:-.02em}
+    .inputs input{font-family:var(--math);font-size:18px}
+    .plus{padding-bottom:10px;font-family:var(--math);font-size:28px;font-weight:400;color:#93B4FF}
+    .feedback{
+      border:1px solid var(--line);border-left:2px solid #506078;border-radius:12px;
+      background:var(--surface-deep);color:#CBD5E1;padding:15px 16px;line-height:1.55;font-size:13px;
+    }
+    .feedback.good{background:rgba(22,163,74,.13);border-color:rgba(22,163,74,.45);border-left-color:var(--good);color:#BBF7D0}
+    .feedback.bad{background:rgba(220,38,38,.13);border-color:rgba(220,38,38,.42);border-left-color:var(--bad);color:#FECACA}
+    .feedback.warn{background:rgba(217,119,6,.13);border-color:rgba(217,119,6,.4);border-left-color:var(--warn);color:#FDE68A}
+    .steps{gap:8px}
+    .step{
+      border:1px solid var(--line);background:rgba(12,23,38,.58);border-radius:10px;
+      padding:12px 13px;color:#CBD5E1;line-height:1.5;font-size:12px;
+    }
+    .step-num{
+      width:24px;height:24px;border:0;border-radius:7px;background:rgba(37,99,235,.14);
+      font-weight:700;color:#93B4FF;
+    }
+    .hint-box{
+      border:1px solid rgba(37,99,235,.45);border-left:2px solid var(--blue);
+      background:rgba(37,99,235,.14);border-radius:12px;padding:15px 16px;
+      color:#C7D7FE;line-height:1.5;font-size:13px;
+    }
+    .history{border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+    .history-item{border-bottom:1px solid rgba(38,53,72,.72)}
+    .method-note{
+      padding:13px;border-radius:10px;background:var(--surface-deep);border:1px solid var(--line);
+      font-size:11px;color:var(--muted);line-height:1.55;
+    }
+    .method-note b{color:#DCE3EC}
+    .print-note{color:#7F8DA0;font-weight:600;letter-spacing:.16em;font-size:10px}
+    .confetti{display:none}
+    .task.is-solved{animation:solvedPulse 700ms ease}
+    @keyframes solvedPulse{0%,100%{border-color:var(--line)}45%{border-color:rgba(22,163,74,.82);box-shadow:0 0 0 4px rgba(22,163,74,.09)}}
+    @media(max-width:900px){
+      .hero,.grid{grid-template-columns:1fr}.hero{padding:0 0 24px;gap:24px}
+      .number-card b{font-size:50px}.inputs{grid-template-columns:1fr}.plus{display:none}
+    }
+    @media(max-width:560px){
+      .page{padding:0 12px 32px}header{min-height:64px;margin-bottom:24px;align-items:center}
+      .brand-divider,.brand-product,.header-note>span:not(.age-marker){display:none}.header-note{display:flex}
+      .hero{padding:0 0 24px}.panel{padding:17px;box-shadow:var(--shadow)}
+      .number-card{padding:18px 8px}.number-card b{font-size:44px}.brand-name{font-size:14px}
+    }
+    [hidden]{display:none!important}
+    button:disabled,select:disabled,input:disabled{cursor:not-allowed;opacity:.52}
+    .stat-icon{display:block;height:20px;margin-bottom:3px;font-size:17px;line-height:20px}
+    .stat-icon.correct{color:var(--good);font-size:22px;font-weight:800}
+    .exam-status{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+    .exam-metric{padding:11px 12px;border:1px solid rgba(234,88,12,.4);border-radius:10px;background:rgba(234,88,12,.1)}
+    .exam-metric span{display:block;color:#FDBA8C;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.09em}
+    .exam-metric b{display:block;margin-top:4px;color:var(--ink);font-size:20px}
+    .exam-result{
+      position:absolute;inset:0;z-index:5;display:grid;place-items:center;padding:24px;
+      background:rgba(8,17,31,.94);backdrop-filter:blur(8px);
+    }
+    .result-card{
+      width:min(520px,100%);padding:28px;border:1px solid var(--line);border-top:2px solid var(--blue);
+      border-radius:16px;background:var(--paper);box-shadow:0 22px 70px rgba(0,0,0,.35);text-align:center;
+    }
+    .result-label{color:#93B4FF;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
+    .result-grade{margin:8px 0 2px;font-family:var(--math);font-size:86px;font-weight:400;line-height:1;color:var(--ink)}
+    .result-summary{color:#DCE3EC;font-size:15px;font-weight:700}
+    .result-comment{max-width:410px;margin:14px auto 0;color:var(--muted);font-size:13px;line-height:1.6}
+    .result-card .btns{justify-content:center;margin-top:22px}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <img class="brand-logo" src="SHIMORINMATH_Logo_White.svg" alt="" width="40" height="40" />
+        <span class="brand-name">SHIMORINMATH</span>
+      </div>
+      <div class="header-note"><span class="age-marker">7–9 классы</span><span>Алгебра</span></div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Тренировка подбора</div>
+        <h1>Подбери <em>пару</em> чисел</h1>
+        <p class="lead">Навык подбора двух чисел по их сумме и произведению позволит в дальнейшем легко решать один из ключевых классов уравнений школьной программы.</p>
+      </div>
+      <div class="formula-card">
+        <div class="formula-title">Условие подбора</div>
+        <div class="formula">a + b = S<br>a · b = P</div>
+        <div class="formula"><small>Оба равенства должны выполняться одновременно.</small></div>
+      </div>
+    </section>
+
+    <main class="grid">
+      <aside class="panel">
+        <div class="section-kicker">управление</div>
+        <h2>Настройки</h2>
+        <label for="workMode">Формат работы</label>
+        <select id="workMode">
+          <option value="training" selected>Тренировка</option>
+          <option value="exam">Зачёт: 5 заданий за 3 минуты</option>
+        </select>
+
+        <label for="level">Режим</label>
+        <select id="level">
+          <option value="positive">Оба числа положительные</option>
+          <option value="sameSign">Одинаковые знаки без нуля</option>
+          <option value="differentSign">Разные знаки без нуля</option>
+          <option value="mixed" selected>Смешанный режим без нуля</option>
+        </select>
+
+        <label for="range">Сложность</label>
+        <select id="range">
+          <option value="50">LIGHT · |P| ≤ 50</option>
+          <option value="100" selected>MEDIUM · |P| ≤ 100</option>
+          <option value="200">HARD · |P| ≤ 200</option>
+        </select>
+
+        <div class="btns">
+          <button class="primary" id="newTask">Новая задача</button>
+          <button class="secondary" id="showHint">Подсказка</button>
+          <button class="danger" id="resetStats">Сброс</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><span class="stat-icon correct">✓</span><b id="score">0</b><span>верно</span></div>
+          <div class="stat"><span class="stat-icon">💩</span><b id="errors">0</b><span>ошибки</span></div>
+          <div class="stat"><span class="stat-icon">🔥</span><b id="streak">0</b><span>серия</span></div>
+        </div>
+
+        <div class="exam-status" id="examStatus" hidden>
+          <div class="exam-metric"><span>Осталось</span><b id="examTimer">03:00</b></div>
+          <div class="exam-metric"><span>Выполнено</span><b id="examProgress">0 / 5</b></div>
+        </div>
+
+      </aside>
+
+      <section class="panel task">
+        <div class="task-top">
+          <div>
+            <span class="badge">Задание <span id="taskNumber">01</span></span>
+            <h2 style="margin-top:12px">Найди два числа</h2>
+          </div>
+          <button class="ghost" id="reveal">Показать ответ</button>
+        </div>
+
+        <div class="big-numbers">
+          <div class="number-card"><span>сумма</span><b id="sum">?</b></div>
+          <div class="number-card"><span>произведение</span><b id="product">?</b></div>
+        </div>
+
+        <div class="inputs">
+          <div>
+            <label for="a">Первое число</label>
+            <input id="a" type="number" inputmode="numeric" placeholder="например, 3" />
+          </div>
+          <div class="plus">+</div>
+          <div>
+            <label for="b">Второе число</label>
+            <input id="b" type="number" inputmode="numeric" placeholder="например, 7" />
+          </div>
+        </div>
+
+        <div class="btns">
+          <button class="primary" id="check">Проверить</button>
+          <button class="secondary" id="clear">Очистить</button>
+        </div>
+
+        <div class="feedback" id="feedback">Ищи подходящую пару среди делителей произведения, затем проверяй сумму.</div>
+        <div class="hint-box" id="hint"></div>
+
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div><b>Ищи среди делителей произведения.</b> Составь возможные пары множителей числа |P|.</div></div>
+          <div class="step"><div class="step-num">2</div><div><b>Определи знаки.</b> Если P &gt; 0, числа одного знака; если P &lt; 0 — разных знаков.</div></div>
+          <div class="step"><div class="step-num">3</div><div><b>Если знаки разные, смотри на сумму.</b> Её знак показывает, какое число сильнее по модулю, а |S| — на сколько.</div></div>
+          <div class="step"><div class="step-num">4</div><div><b>Если знаки одинаковые, смотри на сумму.</b> Она определяет общий знак чисел, а модуль каждого числа не превышает |S|.</div></div>
+        </div>
+
+        <div class="history" id="history"><b>История:</b><div class="mini">Пока пусто.</div></div>
+        <div class="print-note">SHIMORINMATH</div>
+
+        <div class="exam-result" id="examResult" hidden>
+          <div class="result-card">
+            <div class="result-label">Результат зачёта</div>
+            <div class="result-grade" id="resultGrade">5</div>
+            <div class="result-summary" id="resultSummary">5 из 5 верно</div>
+            <div class="result-comment" id="resultComment"></div>
+            <div class="btns">
+              <button class="primary" id="restartExam">Пройти ещё раз</button>
+              <button class="ghost" id="exitExam">Тренировка</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+  const state = {
+    a: 2, b: 6, sum: 8, product: 12,
+    score: 0, errors: 0, streak: 0, history: [],
+    hintStage: 0, taskCount: 0, recentKeys: [],
+    solved: false, advanceTimer: null,
+    exam: { active: false, answered: 0, startedAt: 0, timerId: null }
+  };
+  const $ = id => document.getElementById(id);
+
+  function randInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+  function choice(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+  const LEVEL_PROFILE = {
+    50:  { minProduct: 12, minRoutes: 2, maxNumber: 24 },
+    100: { minProduct: 20, minRoutes: 2, maxNumber: 50 },
+    200: { minProduct: 30, minRoutes: 3, maxNumber: 100 }
+  };
+
+  const routeCountCache = new Map();
+  function nonTrivialRouteCount(product){
+    const n = Math.abs(product);
+    if(routeCountCache.has(n)) return routeCountCache.get(n);
+    let count = 0;
+    for(let d = 2; d <= Math.sqrt(n); d++){
+      const q = n / d;
+      if(Number.isInteger(q) && q <= 100) count++;
+    }
+    routeCountCache.set(n, count);
+    return count;
+  }
+
+  const ALL_PAIRS = [];
+  for(let a = -100; a <= 100; a++){
+    if(Math.abs(a) <= 1) continue;
+    for(let b = a; b <= 100; b++){
+      if(Math.abs(b) <= 1) continue;
+      const product = a * b;
+      ALL_PAIRS.push({
+        a, b,
+        sum: a + b,
+        product,
+        routes: nonTrivialRouteCount(product)
+      });
+    }
+  }
+
+  const DATABASE = {
+    50: buildByCap(50),
+    100: buildByCap(100),
+    200: buildByCap(200)
+  };
+
+  function buildByCap(cap){
+    const profile = LEVEL_PROFILE[cap];
+    return ALL_PAIRS
+      .filter(pair => {
+        const absProduct = Math.abs(pair.product);
+        return absProduct >= profile.minProduct
+          && absProduct <= cap
+          && pair.routes >= profile.minRoutes
+          && Math.max(Math.abs(pair.a), Math.abs(pair.b)) <= profile.maxNumber
+          && pair.sum !== 0;
+      })
+      .map(pair => ({
+        ...pair,
+        contentScore:
+          pair.routes * 18
+          + (Math.abs(pair.product) / cap) * 16
+          + (Math.min(Math.abs(pair.a), Math.abs(pair.b)) >= 3 ? 5 : 0)
+          - (Math.abs(pair.a) === Math.abs(pair.b) ? 9 : 0)
+      }));
+  }
+
+  function matchesMode(pair, mode){
+    if(mode === 'positive') return pair.a > 0 && pair.b > 0;
+    if(mode === 'sameSign') return pair.product > 0;
+    if(mode === 'differentSign') return pair.product < 0;
+    return true;
+  }
+
+  function makePair(){
+    const cap = Number($('range').value);
+    const level = $('level').value;
+    const base = DATABASE[cap].filter(pair => matchesMode(pair, level));
+    const fresh = base.filter(pair => !state.recentKeys.includes(`${pair.sum}|${pair.product}`));
+    const available = fresh.length >= 10 ? fresh : base;
+
+    const ranked = [...available].sort((x, y) => y.contentScore - x.contentScore);
+    const eliteSize = Math.max(12, Math.ceil(ranked.length * 0.42));
+    const elite = ranked.slice(0, eliteSize);
+    const minScore = elite[elite.length - 1].contentScore;
+    const weighted = elite.map(pair => ({
+      pair,
+      weight: Math.pow(pair.contentScore - minScore + 4, 1.35)
+    }));
+    const total = weighted.reduce((sum, item) => sum + item.weight, 0);
+    let cursor = Math.random() * total;
+    for(const item of weighted){
+      cursor -= item.weight;
+      if(cursor <= 0) return item.pair;
+    }
+    return choice(elite);
+  }
+
+  function searchAdvice(){
+    const absProduct = Math.abs(state.product);
+    const absSum = Math.abs(state.sum);
+    if(state.product < 0){
+      if(state.sum > 0){
+        return `Ищи пары делителей числа ${absProduct}. Произведение отрицательное — знаки разные. Сумма положительная, поэтому положительное число больше по модулю на ${absSum}.`;
+      }
+      if(state.sum < 0){
+        return `Ищи пары делителей числа ${absProduct}. Произведение отрицательное — знаки разные. Сумма отрицательная, поэтому отрицательное число больше по модулю на ${absSum}.`;
+      }
+      return `Ищи пары делителей числа ${absProduct}. Произведение отрицательное — знаки разные, а нулевая сумма означает равные модули.`;
+    }
+    const commonSign = state.sum > 0 ? 'положительные' : 'отрицательные';
+    return `Ищи пары делителей числа ${absProduct}. Произведение положительное — числа одного знака. По сумме видно, что оба числа ${commonSign}; модуль каждого не больше ${absSum}.`;
+  }
+
+  function newTask(){
+    if(state.advanceTimer){
+      clearTimeout(state.advanceTimer);
+      state.advanceTimer = null;
+    }
+    const p = makePair();
+    state.a = p.a; state.b = p.b;
+    state.sum = p.a + p.b;
+    state.product = p.a * p.b;
+    state.hintStage = 0;
+    state.solved = false;
+    state.taskCount++;
+    const key = `${state.sum}|${state.product}`;
+    state.recentKeys.unshift(key);
+    state.recentKeys = state.recentKeys.slice(0, 12);
+    $('sum').textContent = state.sum;
+    $('product').textContent = state.product;
+    $('taskNumber').textContent = String(state.taskCount).padStart(2, '0');
+    $('a').value = '';
+    $('b').value = '';
+    $('hint').classList.remove('show');
+    $('hint').innerHTML = '';
+    setFeedback(state.exam.active ? 'Подбери два числа, которые одновременно дают указанную сумму и произведение.' : `<b>Как искать.</b> ${searchAdvice()}`, '');
+    setModeControls();
+    $('a').focus();
+  }
+
+  function setFeedback(text, cls){
+    const f = $('feedback');
+    f.className = 'feedback' + (cls ? ' ' + cls : '');
+    f.innerHTML = text;
+  }
+
+  function updateStats(){
+    $('score').textContent = state.score;
+    $('errors').textContent = state.errors;
+    $('streak').textContent = state.streak;
+  }
+
+  function check(){
+    if(state.solved){
+      setFeedback(state.exam.active ? 'Ответ принят. Сейчас появится следующее задание.' : 'Эта задача уже решена — сейчас появится следующая.', 'good');
+      return;
+    }
+    const x = Number($('a').value);
+    const y = Number($('b').value);
+    if($('a').value === '' || $('b').value === '' || !Number.isFinite(x) || !Number.isFinite(y)){
+      setFeedback('Нужно ввести два числа.', 'warn');
+      return;
+    }
+    const s = x + y;
+    const p = x * y;
+    const ok = (s === state.sum && p === state.product);
+    if(ok){
+      state.score++; state.streak++; state.solved = true;
+      addHistory(`S = ${state.sum}, P = ${state.product}`, `${x} и ${y}`, true);
+      setFeedback(`✓ Верно: ${x} + ${y} = ${state.sum}, и ${x} · ${y} = ${state.product}.`, 'good');
+      showSolvedState();
+    } else {
+      state.errors++;
+      state.streak = 0;
+      if(state.exam.active) state.solved = true;
+      addHistory(`S = ${state.sum}, P = ${state.product}`, `${x} и ${y}`, false);
+      if(s === state.sum && p !== state.product){
+        setFeedback(`💩 Ошибка: сумма верная, но произведение равно ${p}, а нужно ${state.product}.${state.exam.active ? '' : `<br><br>${searchAdvice()}`}`, 'bad');
+      } else if(p === state.product && s !== state.sum){
+        setFeedback(`💩 Ошибка: произведение верное, но сумма равна ${s}, а нужно ${state.sum}.${state.exam.active ? '' : `<br><br>${searchAdvice()}`}`, 'bad');
+      } else {
+        setFeedback(`💩 Ошибка: сумма получилась ${s}, произведение ${p}. Нужны сумма ${state.sum} и произведение ${state.product}.${state.exam.active ? '' : `<br><br>${searchAdvice()}`}`, 'bad');
+      }
+    }
+    updateStats();
+    if(state.exam.active){
+      state.exam.answered++;
+      updateExamProgress();
+      state.advanceTimer = setTimeout(
+        () => state.exam.answered >= 5 ? finishExam(false) : newTask(),
+        650
+      );
+    } else if(ok){
+      state.advanceTimer = setTimeout(newTask, 1200);
+    }
+  }
+
+  function factorPairs(n){
+    const pairs = [];
+    if(n === 0) return pairs;
+    const abs = Math.abs(n);
+    for(let d = 2; d <= Math.sqrt(abs); d++){
+      if(abs % d === 0){
+        const q = abs / d;
+        if(q > 100) continue;
+        if(n > 0){ pairs.push([d,q],[-d,-q]); }
+        else { pairs.push([d,-q],[-d,q]); }
+      }
+    }
+    return pairs;
+  }
+
+  function hint(){
+    if(state.exam.active) return;
+    state.hintStage = Math.min(state.hintStage + 1, 2);
+    const box = $('hint');
+    box.classList.add('show');
+    const P = state.product;
+    const S = state.sum;
+    if(state.hintStage === 1){
+      box.innerHTML = `<b>Подсказка 1.</b> ${searchAdvice()}`;
+    } else if(state.hintStage === 2){
+      const pairs = factorPairs(P).slice(0, 18).map(p => `${p[0]} и ${p[1]}`).join('; ');
+      box.innerHTML = `<b>Подсказка 2.</b> Возможные пары множителей для произведения ${P}:<br>${pairs}.<br>Теперь проверь, у какой пары сумма равна ${S}.`;
+    }
+  }
+
+  function reveal(){
+    if(state.exam.active) return;
+    $('hint').classList.add('show');
+    $('hint').innerHTML = `<b>Ответ.</b> Подходящая пара: <b>${state.a} и ${state.b}</b>. Проверка: ${state.a} + ${state.b} = ${state.sum}; ${state.a} · ${state.b} = ${state.product}.`;
+    state.streak = 0;
+    updateStats();
+  }
+
+  function clearInputs(){ $('a').value=''; $('b').value=''; $('a').focus(); }
+
+  function addHistory(task, answer, ok){
+    state.history.unshift({task, answer, ok});
+    state.history = state.history.slice(0,8);
+    const html = '<b>История:</b>' + state.history.map(h => `<div class="history-item"><span>${h.ok ? '✓' : '💩'} ${h.task}</span><span>${h.answer}</span></div>`).join('');
+    $('history').innerHTML = html;
+  }
+
+  function resetStats(){
+    if(state.exam.active) return;
+    state.score=0; state.errors=0; state.streak=0; state.history=[];
+    updateStats();
+    $('history').innerHTML='<b>История:</b><div class="mini">Пока пусто.</div>';
+  }
+
+  function stopExamTimer(){
+    if(state.exam.timerId){
+      clearInterval(state.exam.timerId);
+      state.exam.timerId = null;
+    }
+  }
+
+  function updateExamProgress(){
+    $('examProgress').textContent = `${state.exam.answered} / 5`;
+  }
+
+  function updateExamTimer(){
+    if(!state.exam.active) return;
+    const remainingMs = 180000 - (Date.now() - state.exam.startedAt);
+    const seconds = Math.max(0, Math.ceil(remainingMs / 1000));
+    const minutes = Math.floor(seconds / 60);
+    const restSeconds = seconds % 60;
+    $('examTimer').textContent = `${String(minutes).padStart(2, '0')}:${String(restSeconds).padStart(2, '0')}`;
+    if(remainingMs <= 0) finishExam(true);
+  }
+
+  function setModeControls(){
+    const examSelected = $('workMode').value === 'exam';
+    const examActive = state.exam.active;
+    const examLocked = examSelected && !examActive;
+    $('newTask').textContent = examSelected ? (examActive ? 'Зачёт идёт' : 'Начать зачёт') : 'Новая задача';
+    $('newTask').disabled = examActive;
+    $('workMode').disabled = examActive;
+    $('level').disabled = examActive;
+    $('range').disabled = examActive;
+    $('resetStats').disabled = examActive;
+    $('showHint').disabled = examSelected;
+    $('reveal').disabled = examSelected;
+    $('a').disabled = examLocked;
+    $('b').disabled = examLocked;
+    $('check').disabled = examLocked;
+    $('clear').disabled = examLocked;
+    document.querySelector('.task').classList.toggle('exam-active', examActive);
+  }
+
+  function prepareWorkMode(){
+    if(state.advanceTimer){
+      clearTimeout(state.advanceTimer);
+      state.advanceTimer = null;
+    }
+    stopExamTimer();
+    state.exam.active = false;
+    $('examResult').hidden = true;
+    const examSelected = $('workMode').value === 'exam';
+    $('examStatus').hidden = !examSelected;
+    $('examTimer').textContent = '03:00';
+    state.exam.answered = 0;
+    updateExamProgress();
+    setModeControls();
+    if(examSelected){
+      setFeedback('Зачёт состоит из 5 заданий. На выполнение даётся 3 минуты. Подсказка и показ ответа будут отключены.', '');
+    } else {
+      resetStats();
+      state.taskCount = 0;
+      newTask();
+    }
+  }
+
+  function startExam(){
+    if(state.advanceTimer){
+      clearTimeout(state.advanceTimer);
+      state.advanceTimer = null;
+    }
+    stopExamTimer();
+    state.score = 0;
+    state.errors = 0;
+    state.streak = 0;
+    state.history = [];
+    state.taskCount = 0;
+    state.exam.active = true;
+    state.exam.answered = 0;
+    state.exam.startedAt = Date.now();
+    $('history').innerHTML='<b>История:</b><div class="mini">Пока пусто.</div>';
+    $('examResult').hidden = true;
+    $('examStatus').hidden = false;
+    $('examTimer').textContent = '03:00';
+    updateExamProgress();
+    updateStats();
+    setModeControls();
+    newTask();
+    state.exam.timerId = setInterval(updateExamTimer, 200);
+  }
+
+  function finishExam(timedOut){
+    if(!state.exam.active) return;
+    stopExamTimer();
+    if(state.advanceTimer){
+      clearTimeout(state.advanceTimer);
+      state.advanceTimer = null;
+    }
+    const unanswered = Math.max(0, 5 - state.exam.answered);
+    if(timedOut && unanswered) state.errors += unanswered;
+    state.exam.active = false;
+    state.solved = true;
+    if(timedOut) $('examTimer').textContent = '00:00';
+    updateStats();
+    setModeControls();
+
+    const grade = state.score === 5 ? 5 : state.score === 4 ? 4 : state.score === 3 ? 3 : 2;
+    const comments = {
+      5: 'Отлично. Пары находятся быстро и уверенно.',
+      4: 'Хорошо. Навык сформирован; осталось немного увеличить скорость и внимательность.',
+      3: 'Зачёт пройден на базовом уровне. Стоит потренировать определение знаков и перебор делителей.',
+      2: 'Пока не зачтено. Сначала определяй знаки по произведению, затем перебирай его делители и проверяй сумму.'
+    };
+    const timeoutNote = timedOut && unanswered
+      ? ` Время закончилось: не выполнено заданий — ${unanswered}.`
+      : '';
+    $('resultGrade').textContent = grade;
+    $('resultSummary').textContent = `${state.score} из 5 верно`;
+    $('resultComment').textContent = comments[grade] + timeoutNote;
+    $('examResult').hidden = false;
+  }
+
+  function primaryAction(){
+    if($('workMode').value === 'exam') startExam();
+    else newTask();
+  }
+
+  function exitExam(){
+    $('workMode').value = 'training';
+    prepareWorkMode();
+  }
+
+  function showSolvedState(){
+    const task = document.querySelector('.task');
+    task.classList.remove('is-solved');
+    void task.offsetWidth;
+    task.classList.add('is-solved');
+    setTimeout(() => task.classList.remove('is-solved'), 750);
+  }
+
+  $('newTask').addEventListener('click', primaryAction);
+  $('check').addEventListener('click', check);
+  $('showHint').addEventListener('click', hint);
+  $('reveal').addEventListener('click', reveal);
+  $('clear').addEventListener('click', clearInputs);
+  $('resetStats').addEventListener('click', resetStats);
+  $('workMode').addEventListener('change', prepareWorkMode);
+  $('level').addEventListener('change', () => { if($('workMode').value === 'training') newTask(); });
+  $('range').addEventListener('change', () => { if($('workMode').value === 'training') newTask(); });
+  $('restartExam').addEventListener('click', startExam);
+  $('exitExam').addEventListener('click', exitExam);
+  ['a','b'].forEach(id => $(id).addEventListener('keydown', e => { if(e.key === 'Enter') check(); }));
+  updateStats();
+  newTask();
+</script>
+</body>
+</html>
