@@ -404,12 +404,12 @@
         <div class="inputs">
           <div>
             <label for="a">Первое число</label>
-            <input id="a" type="number" inputmode="numeric" placeholder="например, 3" />
+            <input id="a" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например, −3" />
           </div>
           <div class="plus">+</div>
           <div>
             <label for="b">Второе число</label>
-            <input id="b" type="number" inputmode="numeric" placeholder="например, 7" />
+            <input id="b" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например, 7" />
           </div>
         </div>
 
@@ -607,13 +607,18 @@
     $('streak').textContent = state.streak;
   }
 
+  function parseAnswer(value){
+    const normalized = value.trim().replace(/[−–—]/g, '-').replace(',', '.');
+    return normalized === '' ? NaN : Number(normalized);
+  }
+
   function check(){
     if(state.solved){
       setFeedback(state.exam.active ? 'Ответ принят. Сейчас появится следующее задание.' : 'Эта задача уже решена — сейчас появится следующая.', 'good');
       return;
     }
-    const x = Number($('a').value);
-    const y = Number($('b').value);
+    const x = parseAnswer($('a').value);
+    const y = parseAnswer($('b').value);
     if($('a').value === '' || $('b').value === '' || !Number.isFinite(x) || !Number.isFinite(y)){
       setFeedback('Нужно ввести два числа.', 'warn');
       return;
