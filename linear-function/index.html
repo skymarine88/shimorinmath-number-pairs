@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Линейная функция | SHIMORINMATH</title>
+<meta name="description" content="SHIMORINMATH: интерактивный тренажёр линейной функции. Графики, коэффициенты, прямая по двум точкам, пересечения и зачёт." />
+<meta name="theme-color" content="#0b0f17" />
+<link rel="icon" href="../SHIMORINMATH_Favicon.svg" type="image/svg+xml" />
+<style>
+  :root{
+    --bg:#0b0f17;
+    --panel:#121a28;
+    --panel2:#0f1623;
+    --text:#e8eefc;
+    --muted:#9fb0d0;
+    --accent:#5dd6ff;
+    --good:#3ddc97;
+    --bad:#ff5d7a;
+    --warn:#ffd166;
+    --btn:#1b2740;
+    --btn2:#223152;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --radius:16px;
+    --pad:14px;
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:var(--font);
+    background: radial-gradient(1200px 900px at 20% 0%, #12203a 0%, var(--bg) 55%) fixed;
+    color:var(--text);
+  }
+  header{
+    position:sticky; top:0; z-index:20;
+    background: linear-gradient(180deg, rgba(11,15,23,.98), rgba(11,15,23,.82));
+    border-bottom:1px solid rgba(232,238,252,.08);
+    backdrop-filter: blur(10px);
+  }
+  .wrap{max-width:1100px; margin:0 auto; padding: 12px 12px 18px}
+  .top{display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;}
+  .brand h1{font-size:16px; margin:0; line-height:1.1; letter-spacing:.2px;}
+  .brand .sub{color:var(--muted); font-size:12px; margin-top:2px;}
+  .credits{font-size:12px; color:var(--muted); display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+  .credits b{color:var(--text); font-weight:700}
+  .pill{padding:6px 10px; border-radius:999px; background: rgba(93,214,255,.12); border:1px solid rgba(93,214,255,.25); color:var(--text); font-size:12px;}
+
+  main .grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:14px; align-items:start;}
+  @media (max-width: 920px){ main .grid{grid-template-columns:1fr} }
+
+  .card{
+    background: linear-gradient(180deg, rgba(18,26,40,.95), rgba(15,22,35,.95));
+    border:1px solid rgba(232,238,252,.10);
+    border-radius:var(--radius);
+    box-shadow: var(--shadow);
+    overflow:hidden;
+  }
+  .card .hd{
+    padding: var(--pad);
+    display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid rgba(232,238,252,.08);
+    background: rgba(0,0,0,.10);
+  }
+  .card .hd .title{display:flex; gap:10px; align-items:center; font-weight:750;}
+  .card .bd{padding: var(--pad)}
+  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
+  button{
+    border:none; color:var(--text);
+    background: linear-gradient(180deg, var(--btn), var(--btn2));
+    padding:10px 12px; border-radius:12px; font-weight:700; letter-spacing:.2px;
+    cursor:pointer; border:1px solid rgba(232,238,252,.10);
+    transition: transform .04s ease, filter .12s ease;
+    user-select:none; -webkit-tap-highlight-color: transparent;
+  }
+  button:active{transform: translateY(1px); filter:brightness(.95)}
+  button.secondary{background: rgba(232,238,252,.08)}
+  button.good{background: linear-gradient(180deg, rgba(61,220,151,.25), rgba(61,220,151,.12)); border-color: rgba(61,220,151,.25)}
+  button.warn{background: linear-gradient(180deg, rgba(255,209,102,.22), rgba(255,209,102,.12)); border-color: rgba(255,209,102,.25)}
+  button.bad{background: linear-gradient(180deg, rgba(255,93,122,.22), rgba(255,93,122,.12)); border-color: rgba(255,93,122,.22)}
+  button.tiny{padding:8px 10px; border-radius:10px; font-weight:750; font-size:13px}
+  button.icon{display:flex; gap:8px; align-items:center}
+
+  .tabs{display:flex; gap:8px; flex-wrap:wrap;}
+  .tab{font-size:13px; padding:9px 10px; border-radius:999px; background: rgba(232,238,252,.07); border:1px solid rgba(232,238,252,.09); color:var(--muted);}
+  .tab.active{color:var(--text); background: rgba(93,214,255,.16); border-color: rgba(93,214,255,.26);}
+
+  .choiceBtn{font-size:13px; padding:9px 10px; border-radius:999px; background: rgba(232,238,252,.07); border:1px solid rgba(232,238,252,.09); color:var(--muted);}
+  .choiceBtn.active{color:var(--text); background: rgba(93,214,255,.22); border-color: rgba(93,214,255,.32);}
+
+  .hint{color:var(--muted); font-size:13px; line-height:1.35}
+  .kpi{display:flex; gap:10px; flex-wrap:wrap; font-size:13px; color:var(--muted)}
+  .kpi span{padding:6px 10px; border-radius:999px; background: rgba(232,238,252,.06); border:1px solid rgba(232,238,252,.08)}
+  .kpi b{color:var(--text)}
+  .msg{margin-top:10px; padding:10px 12px; border-radius:12px; border:1px solid rgba(232,238,252,.10); background: rgba(0,0,0,.18); line-height:1.35;}
+  .msg.good{border-color: rgba(61,220,151,.30); background: rgba(61,220,151,.10)}
+  .msg.bad{border-color: rgba(255,93,122,.30); background: rgba(255,93,122,.10)}
+  .msg.warn{border-color: rgba(255,209,102,.30); background: rgba(255,209,102,.10)}
+  .inputs{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+  @media (max-width: 520px){ .inputs{grid-template-columns:1fr} }
+  label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px;}
+  input{
+    width:100%; padding:11px 12px; border-radius:12px;
+    border:1px solid rgba(232,238,252,.12);
+    background: rgba(7,10,16,.55);
+    color:var(--text); outline:none; font-size:15px;
+  }
+  input:focus{border-color: rgba(93,214,255,.35)}
+  .two{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+  .mono{font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1}
+  .eq{font-size:16px; font-weight:800; letter-spacing:.2px;}
+  .frac{display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; line-height:1.05; margin: 0 2px; font-weight:800;}
+  .frac .top{padding:0 4px}
+  .frac .bar{height:1px; width:100%; background: currentColor; opacity:.85; margin:1px 0}
+  .frac .bot{padding:0 4px}
+
+  canvas{
+    width:100%; height:auto; display:block;
+    background: radial-gradient(900px 700px at 40% 20%, rgba(93,214,255,.08), rgba(0,0,0,.05) 55%, rgba(0,0,0,.18));
+  }
+  .canvasWrap{position:relative; padding:0;}
+  .overlay{position:absolute; left:10px; top:10px; display:flex; gap:8px; flex-wrap:wrap; pointer-events:none;}
+  .overlay .badge{pointer-events:none; padding:6px 10px; border-radius:999px; font-size:12px; background: rgba(0,0,0,.35); border:1px solid rgba(232,238,252,.12); color:var(--muted);}
+  .overlay .badge b{color:var(--text)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div>
+          <h1>Линейная функция <span style="color:var(--accent)">·</span> SHIMORINMATH</h1>
+          <div class="sub">работаем с <span class="mono">y = kx + b</span> — графики, коэффициенты, пересечения</div>
+        </div>
+      </div>
+      <div class="credits">
+        <span class="pill">© <span class="mono" id="year"></span></span>
+        <span class="pill">Шиморин Б. В. · методические разработки</span>
+        <button class="tiny secondary" id="btnTheory">Теория</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" style="padding-top:14px;">
+  <div class="grid">
+    <section class="card">
+      <div class="hd">
+        <div class="title">📈 График</div>
+        <div class="row">
+          <button class="tiny icon" id="btnZoomIn" title="Увеличить">➕</button>
+          <button class="tiny icon" id="btnZoomOut" title="Уменьшить">➖</button>
+          <button class="tiny secondary" id="btnClearClicksTop" title="Сбросить точки" style="display:none">Сбросить точки</button>
+          <button class="tiny secondary" id="btnCenter" title="Сброс масштаба">Сброс вида</button>
+        </div>
+      </div>
+      <div class="canvasWrap">
+        <div class="overlay">
+          <div class="badge">масштаб: <b class="mono" id="scaleLabel">1.0×</b></div>
+          <div class="badge">клик: <b class="mono" id="clickModeLabel">—</b></div>
+        </div>
+        <canvas id="c" width="980" height="720"></canvas>
+      </div>
+      <div class="bd">
+        <div class="hint" id="canvasHint">Подсказка: в режиме «Построй» — 2 клика по сетке (две точки прямой).</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="hd">
+        <div class="title">🧩 Задание</div>
+        <div class="kpi mono">
+          <span>✅ верно (режим): <b id="okCnt">0</b></span>
+          <span>❌ ошибок (режим): <b id="badCnt">0</b></span>
+          <button class="tiny secondary" id="btnResetMode" title="Сбросить счётчики текущего режима">Сброс</button>
+        </div>
+      </div>
+
+      <div class="bd">
+        <div class="tabs" id="tabs">
+          <button class="tab active" data-mode="explore">🧠 k,b</button>
+          <button class="tab" data-mode="build">✍️ Построй</button>
+          <button class="tab" data-mode="read">🔍 Найди k,b</button>
+          <button class="tab" data-mode="pp">∥ ⟂</button>
+          <button class="tab" data-mode="axes">🎯 Оси</button>
+          <button class="tab" data-mode="meet">✖️ Пересечение</button>
+        </div>
+
+        <div style="margin-top:12px">
+          <div class="eq" id="taskTitle">Режим</div>
+          <div class="hint" id="taskText" style="margin-top:8px"></div>
+        </div>
+
+        <div id="panelExplore" style="margin-top:12px">
+          <div class="inputs">
+            <div>
+              <label>k (наклон)</label>
+              <input id="exK" inputmode="decimal" placeholder="например: 2 или -1,5 или 3/2" />
+            </div>
+            <div>
+              <label>b (сдвиг вверх/вниз)</label>
+              <input id="exB" inputmode="decimal" placeholder="например: -3" />
+            </div>
+          </div>
+
+          <div class="msg warn mono" style="margin-top:10px">
+            Ползунки (в реальном времени):
+            <div class="inputs" style="margin-top:10px">
+              <div>
+                <label>k: <span class="mono" id="kLive">1</span></label>
+                <input id="kSlider" type="range" min="-6" max="6" step="0.25" value="1" />
+              </div>
+              <div>
+                <label>b: <span class="mono" id="bLive">0</span></label>
+                <input id="bSlider" type="range" min="-10" max="10" step="1" value="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <button class="good" id="btnApplyExplore">Применить</button>
+            <button class="secondary" id="btnRandomExplore">Случайные k,b</button>
+          </div>
+          <div class="msg" id="exploreMsg" style="display:none"></div>
+        </div>
+
+        <div id="panelBuild" style="margin-top:12px; display:none">
+          <div class="msg warn mono" style="margin-top:0">
+            Построй прямую по формуле: <span id="buildEq"></span>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="secondary" id="btnNewBuild">Новое</button>
+            <button class="good" id="btnCheckBuild">Проверить</button>
+            <button class="warn" id="btnShowBuild">Показать ответ</button>
+            <button class="tiny" id="btnExamBuild">🏁 Зачёт</button>
+          </div>
+          <div class="msg" id="buildMsg" style="display:none"></div>
+        </div>
+
+        <div id="panelRead" style="margin-top:12px; display:none">
+          <div class="msg warn mono" style="margin-top:0">
+            Введи коэффициенты <b>k</b> и <b>b</b>.
+          </div>
+
+          <div id="readVariant" class="msg warn mono" style="margin-top:10px">
+            Выбери вариант:
+            <div class="row" style="margin-top:10px">
+              <button class="choiceBtn active" id="rdVarGraph">По графику</button>
+              <button class="choiceBtn" id="rdVarPoints">По двум точкам</button>
+            </div>
+            <div class="muted" style="margin-top:8px" id="rdVarHint">
+              Сейчас: видишь прямую на графике и находишь k и b.
+            </div>
+          </div>
+
+          <div class="inputs" style="margin-top:10px">
+            <div>
+              <label>k</label>
+              <input id="rdK" inputmode="decimal" placeholder="например: -2 или 1/2" />
+            </div>
+            <div>
+              <label>b</label>
+              <input id="rdB" inputmode="decimal" placeholder="например: 4 или -3/2" />
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="secondary" id="btnNewRead">Новое</button>
+            <button class="good" id="btnCheckRead">Проверить</button>
+            <button class="warn" id="btnShowRead">Показать ответ</button>
+            <button class="tiny" id="btnExamRead">🏁 Зачёт</button>
+          </div>
+          <div class="msg" id="readMsg" style="display:none"></div>
+        </div>
+
+        <div id="panelPP" style="margin-top:12px; display:none">
+          <div class="msg warn mono" style="margin-top:0">
+            Дана прямая <span id="ppEq"></span> и точка <span id="ppPoint"></span>.
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="choiceBtn active" id="btnPPPar">∥ Параллельная</button>
+            <button class="choiceBtn" id="btnPPPerp">⟂ Перпендикулярная</button>
+          </div>
+          <div class="inputs" style="margin-top:10px">
+            <div>
+              <label>k новой прямой</label>
+              <input id="ppK" inputmode="decimal" placeholder="например: 3 или -1/2" />
+            </div>
+            <div>
+              <label>b новой прямой</label>
+              <input id="ppB" inputmode="decimal" placeholder="например: 1" />
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="secondary" id="btnNewPP">Новое</button>
+            <button class="good" id="btnCheckPP">Проверить</button>
+            <button class="warn" id="btnShowPP">Показать ответ</button>
+            <button class="tiny" id="btnExamPP">🏁 Зачёт</button>
+          </div>
+
+          <div id="ppExamChoice" class="msg warn mono" style="display:none">
+            Выбери вид зачёта для ∥ ⟂:
+            <div class="row" style="margin-top:10px">
+              <button class="choiceBtn" id="ppExamPar">Только ∥</button>
+              <button class="choiceBtn" id="ppExamPerp">Только ⟂</button>
+              <button class="choiceBtn active" id="ppExamMix">Смешанный</button>
+            </div>
+          </div>
+
+          <div class="msg" id="ppMsg" style="display:none"></div>
+        </div>
+
+        <div id="panelAxes" style="margin-top:12px; display:none">
+          <div class="msg warn mono" style="margin-top:0">
+            Дана прямая: <span id="axEq"></span>. Найди её пересечения с осями.
+          </div>
+          <div class="two" style="margin-top:10px">
+            <div>
+              <label>С Oy: (0; y)</label>
+              <div class="two">
+                <input disabled value="0" class="mono"/>
+                <input id="axY" inputmode="decimal" placeholder="y = ..." class="mono"/>
+              </div>
+            </div>
+            <div>
+              <label>С Ox: (x; 0)</label>
+              <div class="two">
+                <input id="axX" inputmode="decimal" placeholder="x = ..." class="mono"/>
+                <input disabled value="0" class="mono"/>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="secondary" id="btnNewAxes">Новое</button>
+            <button class="good" id="btnCheckAxes">Проверить</button>
+            <button class="warn" id="btnShowAxes">Показать ответ</button>
+            <button class="tiny" id="btnExamAxes">🏁 Зачёт</button>
+          </div>
+          <div class="msg" id="axesMsg" style="display:none"></div>
+        </div>
+
+        <div id="panelMeet" style="margin-top:12px; display:none">
+          <div class="msg warn mono" style="margin-top:0">
+            Даны две прямые: <span id="mEq1"></span> и <span id="mEq2"></span>.
+            <div class="muted" style="margin-top:6px">Найди точку пересечения (x; y) или выбери вариант ниже.</div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="choiceBtn active" id="btnMeetPoint">Есть точка</button>
+            <button class="choiceBtn" id="btnMeetNone">Нет пересечения</button>
+            <button class="choiceBtn" id="btnMeetInf">Бесконечно много</button>
+          </div>
+          <div class="two" style="margin-top:10px">
+            <div><label>x</label><input id="mx" inputmode="decimal" placeholder="например: 2 или -3/2" class="mono"/></div>
+            <div><label>y</label><input id="my" inputmode="decimal" placeholder="например: 5" class="mono"/></div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="secondary" id="btnNewMeet">Новое</button>
+            <button class="good" id="btnCheckMeet">Проверить</button>
+            <button class="warn" id="btnShowMeet">Показать ответ</button>
+            <button class="tiny" id="btnExamMeet">🏁 Зачёт</button>
+          </div>
+          <div class="msg" id="meetMsg" style="display:none"></div>
+        </div>
+
+        <!-- exam bar -->
+        <div id="examBar" style="display:none; margin-top:12px">
+          <div class="msg warn mono" style="margin-top:0">
+            🏁 <b>Зачёт</b> — время: <b id="examTimeLeft">00:00</b> · задания: <b id="examCount">0</b>
+            <div class="row" style="margin-top:10px">
+              <div class="tabs" id="examNav" style="gap:6px"></div>
+              <button class="good tiny" id="examAccept">Принять</button>
+              <button class="warn tiny" id="examFinish">Закончить и проверить</button>
+              <button class="secondary tiny" id="examExit">Выйти</button>
+            </div>
+            <div class="muted" style="margin-top:8px" id="examHint">Во время зачёта проверки по одному заданию нет.</div>
+          </div>
+          <div class="msg" id="examResult" style="display:none"></div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</main>
+<footer class="wrap" style="padding-top:8px;padding-bottom:20px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+  <span>SHIMORINMATH</span><span>От графика к формуле · от формулы к графику</span>
+</footer>
+
+<div class="modalBg" id="modalBg" style="position:fixed; inset:0; background: rgba(0,0,0,.55); display:none; z-index:50; padding:14px;">
+  <div class="card" style="max-width:850px; margin:6vh auto; border-radius:18px;">
+    <div class="hd">
+      <div style="font-weight:800">Теория (коротко и по делу)</div>
+      <button class="tiny secondary" id="btnCloseTheory">Закрыть</button>
+    </div>
+    <div class="bd">
+      <div class="muted">Линейная функция: <b>y = kx + b</b>.</div>
+      <h3>k</h3>
+      <ul class="muted">
+        <li>k &gt; 0 — вверх вправо, k &lt; 0 — вниз вправо.</li>
+        <li>Чем больше |k|, тем прямая круче.</li>
+      </ul>
+      <h3>b</h3>
+      <ul class="muted"><li><b>b</b> — пересечение с осью <b>Oy</b>: точка <b>(0; b)</b>.</li></ul>
+      <h3>Пересечения</h3>
+      <ul class="muted">
+        <li>С Oy: (0; b).</li>
+        <li>С Ox: y=0 ⇒ 0=kx+b ⇒ x=−b/k (если k≠0).</li>
+      </ul>
+      <h3>∥ и ⟂</h3>
+      <ul class="muted">
+        <li>Параллельные: одинаковый k.</li>
+        <li>Перпендикулярные: k₂=−1/k₁ (если k₁≠0).</li>
+      </ul>
+      <div class="muted">Ввод: десятичные (точка/запятая) и дроби <code>3/2</code>.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ---------- utils ----------
+  function parseNumber(str){
+    if(str == null) return null;
+    str = (""+str).trim();
+    if(!str) return null;
+    str = str.replace(/\s+/g,'').replace(',', '.');
+    if(str.includes('/')){
+      const p=str.split('/');
+      if(p.length!==2) return null;
+      const a=parseNumber(p[0]), b=parseNumber(p[1]);
+      if(a==null||b==null||b===0) return null;
+      return a/b;
+    }
+    const v=Number(str);
+    return Number.isFinite(v)?v:null;
+  }
+  function nearly(a,b,eps=1e-6){ return Math.abs(a-b)<=eps; }
+  function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=a%b; a=b; b=t;} return a||1; }
+  function toFraction(x,maxDen=60){
+    if(!Number.isFinite(x)) return null;
+    if(nearly(x, Math.round(x), 1e-10)) return [Math.round(x),1];
+    let best=[0,1], err=Infinity;
+    const s=x<0?-1:1; x=Math.abs(x);
+    for(let d=1; d<=maxDen; d++){
+      const n=Math.round(x*d);
+      const e=Math.abs(x - n/d);
+      if(e<err){ err=e; best=[n*s,d]; }
+    }
+    const g=gcd(best[0], best[1]);
+    return [best[0]/g, best[1]/g];
+  }
+  function fracHTML(n,d){
+    if(d===1) return `<span class="mono">${n}</span>`;
+    const s=n<0?"-":"";
+    n=Math.abs(n);
+    return `${s}<span class="frac"><span class="top mono">${n}</span><span class="bar"></span><span class="bot mono">${d}</span></span>`;
+  }
+  function fmtNum(x){
+    const fr=toFraction(x,60);
+    return fr?fracHTML(fr[0],fr[1]):`<span class="mono">${x.toFixed(4)}</span>`;
+  }
+  function fmtEq(k,b){
+    const kb=(b>=0)?` + ${fmtNum(b)}`:` − ${fmtNum(-b)}`;
+    return `<span class="mono">y = ${fmtNum(k)}x${kb}</span>`;
+  }
+
+  const randInt=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+
+  // ---------- canvas ----------
+  const canvas=document.getElementById('c');
+  const ctx=canvas.getContext('2d');
+
+  let view={xmin:-10,xmax:10,ymin:-8,ymax:8,scale:1.0};
+  const xToPx=x=>(x-view.xmin)*canvas.width/(view.xmax-view.xmin);
+  const yToPx=y=>(view.ymax-y)*canvas.height/(view.ymax-view.ymin);
+  const pxToX=px=>view.xmin+px*(view.xmax-view.xmin)/canvas.width;
+  const pxToY=py=>view.ymax-py*(view.ymax-view.ymin)/canvas.height;
+  const snap=v=>Math.round(v);
+
+  function updateScaleLabel(){ document.getElementById('scaleLabel').textContent=view.scale.toFixed(2)+"×"; }
+  function resetView(){ view={xmin:-10,xmax:10,ymin:-8,ymax:8,scale:1.0}; updateScaleLabel(); draw(); }
+  function zoom(f){
+    const cx=(view.xmin+view.xmax)/2, cy=(view.ymin+view.ymax)/2;
+    const w=(view.xmax-view.xmin)/f, h=(view.ymax-view.ymin)/f;
+    view.xmin=cx-w/2; view.xmax=cx+w/2; view.ymin=cy-h/2; view.ymax=cy+h/2; view.scale*=f;
+    updateScaleLabel(); draw();
+  }
+
+  function drawGrid(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const xs=Math.ceil(view.xmin), xe=Math.floor(view.xmax);
+    const ys=Math.ceil(view.ymin), ye=Math.floor(view.ymax);
+
+    for(let x=xs;x<=xe;x++){
+      const px=xToPx(x);
+      ctx.beginPath(); ctx.moveTo(px,0); ctx.lineTo(px,canvas.height);
+      ctx.strokeStyle="rgba(232,238,252,.55)";
+      ctx.lineWidth=(x===0)?3:(x%5===0?2:1.5);
+      ctx.stroke();
+    }
+    for(let y=ys;y<=ye;y++){
+      const py=yToPx(y);
+      ctx.beginPath(); ctx.moveTo(0,py); ctx.lineTo(canvas.width,py);
+      ctx.strokeStyle="rgba(232,238,252,.55)";
+      ctx.lineWidth=(y===0)?3:(y%5===0?2:1.5);
+      ctx.stroke();
+    }
+    ctx.fillStyle="rgba(232,238,252,.80)";
+    ctx.font="14px "+getComputedStyle(document.body).fontFamily;
+
+    ctx.textAlign="center"; ctx.textBaseline="top";
+    for(let x=xs;x<=xe;x++){
+      if(x===0) continue;
+      const px=xToPx(x), py=yToPx(0);
+      if(py<0||py>canvas.height) continue;
+      ctx.fillText(String(x), px, py+6);
+    }
+    ctx.textAlign="left"; ctx.textBaseline="middle";
+    for(let y=ys;y<=ye;y++){
+      if(y===0) continue;
+      const px=xToPx(0), py=yToPx(y);
+      if(px<0||px>canvas.width) continue;
+      ctx.fillText(String(y), px+8, py);
+    }
+  }
+  function drawLine(k,b,style,width){
+    const x1=view.xmin, y1=k*x1+b, x2=view.xmax, y2=k*x2+b;
+    ctx.beginPath(); ctx.moveTo(xToPx(x1), yToPx(y1)); ctx.lineTo(xToPx(x2), yToPx(y2));
+    ctx.strokeStyle=style; ctx.lineWidth=width; ctx.stroke();
+  }
+  function drawPoint(x,y,style,r){
+    ctx.beginPath(); ctx.arc(xToPx(x), yToPx(y), r, 0, Math.PI*2);
+    ctx.fillStyle=style; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="rgba(0,0,0,.35)"; ctx.stroke();
+  }
+
+  // ---------- math helpers ----------
+  const intercepts=(k,b)=>({oy:{x:0,y:b}, ox: nearly(k,0,1e-12)?null:{x:-b/k,y:0}});
+  const lineFromTwoPoints=(p1,p2)=>{
+    if(nearly(p1.x,p2.x,1e-12)) return null;
+    const k=(p2.y-p1.y)/(p2.x-p1.x);
+    const b=p1.y-k*p1.x;
+    return {k,b};
+  };
+  const meetPoint=(l1,l2)=>{
+    if(nearly(l1.k,l2.k,1e-12)) return nearly(l1.b,l2.b,1e-12)?{type:"inf"}:{type:"none"};
+    const x=(l2.b-l1.b)/(l1.k-l2.k);
+    const y=l1.k*x+l1.b;
+    return {type:"point", x, y};
+  };
+  function nearInt(x, tol=0.15){ return Math.abs(x - Math.round(x)) < tol; }
+
+  // ---------- state ----------
+  const state={
+    mode:"explore",
+    stats:{explore:{ok:0,bad:0}, build:{ok:0,bad:0}, read:{ok:0,bad:0}, pp:{ok:0,bad:0}, axes:{ok:0,bad:0}, meet:{ok:0,bad:0}},
+    lock:{explore:false, build:false, read:false, pp:false, axes:false, meet:false},
+    solved:{explore:false, build:false, read:false, pp:false, axes:false, meet:false},
+
+    explore:{k:1,b:0},
+    build:{target:{k:1,b:0}, clicks:[], userLine:null, reveal:false},
+    read:{target:{k:2,b:-1}, variant:"graph", points:[]},
+    pp:{base:{k:1,b:0}, point:{x:2,y:3}, kind:"par", solution:null, reveal:false},
+    axes:{line:{k:1,b:0}, drawPoints:[]},
+
+    // meet is now fully rewritten:
+    meet:{
+      l1:{k:1,b:0}, l2:{k:-1,b:0},
+      choice:"point", solution:null,
+      pool:[], poolIdx:0, poolSigSet:new Set()
+    }
+  };
+
+  const setClickMode=t=>document.getElementById('clickModeLabel').textContent=t;
+  const setBuildTopClearVisible = () => {
+    const btn = document.getElementById('btnClearClicksTop');
+    if(!btn) return;
+    btn.style.display = (state.mode === "build" || state.mode==="axes") ? "inline-flex" : "none";
+    btn.textContent = (state.mode==="axes") ? "Сбросить точки" : "Сбросить точки";
+  };
+  const lockMode = (mode) => { state.lock[mode] = true; };
+  const unlockMode = (mode) => { state.lock[mode] = false; };
+  const setSolved = (mode, ok) => { state.solved[mode] = !!ok; };
+
+  const updateCounters=()=>{
+    const s = state.stats[state.mode] || {ok:0,bad:0};
+    document.getElementById('okCnt').textContent = s.ok;
+    document.getElementById('badCnt').textContent = s.bad;
+  };
+
+  function setMessage(el, type, html){
+    el.className="msg "+(type||"");
+    el.innerHTML=html;
+    el.style.display="block";
+  }
+  const hideMessage=el=>{ if(el) el.style.display="none"; };
+
+  // ---------- generators ----------
+  function randRational(allowZero=false){
+    const nums=[-6,-5,-4,-3,-2,-1,1,2,3,4,5,6];
+    const dens=[1,1,1,2,2,3];
+    let d=dens[Math.floor(Math.random()*dens.length)];
+    let n=nums[Math.floor(Math.random()*nums.length)];
+    if(allowZero && Math.random()<0.12) n=0;
+    if(d===1) return n;
+    const g=gcd(n,d);
+    return (n/g)/(d/g);
+  }
+  function genLine(){
+    let k=randRational(true);
+    while(nearly(k,0,1e-12) && Math.random()<0.7) k=randRational(true);
+    return {k, b: randInt(-6,6)};
+  }
+  function safeLineForAxes(){
+    let k=randRational(false), b=randInt(-6,6);
+    while(nearly(k,0,1e-12) || Math.abs((-b/k))>10){ k=randRational(false); b=randInt(-6,6); }
+    return {k,b};
+  }
+  function genReadPoints(){
+    let tries=0;
+    while(tries<250){
+      const p1={x:randInt(-6,6), y:randInt(-6,6)};
+      const p2={x:randInt(-6,6), y:randInt(-6,6)};
+      if(p1.x===p2.x){ tries++; continue; }
+      const k=(p2.y-p1.y)/(p2.x-p1.x);
+      const b=p1.y - k*p1.x;
+      if(Math.abs(b - Math.round(b)) < 1e-9){ tries++; continue; }
+      if(Math.abs(k)>6 || Math.abs(b)>12){ tries++; continue; }
+      return {k,b, points:[p1,p2]};
+    }
+    const p1={x:1,y:1}, p2={x:3,y:2};
+    const k=(p2.y-p1.y)/(p2.x-p1.x);
+    const b=p1.y-k*p1.x;
+    return {k,b, points:[p1,p2]};
+  }
+
+  // ---------- MEET MODE FULL REWRITE ----------
+  // Goal: pool of 50 tasks (mostly intersection point), intersection within view, NOT near integer coords.
+  function meetSigVal(x){
+    const fr = toFraction(x, 60);
+    return fr ? `${fr[0]}/${fr[1]}` : String(Math.round(x*1e9)/1e9);
+  }
+  function meetSigLine(l){ return `${meetSigVal(l.k)}|${l.b}`; }
+  function meetSigPair(l1,l2){
+    const a=meetSigLine(l1), b=meetSigLine(l2);
+    return (a<b)?`${a}__${b}`:`${b}__${a}`;
+  }
+  function randMeetK(){
+    const dens=[1,2,3,4,5,6];
+    const den=dens[Math.floor(Math.random()*dens.length)];
+    let num=randInt(-10,10);
+    while(num===0) num=randInt(-10,10);
+    const g=gcd(num, den);
+    return (num/g)/(den/g);
+  }
+  function genLineMeet(){ return {k: randMeetK(), b: randInt(-10,10)}; }
+
+  function buildMeetPool(target=50){
+    state.meet.pool = [];
+    state.meet.poolIdx = 0;
+    state.meet.poolSigSet = new Set();
+
+    const used = state.meet.poolSigSet;
+    const MAX_GUARD = target*2000;
+
+    function okPoint(sol){
+      return sol.type==="point"
+        && Math.abs(sol.x) <= 10 && Math.abs(sol.y) <= 8
+        && !nearInt(sol.x) && !nearInt(sol.y);
+    }
+
+    let guard=0;
+    while(state.meet.pool.length < target && guard < MAX_GUARD){
+      guard++;
+
+      // only intersection tasks (no parallel/inf) — per your preference for this mode stability
+      let l1 = genLineMeet();
+      let l2 = genLineMeet();
+      let triesK=0;
+      while(nearly(l2.k, l1.k, 1e-12) && triesK < 300){
+        l2 = genLineMeet(); triesK++;
+      }
+      if(nearly(l2.k, l1.k, 1e-12)) continue;
+
+      const sol = meetPoint(l1,l2);
+      if(!okPoint(sol)) continue;
+
+      const sig = meetSigPair(l1,l2);
+      if(used.has(sig)) continue;
+      used.add(sig);
+
+      state.meet.pool.push({l1,l2,sol});
+    }
+
+    // Safety: if pool somehow too small, relax nearInt condition slightly
+    guard=0;
+    while(state.meet.pool.length < target && guard < MAX_GUARD){
+      guard++;
+      let l1 = genLineMeet();
+      let l2 = genLineMeet();
+      while(nearly(l2.k, l1.k, 1e-12)) l2 = genLineMeet();
+      const sol = meetPoint(l1,l2);
+      if(sol.type!=="point") continue;
+      if(Math.abs(sol.x) > 10 || Math.abs(sol.y) > 8) continue;
+
+      const sig = meetSigPair(l1,l2);
+      if(used.has(sig)) continue;
+      used.add(sig);
+
+      state.meet.pool.push({l1,l2,sol});
+    }
+
+    // shuffle
+    for(let i=state.meet.pool.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      const t=state.meet.pool[i]; state.meet.pool[i]=state.meet.pool[j]; state.meet.pool[j]=t;
+    }
+  }
+
+  function applyMeetTask(task){
+    if(!task){
+      buildMeetPool(50);
+      task = state.meet.pool[0];
+      state.meet.poolIdx = 1;
+    }
+    state.meet.l1 = task.l1;
+    state.meet.l2 = task.l2;
+    state.meet.solution = task.sol;
+    state.meet.choice = "point";
+
+    document.getElementById('mEq1').innerHTML = fmtEq(task.l1.k, task.l1.b);
+    document.getElementById('mEq2').innerHTML = fmtEq(task.l2.k, task.l2.b);
+
+    document.getElementById('mx').disabled = false;
+    document.getElementById('my').disabled = false;
+    document.getElementById('mx').value = "";
+    document.getElementById('my').value = "";
+
+    setMeetChoiceUI("point");
+  }
+
+  function nextMeetTask(){
+    if(!state.meet.pool || state.meet.pool.length < 10) buildMeetPool(50);
+    if(state.meet.poolIdx >= state.meet.pool.length){
+      buildMeetPool(50);
+    }
+    const t = state.meet.pool[state.meet.poolIdx];
+    state.meet.poolIdx++;
+    applyMeetTask(t);
+  }
+
+  // ---------- draw ----------
+  function draw(){
+    drawGrid();
+
+    if(state.mode==="explore"){
+      drawLine(state.explore.k, state.explore.b, "rgba(93,214,255,.95)", 3.5);
+    } else if(state.mode==="build"){
+      if(state.build.userLine) drawLine(state.build.userLine.k, state.build.userLine.b, "rgba(93,214,255,.95)", 3.5);
+      if(state.build.reveal) drawLine(state.build.target.k, state.build.target.b, "rgba(232,238,252,.30)", 2);
+      for(const p of state.build.clicks) drawPoint(p.x,p.y,"rgba(255,209,102,.95)",6);
+    } else if(state.mode==="read"){
+      if(state.read.variant==="graph"){
+        drawLine(state.read.target.k, state.read.target.b, "rgba(93,214,255,.95)", 3.5);
+      } else {
+        for(const p of (state.read.points||[])) drawPoint(p.x, p.y, "rgba(255,209,102,.95)", 7);
+      }
+    } else if(state.mode==="pp"){
+      drawLine(state.pp.base.k, state.pp.base.b, "rgba(232,238,252,.70)", 2.5);
+      drawPoint(state.pp.point.x, state.pp.point.y, "rgba(255,209,102,.95)", 7);
+      if(state.pp.reveal && state.pp.solution) drawLine(state.pp.solution.k, state.pp.solution.b, "rgba(93,214,255,.95)", 3.5);
+    } else if(state.mode==="axes"){
+      // не рисуем заданную прямую — черновик по 2 точкам
+      const pts = state.axes.drawPoints || [];
+      if(pts.length===2){
+        const l = lineFromTwoPoints(pts[0], pts[1]);
+        if(l) drawLine(l.k, l.b, "rgba(255,209,102,.85)", 3.0);
+      }
+      for(const p of pts) drawPoint(p.x,p.y,"rgba(255,209,102,.95)",6);
+    } else if(state.mode==="meet"){
+      // NOTE: no intersection point drawn (no hint)
+      drawLine(state.meet.l1.k, state.meet.l1.b, "rgba(93,214,255,.85)", 3.0);
+      drawLine(state.meet.l2.k, state.meet.l2.b, "rgba(255,209,102,.85)", 3.0);
+    }
+  }
+
+  // ---------- mode logic ----------
+  function switchMode(mode){
+    state.mode=mode;
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.mode===mode));
+    ['panelExplore','panelBuild','panelRead','panelPP','panelAxes','panelMeet'].forEach(pid=>{
+      document.getElementById(pid).style.display = (pid === 'panel'+mode.charAt(0).toUpperCase()+mode.slice(1)) ? "block" : "none";
+    });
+    // fix mapping for explore/build/read/pp/axes/meet
+    document.getElementById('panelExplore').style.display = (mode==="explore") ? "block" : "none";
+    document.getElementById('panelBuild').style.display = (mode==="build") ? "block" : "none";
+    document.getElementById('panelRead').style.display = (mode==="read") ? "block" : "none";
+    document.getElementById('panelPP').style.display = (mode==="pp") ? "block" : "none";
+    document.getElementById('panelAxes').style.display = (mode==="axes") ? "block" : "none";
+    document.getElementById('panelMeet').style.display = (mode==="meet") ? "block" : "none";
+
+    const title=document.getElementById('taskTitle');
+    const text=document.getElementById('taskText');
+
+    if(mode==="explore"){ title.textContent="Режим: влияние k и b"; text.innerHTML="Меняй коэффициенты и смотри на график."; setClickMode("—"); }
+    if(mode==="build"){ title.textContent="Режим: построить по формуле"; text.textContent="2 клика по сетке — две точки прямой."; setClickMode("2 клика"); }
+    if(mode==="read"){
+      title.textContent="Режим: найти k и b";
+      text.textContent = (state.read.variant==="points")
+        ? "Даны две узловые точки — найди k и b (через систему уравнений)."
+        : "На графике дана прямая — введи k и b.";
+      setClickMode("—");
+    }
+    if(mode==="pp"){ title.textContent="Режим: ∥ / ⟂ через точку"; text.textContent="Выбери ∥ или ⟂ и введи k,b."; setClickMode("—"); }
+    if(mode==="axes"){ title.textContent="Режим: пересечения с осями"; text.textContent="Можно набросать прямую по 2 точкам (черновик). Проверяем только введённые координаты."; setClickMode("клики"); }
+    if(mode==="meet"){ title.textContent="Режим: пересечение двух прямых"; text.textContent="Введи (x;y). В этом режиме всегда есть точка пересечения (не в узле)."; setClickMode("—"); }
+
+    updateCounters();
+    setBuildTopClearVisible();
+    draw();
+  }
+
+  // ---------- explore sliders ----------
+  const kSlider = document.getElementById('kSlider');
+  const bSlider = document.getElementById('bSlider');
+  const kLive = document.getElementById('kLive');
+  const bLive = document.getElementById('bLive');
+  function syncSlidersToExplore(){
+    const k=state.explore.k, b=state.explore.b;
+    const kc=Math.max(Number(kSlider.min), Math.min(Number(kSlider.max), k));
+    const bc=Math.max(Number(bSlider.min), Math.min(Number(bSlider.max), b));
+    kSlider.value=String(kc); bSlider.value=String(bc);
+    kLive.textContent=(Math.round(kc*100)/100).toString();
+    bLive.textContent=bc.toString();
+  }
+  function setExploreFromSliders(){
+    const k=Number(kSlider.value), b=Number(bSlider.value);
+    state.explore.k=k; state.explore.b=b;
+    document.getElementById('exK').value=String(k);
+    document.getElementById('exB').value=String(b);
+    kLive.textContent=(Math.round(k*100)/100).toString();
+    bLive.textContent=b.toString();
+    hideMessage(document.getElementById('exploreMsg'));
+    draw();
+  }
+  kSlider.addEventListener('input', setExploreFromSliders, {passive:true});
+  bSlider.addEventListener('input', setExploreFromSliders, {passive:true});
+
+  document.getElementById('btnApplyExplore').addEventListener('click', ()=>{
+    const k=parseNumber(document.getElementById('exK').value);
+    const b=parseNumber(document.getElementById('exB').value);
+    const msg=document.getElementById('exploreMsg');
+    if(k==null||b==null){ setMessage(msg,"bad","Введи k и b."); return; }
+    state.explore.k=k; state.explore.b=b;
+    syncSlidersToExplore();
+    setMessage(msg,"",`Готово: ${fmtEq(k,b)}.`); draw();
+  });
+  document.getElementById('btnRandomExplore').addEventListener('click', ()=>{
+    const l=genLine();
+    state.explore.k=l.k; state.explore.b=l.b;
+    syncSlidersToExplore();
+    setMessage(document.getElementById('exploreMsg'),"",`Случайный пример: ${fmtEq(l.k,l.b)}.`); draw();
+  });
+
+  // ---------- build ----------
+  function newBuild(){
+    state.build.target=genLine();
+    state.build.clicks=[]; state.build.userLine=null; state.build.reveal=false;
+    unlockMode('build'); setSolved('build', false);
+    document.getElementById('buildEq').innerHTML=fmtEq(state.build.target.k,state.build.target.b);
+    draw();
+  }
+  document.getElementById('btnNewBuild').addEventListener('click', ()=>{
+    if(!state.solved.build){ state.stats.build.bad++; }
+    updateCounters();
+    newBuild();
+  });
+
+  document.getElementById('btnCheckBuild').addEventListener('click', ()=>{
+    const msg=document.getElementById('buildMsg');
+    if(state.lock.build){ setMessage(msg,"warn","Уже проверено. Нажми «Новое»."); return; }
+    lockMode('build');
+    if(state.build.clicks.length<2 || !state.build.userLine){ setMessage(msg,"warn","Нужно 2 клика (две точки)."); setSolved('build', false); state.stats.build.bad++; updateCounters(); return; }
+    const t=state.build.target, u=state.build.userLine;
+    const xs=[-6,-3,0,3,6];
+    let ok=true;
+    for(const x of xs){ if(Math.abs((t.k*x+t.b)-(u.k*x+u.b))>1e-6){ ok=false; break; } }
+    if(ok){ setSolved('build', true); state.stats.build.ok++; setMessage(msg,"good",`✅ Верно! ${fmtEq(t.k,t.b)}.`); }
+    else{ setSolved('build', false); state.stats.build.bad++; setMessage(msg,"bad",`❌ Неверно. Правильно: ${fmtEq(t.k,t.b)}.`); }
+    updateCounters();
+  });
+
+  document.getElementById('btnShowBuild').addEventListener('click', ()=>{
+    const msg=document.getElementById('buildMsg');
+    if(state.lock.build){ setMessage(msg,"warn","Уже было. Нажми «Новое»."); return; }
+    lockMode('build'); setSolved('build', false);
+    state.stats.build.bad++;
+    state.build.reveal=true;
+    updateCounters();
+    setMessage(msg,"warn",`Ответ: ${fmtEq(state.build.target.k,state.build.target.b)}.`); draw();
+  });
+
+  // ---------- read ----------
+  function newRead(){
+    if(state.read.variant==="points"){
+      const g=genReadPoints();
+      state.read.target={k:g.k,b:g.b};
+      state.read.points=g.points;
+    } else {
+      const l=genLine();
+      state.read.target=l;
+      state.read.points=[];
+    }
+    unlockMode('read'); setSolved('read', false);
+    document.getElementById('rdK').value=""; document.getElementById('rdB').value="";
+    draw();
+  }
+  document.getElementById('btnNewRead').addEventListener('click', ()=>{
+    if(!state.solved.read){ state.stats.read.bad++; }
+    updateCounters();
+    newRead();
+  });
+
+  function setReadVariant(v){
+    state.read.variant=v;
+    const a=document.getElementById('rdVarGraph');
+    const b=document.getElementById('rdVarPoints');
+    if(a&&b){
+      if(v==='graph'){ a.classList.add('active'); b.classList.remove('active'); }
+      else{ b.classList.add('active'); a.classList.remove('active'); }
+    }
+    const h=document.getElementById('rdVarHint');
+    if(h){
+      h.textContent = (v==='graph')
+        ? 'Сейчас: видишь прямую на графике и находишь k и b.'
+        : 'Сейчас: даны две узловые точки (x₁; y₁) и (x₂; y₂). Найди k и b, подставляя их координаты в систему уравнений: y₁ = kx₁ + b и y₂ = kx₂ + b.';
+    }
+    switchMode('read');
+    newRead();
+  }
+  document.getElementById('rdVarGraph').addEventListener('click', ()=>setReadVariant('graph'));
+  document.getElementById('rdVarPoints').addEventListener('click', ()=>setReadVariant('points'));
+
+  document.getElementById('btnCheckRead').addEventListener('click', ()=>{
+    const msg=document.getElementById('readMsg');
+    if(state.lock.read){ setMessage(msg,"warn","Уже проверено. Нажми «Новое»."); return; }
+    lockMode('read');
+    const k=parseNumber(document.getElementById('rdK').value);
+    const b=parseNumber(document.getElementById('rdB').value);
+    if(k==null||b==null){ setSolved('read', false); state.stats.read.bad++; updateCounters(); setMessage(msg,"warn","Введи k и b."); return; }
+    const t=state.read.target;
+    if(Math.abs(k-t.k)<1e-6 && Math.abs(b-t.b)<1e-6){
+      setSolved('read', true); state.stats.read.ok++; setMessage(msg,"good",`✅ Верно! ${fmtEq(t.k,t.b)}.`);
+    } else {
+      setSolved('read', false); state.stats.read.bad++; setMessage(msg,"bad",`❌ Неверно. Правильно: ${fmtEq(t.k,t.b)}.`);
+    }
+    updateCounters();
+  });
+
+  document.getElementById('btnShowRead').addEventListener('click', ()=>{
+    const msg=document.getElementById('readMsg');
+    if(state.lock.read){ setMessage(msg,"warn","Уже было. Нажми «Новое»."); return; }
+    lockMode('read'); setSolved('read', false);
+    state.stats.read.bad++;
+    updateCounters();
+    setMessage(msg,"warn",`Ответ: ${fmtEq(state.read.target.k,state.read.target.b)}.`);
+  });
+
+  // ---------- pp ----------
+  function setPPKind(kind){
+    state.pp.kind=kind;
+    const base=state.pp.base, A=state.pp.point;
+    const k2 = (kind==="par") ? base.k : (-1/base.k);
+    const b2 = A.y - k2*A.x;
+    state.pp.solution={type:"line", k:k2, b:b2};
+  }
+  function newPP(){
+    // Variant A: exclude k=0
+    state.pp.base=genLine();
+    while(nearly(state.pp.base.k,0,1e-12)) state.pp.base=genLine();
+    state.pp.point={x:randInt(-6,6), y:randInt(-6,6)};
+    state.pp.reveal=false;
+    unlockMode('pp'); setSolved('pp', false);
+    document.getElementById('ppEq').innerHTML=fmtEq(state.pp.base.k,state.pp.base.b);
+    document.getElementById('ppPoint').innerHTML=`<span class="mono">(${state.pp.point.x}; ${state.pp.point.y})</span>`;
+    document.getElementById('ppK').value=""; document.getElementById('ppB').value="";
+    document.getElementById('btnPPPar').classList.add('active');
+    document.getElementById('btnPPPerp').classList.remove('active');
+    setPPKind('par');
+    draw();
+  }
+  document.getElementById('btnNewPP').addEventListener('click', ()=>{
+    if(!state.solved.pp){ state.stats.pp.bad++; }
+    updateCounters();
+    newPP();
+  });
+  document.getElementById('btnPPPar').addEventListener('click', ()=>{
+    state.pp.reveal=false;
+    document.getElementById('btnPPPar').classList.add('active');
+    document.getElementById('btnPPPerp').classList.remove('active');
+    setPPKind('par'); draw();
+  });
+  document.getElementById('btnPPPerp').addEventListener('click', ()=>{
+    state.pp.reveal=false;
+    document.getElementById('btnPPPerp').classList.add('active');
+    document.getElementById('btnPPPar').classList.remove('active');
+    setPPKind('perp'); draw();
+  });
+  document.getElementById('btnCheckPP').addEventListener('click', ()=>{
+    const msg=document.getElementById('ppMsg');
+    if(state.lock.pp){ setMessage(msg,"warn","Уже проверено. Нажми «Новое»."); return; }
+    lockMode('pp');
+    const k=parseNumber(document.getElementById('ppK').value);
+    const b=parseNumber(document.getElementById('ppB').value);
+    if(k==null||b==null){ setSolved('pp', false); state.stats.pp.bad++; updateCounters(); setMessage(msg,"warn","Введи k и b."); return; }
+    const sol=state.pp.solution;
+    if(Math.abs(k-sol.k)<1e-6 && Math.abs(b-sol.b)<1e-6){
+      setSolved('pp', true); state.stats.pp.ok++; setMessage(msg,"good",`✅ Верно! ${fmtEq(sol.k,sol.b)}.`);
+    } else {
+      setSolved('pp', false); state.stats.pp.bad++; setMessage(msg,"bad",`❌ Неверно. Правильно: ${fmtEq(sol.k,sol.b)}.`);
+    }
+    updateCounters();
+  });
+  document.getElementById('btnShowPP').addEventListener('click', ()=>{
+    const msg=document.getElementById('ppMsg');
+    if(state.lock.pp){ setMessage(msg,"warn","Уже было. Нажми «Новое»."); return; }
+    lockMode('pp'); setSolved('pp', false);
+    state.stats.pp.bad++;
+    state.pp.reveal=true;
+    updateCounters();
+    setMessage(msg,"warn",`Ответ: ${fmtEq(state.pp.solution.k,state.pp.solution.b)}.`);
+    draw();
+  });
+
+  // ---------- axes ----------
+  function newAxes(){
+    state.axes.line=safeLineForAxes();
+    state.axes.drawPoints=[];
+    unlockMode('axes'); setSolved('axes', false);
+    document.getElementById('axEq').innerHTML=fmtEq(state.axes.line.k,state.axes.line.b);
+    document.getElementById('axX').value=""; document.getElementById('axY').value="";
+    draw();
+  }
+  document.getElementById('btnNewAxes').addEventListener('click', ()=>{
+    if(!state.solved.axes){ state.stats.axes.bad++; }
+    updateCounters();
+    newAxes();
+  });
+  document.getElementById('btnCheckAxes').addEventListener('click', ()=>{
+    const msg=document.getElementById('axesMsg');
+    if(state.lock.axes){ setMessage(msg,"warn","Уже проверено. Нажми «Новое»."); return; }
+    lockMode('axes');
+    const x=parseNumber(document.getElementById('axX').value);
+    const y=parseNumber(document.getElementById('axY').value);
+    if(x==null||y==null){ setSolved('axes', false); state.stats.axes.bad++; updateCounters(); setMessage(msg,"warn","Введи x и y."); return; }
+    const ints=intercepts(state.axes.line.k, state.axes.line.b);
+    const ok = ints.ox && Math.abs(x-ints.ox.x)<1e-6 && Math.abs(y-ints.oy.y)<1e-6;
+    if(ok){ setSolved('axes', true); state.stats.axes.ok++; setMessage(msg,"good",`✅ Верно!`); }
+    else{ setSolved('axes', false); state.stats.axes.bad++; setMessage(msg,"bad",`❌ Неверно. Ответ: Oy (0; ${fmtNum(ints.oy.y)}), Ox (${fmtNum(ints.ox.x)}; 0).`); }
+    updateCounters();
+  });
+  document.getElementById('btnShowAxes').addEventListener('click', ()=>{
+    const msg=document.getElementById('axesMsg');
+    if(state.lock.axes){ setMessage(msg,"warn","Уже было. Нажми «Новое»."); return; }
+    lockMode('axes'); setSolved('axes', false);
+    state.stats.axes.bad++;
+    const ints=intercepts(state.axes.line.k, state.axes.line.b);
+    updateCounters();
+    setMessage(msg,"warn",`Ответ: Oy (0; ${fmtNum(ints.oy.y)}), Ox (${fmtNum(ints.ox.x)}; 0).`);
+  });
+
+  // ---------- meet (fully rewritten) ----------
+  function setMeetChoiceUI(c){
+    state.meet.choice=c;
+    const bp=document.getElementById('btnMeetPoint');
+    const bn=document.getElementById('btnMeetNone');
+    const bi=document.getElementById('btnMeetInf');
+    if(bp&&bn&&bi){
+      [bp,bn,bi].forEach(b=>b.classList.remove('active'));
+      if(c==='point') bp.classList.add('active');
+      if(c==='none') bn.classList.add('active');
+      if(c==='inf') bi.classList.add('active');
+    }
+    const dis = (c!=='point');
+    document.getElementById('mx').disabled=dis;
+    document.getElementById('my').disabled=dis;
+    if(dis){ document.getElementById('mx').value=""; document.getElementById('my').value=""; }
+  }
+  document.getElementById('btnMeetPoint').addEventListener('click', ()=>setMeetChoiceUI('point'));
+  document.getElementById('btnMeetNone').addEventListener('click', ()=>setMeetChoiceUI('none'));
+  document.getElementById('btnMeetInf').addEventListener('click', ()=>setMeetChoiceUI('inf'));
+
+  function newMeet(){
+    if(!state.solved.meet){ state.stats.meet.bad++; }
+    updateCounters();
+    nextMeetTask();
+    unlockMode('meet'); setSolved('meet', false);
+    draw();
+  }
+  document.getElementById('btnNewMeet').addEventListener('click', newMeet);
+
+  document.getElementById('btnCheckMeet').addEventListener('click', ()=>{
+    const msg=document.getElementById('meetMsg');
+    if(state.lock.meet){ setMessage(msg,"warn","Уже проверено. Нажми «Новое»."); return; }
+    lockMode('meet');
+
+    // In this rewritten meet mode: ALWAYS point tasks.
+    if(state.meet.choice !== 'point'){
+      setSolved('meet', false);
+      state.stats.meet.bad++;
+      updateCounters();
+      setMessage(msg,"bad","❌ В этом варианте всегда есть точка пересечения. Выбери «Есть точка».");
+      return;
+    }
+
+    const x=parseNumber(document.getElementById('mx').value);
+    const y=parseNumber(document.getElementById('my').value);
+    if(x==null||y==null){ setSolved('meet', false); state.stats.meet.bad++; updateCounters(); setMessage(msg,"warn","Введи x и y."); return; }
+
+    const sol = state.meet.solution;
+    if(sol && sol.type==="point" && Math.abs(x-sol.x)<1e-6 && Math.abs(y-sol.y)<1e-6){
+      setSolved('meet', true); state.stats.meet.ok++; setMessage(msg,"good",`✅ Верно! (${fmtNum(sol.x)}; ${fmtNum(sol.y)}).`);
+    } else {
+      setSolved('meet', false); state.stats.meet.bad++; setMessage(msg,"bad",`❌ Неверно. Правильно: (${fmtNum(sol.x)}; ${fmtNum(sol.y)}).`);
+    }
+    updateCounters();
+  });
+
+  document.getElementById('btnShowMeet').addEventListener('click', ()=>{
+    const msg=document.getElementById('meetMsg');
+    if(state.lock.meet){ setMessage(msg,"warn","Уже было. Нажми «Новое»."); return; }
+    lockMode('meet'); setSolved('meet', false);
+    state.stats.meet.bad++;
+    updateCounters();
+    const sol=state.meet.solution;
+    setMessage(msg,"warn",`Ответ: (${fmtNum(sol.x)}; ${fmtNum(sol.y)}).`);
+  });
+
+  // ---------- top clear points ----------
+  document.getElementById('btnClearClicksTop').addEventListener('click', ()=>{
+    if(state.mode==="build"){
+      state.build.clicks=[]; state.build.userLine=null; state.build.reveal=false;
+      unlockMode('build'); setSolved('build', false);
+      hideMessage(document.getElementById('buildMsg'));
+      draw(); return;
+    }
+    if(state.mode==="axes"){
+      state.axes.drawPoints=[];
+      draw(); return;
+    }
+  });
+
+  // ---------- canvas click: build/axes draft points ----------
+  canvas.addEventListener('click', (ev)=>{
+    const rect=canvas.getBoundingClientRect();
+    const px=(ev.clientX-rect.left)*(canvas.width/rect.width);
+    const py=(ev.clientY-rect.top)*(canvas.height/rect.height);
+    const x=snap(pxToX(px)), y=snap(pxToY(py));
+
+    if(state.mode==="build"){
+      if(state.build.clicks.length>=2) return;
+      state.build.clicks.push({x,y});
+      unlockMode('build'); setSolved('build', false);
+      if(state.build.clicks.length===2) state.build.userLine=lineFromTwoPoints(state.build.clicks[0], state.build.clicks[1]);
+      draw(); return;
+    }
+    if(state.mode==="axes"){
+      if(state.axes.drawPoints.length>=2) state.axes.drawPoints.shift();
+      state.axes.drawPoints.push({x,y});
+      draw(); return;
+    }
+  }, {passive:true});
+
+  // ---------- reset counters ----------
+  document.getElementById('btnResetMode').addEventListener('click', ()=>{
+    state.stats[state.mode].ok=0;
+    state.stats[state.mode].bad=0;
+    state.lock[state.mode]=false;
+    state.solved[state.mode]=false;
+    updateCounters();
+  });
+
+  // ---------- tabs ----------
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click', ()=>switchMode(t.dataset.mode));
+  });
+
+  // ---------- zoom & modal ----------
+  document.getElementById('btnZoomIn').addEventListener('click', ()=>zoom(1.25));
+  document.getElementById('btnZoomOut').addEventListener('click', ()=>zoom(1.25**-1));
+  document.getElementById('btnCenter').addEventListener('click', resetView);
+
+  const modalBg=document.getElementById('modalBg');
+  document.getElementById('btnTheory').addEventListener('click', ()=>modalBg.style.display="block");
+  document.getElementById('btnCloseTheory').addEventListener('click', ()=>modalBg.style.display="none");
+  modalBg.addEventListener('click', (e)=>{ if(e.target===modalBg) modalBg.style.display="none"; });
+
+  // ---------- init ----------
+  document.getElementById('year').textContent=new Date().getFullYear();
+  resetView();
+  syncSlidersToExplore();
+
+  newBuild();
+  newRead();
+  newPP();
+  newAxes();
+  buildMeetPool(50);
+  nextMeetTask();
+
+  switchMode("explore");
+})();
+</script>
+</body>
+</html>
