@@ -676,29 +676,52 @@
   }
 
 
-  let basicTwoPointTaskCount=0;
+  // Сначала выбираем наклон, затем точки. Иначе фильтр границ
+  // оставляет преимущественно k=0, ±1 и выбрасывает более крутые прямые.
+  const substantialSlopes=[-5,-4,-3,-2,2,3,4,5];
+  let basicSlopeBag=[];
+  function refillBasicSlopeBag(){
+    const bag=[];
+    // 40 заданий: 32 с |k|=2..5, четыре с |k|=1,
+    // три дополнительных нетривиальных и одно с k=0.
+    for(const k of substantialSlopes) for(let j=0;j<4;j++)bag.push(k);
+    bag.push(-1,-1,1,1);
+    for(let j=0;j<3;j++)bag.push(substantialSlopes[randInt(0,substantialSlopes.length-1)]);
+    for(let i=bag.length-1;i>0;i--){
+      const j=randInt(0,i);
+      [bag[i],bag[j]]=[bag[j],bag[i]];
+    }
+    // Горизонтальная прямая встречается лишь на 40-м задании,
+    // чтобы вводный блок не заполнялся частными случаями.
+    bag.push(0);
+    basicSlopeBag=bag;
+  }
   function genTwoPointTask(level){
     if(level==="fraction"){
       const g=genReadPoints();
       return {p1:g.points[0], p2:g.points[1], target:{k:g.k,b:g.b}};
     }
-    // Горизонтальную прямую сохраняем, но не чаще одного раза на 12 заданий.
-    const horizontal=(++basicTwoPointTaskCount % 12===0);
-    const nonZeroSlopes=[-3,-2,-1,1,2,3];
-    for(let i=0;i<500;i++){
-      const k=horizontal?0:nonZeroSlopes[randInt(0,nonZeroSlopes.length-1)];
-      const b=randInt(-5,5);
-      const x1=randInt(-5,5), x2=randInt(-5,5);
-      if(x1===x2) continue;
-      const y1=k*x1+b, y2=k*x2+b;
-      if(Math.abs(y1)>7 || Math.abs(y2)>7) continue;
-      return {p1:{x:x1,y:y1},p2:{x:x2,y:y2},target:{k,b}};
+    if(basicSlopeBag.length===0) refillBasicSlopeBag();
+    const k=basicSlopeBag.shift();
+    // Выбираем две видимые точки уже для выбранной прямой.
+    // Так все значения k представлены, а не отбрасываются фильтром.
+    const b=randInt(-5,5);
+    const possible=[];
+    for(let x=-6;x<=6;x++){
+      const y=k*x+b;
+      if(y>=-7 && y<=7)possible.push({x,y});
     }
-    if(horizontal) return {p1:{x:-2,y:2},p2:{x:3,y:2},target:{k:0,b:2}};
-    return {p1:{x:-2,y:-3},p2:{x:2,y:5},target:{k:2,b:1}};
+    if(possible.length<2){
+      // Защитный резерв, недостижимый при выбранных k,b и границах.
+      return {p1:{x:-2,y:-3},p2:{x:2,y:5},target:{k:2,b:1}};
+    }
+    const i=randInt(0,possible.length-1);
+    let j=randInt(0,possible.length-2);
+    if(j>=i)j++;
+    return {p1:possible[i],p2:possible[j],target:{k,b}};
   }
 
-  // ---------- MEET MODE FULL REWRITE ----------
+    // ---------- MEET MODE FULL REWRITE ----------
   // Goal: pool of 50 tasks (mostly intersection point), intersection within view, NOT near integer coords.
   function meetSigVal(x){
     const fr = toFraction(x, 60);
