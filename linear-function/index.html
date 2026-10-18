@@ -676,19 +676,25 @@
   }
 
 
+  let basicTwoPointTaskCount=0;
   function genTwoPointTask(level){
     if(level==="fraction"){
       const g=genReadPoints();
       return {p1:g.points[0], p2:g.points[1], target:{k:g.k,b:g.b}};
     }
+    // Горизонтальную прямую сохраняем, но не чаще одного раза на 12 заданий.
+    const horizontal=(++basicTwoPointTaskCount % 12===0);
+    const nonZeroSlopes=[-3,-2,-1,1,2,3];
     for(let i=0;i<500;i++){
-      const k=randInt(-3,3), b=randInt(-5,5);
+      const k=horizontal?0:nonZeroSlopes[randInt(0,nonZeroSlopes.length-1)];
+      const b=randInt(-5,5);
       const x1=randInt(-5,5), x2=randInt(-5,5);
       if(x1===x2) continue;
       const y1=k*x1+b, y2=k*x2+b;
       if(Math.abs(y1)>7 || Math.abs(y2)>7) continue;
       return {p1:{x:x1,y:y1},p2:{x:x2,y:y2},target:{k,b}};
     }
+    if(horizontal) return {p1:{x:-2,y:2},p2:{x:3,y:2},target:{k:0,b:2}};
     return {p1:{x:-2,y:-3},p2:{x:2,y:5},target:{k:2,b:1}};
   }
 
