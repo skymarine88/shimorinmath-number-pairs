@@ -182,7 +182,8 @@
         <div class="tabs" id="tabs">
           <button class="tab active" data-mode="explore">🧠 k,b</button>
           <button class="tab" data-mode="build">✍️ Построй</button>
-          <button class="tab" data-mode="read">🔍 Найди k,b</button>
+          <button class="tab" data-mode="read">🔍 По графику</button>
+          <button class="tab" data-mode="points">📍 По двум точкам</button>
           <button class="tab" data-mode="pp">∥ ⟂</button>
           <button class="tab" data-mode="axes">🎯 Оси</button>
           <button class="tab" data-mode="meet">✖️ Пересечение</button>
@@ -197,11 +198,11 @@
           <div class="inputs">
             <div>
               <label>k (наклон)</label>
-              <input id="exK" inputmode="decimal" placeholder="например: 2 или -1,5 или 3/2" />
+              <input id="exK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 2 или -1,5 или 3/2" />
             </div>
             <div>
               <label>b (сдвиг вверх/вниз)</label>
-              <input id="exB" inputmode="decimal" placeholder="например: -3" />
+              <input id="exB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: -3" />
             </div>
           </div>
 
@@ -244,7 +245,7 @@
             Введи коэффициенты <b>k</b> и <b>b</b>.
           </div>
 
-          <div id="readVariant" class="msg warn mono" style="margin-top:10px">
+          <div id="readVariant" class="msg warn mono" style="display:none">
             Выбери вариант:
             <div class="row" style="margin-top:10px">
               <button class="choiceBtn active" id="rdVarGraph">По графику</button>
@@ -258,11 +259,11 @@
           <div class="inputs" style="margin-top:10px">
             <div>
               <label>k</label>
-              <input id="rdK" inputmode="decimal" placeholder="например: -2 или 1/2" />
+              <input id="rdK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: -2 или 1/2" />
             </div>
             <div>
               <label>b</label>
-              <input id="rdB" inputmode="decimal" placeholder="например: 4 или -3/2" />
+              <input id="rdB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 4 или -3/2" />
             </div>
           </div>
           <div class="row" style="margin-top:10px">
@@ -272,6 +273,46 @@
             <button class="tiny" id="btnExamRead">🏁 Зачёт</button>
           </div>
           <div class="msg" id="readMsg" style="display:none"></div>
+        </div>
+
+
+        <div id="panelPoints" style="margin-top:12px; display:none">
+          <div class="msg warn" style="margin-top:0">
+            <b>Составь уравнение прямой</b> <span class="mono">y = kx + b</span>,
+            проходящей через заданные точки.
+            <div class="eq mono" id="pointsGiven" style="margin-top:10px"></div>
+          </div>
+          <div class="row" style="margin-top:12px">
+            <span class="hint">Сложность:</span>
+            <button class="choiceBtn active" id="pointsBasic">Целые коэффициенты</button>
+            <button class="choiceBtn" id="pointsFraction">Дробные коэффициенты</button>
+          </div>
+          <div class="inputs" style="margin-top:12px">
+            <div>
+              <label for="ptK">Угловой коэффициент k</label>
+              <input id="ptK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: -2 или 3/2" />
+            </div>
+            <div>
+              <label for="ptB">Свободный член b</label>
+              <input id="ptB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 4 или -1/3" />
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="secondary" id="btnNewPoints">Новое</button>
+            <button class="good" id="btnCheckPoints">Проверить</button>
+            <button class="warn" id="btnShowPoints">Показать решение</button>
+          </div>
+          <div class="msg" id="pointsMsg" role="status" aria-live="polite" style="display:none"></div>
+          <details class="msg" style="margin-top:12px">
+            <summary style="cursor:pointer;font-weight:700">Как найти уравнение по двум точкам?</summary>
+            <p>1. Найди угловой коэффициент:
+              <span class="mono">k = (y₂ − y₁) / (x₂ − x₁)</span>.
+            </p>
+            <p>2. Подставь любую заданную точку в
+              <span class="mono">y = kx + b</span> и вычисли <b>b</b>.
+            </p>
+            <p>3. Проверь полученное уравнение на второй точке. Две точки с разными абсциссами задают единственную прямую вида <span class="mono">y = kx + b</span>.</p>
+          </details>
         </div>
 
         <div id="panelPP" style="margin-top:12px; display:none">
@@ -285,11 +326,11 @@
           <div class="inputs" style="margin-top:10px">
             <div>
               <label>k новой прямой</label>
-              <input id="ppK" inputmode="decimal" placeholder="например: 3 или -1/2" />
+              <input id="ppK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 3 или -1/2" />
             </div>
             <div>
               <label>b новой прямой</label>
-              <input id="ppB" inputmode="decimal" placeholder="например: 1" />
+              <input id="ppB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 1" />
             </div>
           </div>
           <div class="row" style="margin-top:10px">
@@ -320,13 +361,13 @@
               <label>С Oy: (0; y)</label>
               <div class="two">
                 <input disabled value="0" class="mono"/>
-                <input id="axY" inputmode="decimal" placeholder="y = ..." class="mono"/>
+                <input id="axY" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="y = ..." class="mono"/>
               </div>
             </div>
             <div>
               <label>С Ox: (x; 0)</label>
               <div class="two">
-                <input id="axX" inputmode="decimal" placeholder="x = ..." class="mono"/>
+                <input id="axX" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="x = ..." class="mono"/>
                 <input disabled value="0" class="mono"/>
               </div>
             </div>
@@ -351,8 +392,8 @@
             <button class="choiceBtn" id="btnMeetInf">Бесконечно много</button>
           </div>
           <div class="two" style="margin-top:10px">
-            <div><label>x</label><input id="mx" inputmode="decimal" placeholder="например: 2 или -3/2" class="mono"/></div>
-            <div><label>y</label><input id="my" inputmode="decimal" placeholder="например: 5" class="mono"/></div>
+            <div><label>x</label><input id="mx" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 2 или -3/2" class="mono"/></div>
+            <div><label>y</label><input id="my" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 5" class="mono"/></div>
           </div>
           <div class="row" style="margin-top:10px">
             <button class="secondary" id="btnNewMeet">Новое</button>
@@ -552,13 +593,14 @@
   // ---------- state ----------
   const state={
     mode:"explore",
-    stats:{explore:{ok:0,bad:0}, build:{ok:0,bad:0}, read:{ok:0,bad:0}, pp:{ok:0,bad:0}, axes:{ok:0,bad:0}, meet:{ok:0,bad:0}},
-    lock:{explore:false, build:false, read:false, pp:false, axes:false, meet:false},
-    solved:{explore:false, build:false, read:false, pp:false, axes:false, meet:false},
+    stats:{explore:{ok:0,bad:0}, build:{ok:0,bad:0}, read:{ok:0,bad:0}, points:{ok:0,bad:0}, pp:{ok:0,bad:0}, axes:{ok:0,bad:0}, meet:{ok:0,bad:0}},
+    lock:{explore:false, build:false, read:false, points:false, pp:false, axes:false, meet:false},
+    solved:{explore:false, build:false, read:false, points:false, pp:false, axes:false, meet:false},
 
     explore:{k:1,b:0},
     build:{target:{k:1,b:0}, clicks:[], userLine:null, reveal:false},
     read:{target:{k:2,b:-1}, variant:"graph", points:[]},
+    points:{level:"basic", p1:{x:0,y:0}, p2:{x:2,y:2}, target:{k:1,b:0}, reveal:false},
     pp:{base:{k:1,b:0}, point:{x:2,y:3}, kind:"par", solution:null, reveal:false},
     axes:{line:{k:1,b:0}, drawPoints:[]},
 
@@ -631,6 +673,23 @@
     const k=(p2.y-p1.y)/(p2.x-p1.x);
     const b=p1.y-k*p1.x;
     return {k,b, points:[p1,p2]};
+  }
+
+
+  function genTwoPointTask(level){
+    if(level==="fraction"){
+      const g=genReadPoints();
+      return {p1:g.points[0], p2:g.points[1], target:{k:g.k,b:g.b}};
+    }
+    for(let i=0;i<500;i++){
+      const k=randInt(-3,3), b=randInt(-5,5);
+      const x1=randInt(-5,5), x2=randInt(-5,5);
+      if(x1===x2) continue;
+      const y1=k*x1+b, y2=k*x2+b;
+      if(Math.abs(y1)>7 || Math.abs(y2)>7) continue;
+      return {p1:{x:x1,y:y1},p2:{x:x2,y:y2},target:{k,b}};
+    }
+    return {p1:{x:-2,y:-3},p2:{x:2,y:5},target:{k:2,b:1}};
   }
 
   // ---------- MEET MODE FULL REWRITE ----------
@@ -764,6 +823,17 @@
       } else {
         for(const p of (state.read.points||[])) drawPoint(p.x, p.y, "rgba(255,209,102,.95)", 7);
       }
+    } else if(state.mode==="points"){
+      const {p1,p2,reveal,target}=state.points;
+      if(reveal) drawLine(target.k, target.b, "rgba(93,214,255,.95)", 3.5);
+      for(const [name,p] of [["A",p1],["B",p2]]){
+        drawPoint(p.x,p.y,"rgba(255,209,102,.98)",8);
+        ctx.fillStyle="#ffffff";
+        ctx.font="bold 19px system-ui, sans-serif";
+        ctx.textAlign="left";
+        ctx.textBaseline="bottom";
+        ctx.fillText(name,xToPx(p.x)+11,yToPx(p.y)-10);
+      }
     } else if(state.mode==="pp"){
       drawLine(state.pp.base.k, state.pp.base.b, "rgba(232,238,252,.70)", 2.5);
       drawPoint(state.pp.point.x, state.pp.point.y, "rgba(255,209,102,.95)", 7);
@@ -787,13 +857,14 @@
   function switchMode(mode){
     state.mode=mode;
     document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.mode===mode));
-    ['panelExplore','panelBuild','panelRead','panelPP','panelAxes','panelMeet'].forEach(pid=>{
+    ['panelExplore','panelBuild','panelRead','panelPoints','panelPP','panelAxes','panelMeet'].forEach(pid=>{
       document.getElementById(pid).style.display = (pid === 'panel'+mode.charAt(0).toUpperCase()+mode.slice(1)) ? "block" : "none";
     });
     // fix mapping for explore/build/read/pp/axes/meet
     document.getElementById('panelExplore').style.display = (mode==="explore") ? "block" : "none";
     document.getElementById('panelBuild').style.display = (mode==="build") ? "block" : "none";
     document.getElementById('panelRead').style.display = (mode==="read") ? "block" : "none";
+    document.getElementById('panelPoints').style.display = (mode==="points") ? "block" : "none";
     document.getElementById('panelPP').style.display = (mode==="pp") ? "block" : "none";
     document.getElementById('panelAxes').style.display = (mode==="axes") ? "block" : "none";
     document.getElementById('panelMeet').style.display = (mode==="meet") ? "block" : "none";
@@ -810,6 +881,7 @@
         : "На графике дана прямая — введи k и b.";
       setClickMode("—");
     }
+    if(mode==="points"){ title.textContent="Режим: прямая по двум точкам"; text.textContent="По координатам A и B найди k, затем b. Точки отмечены на координатной плоскости; прямая появится после правильного решения."; setClickMode("—"); }
     if(mode==="pp"){ title.textContent="Режим: ∥ / ⟂ через точку"; text.textContent="Выбери ∥ или ⟂ и введи k,b."; setClickMode("—"); }
     if(mode==="axes"){ title.textContent="Режим: пересечения с осями"; text.textContent="Можно набросать прямую по 2 точкам (черновик). Проверяем только введённые координаты."; setClickMode("клики"); }
     if(mode==="meet"){ title.textContent="Режим: пересечение двух прямых"; text.textContent="Введи (x;y). В этом режиме всегда есть точка пересечения (не в узле)."; setClickMode("—"); }
@@ -964,6 +1036,71 @@
     updateCounters();
     setMessage(msg,"warn",`Ответ: ${fmtEq(state.read.target.k,state.read.target.b)}.`);
   });
+
+
+  // ---------- separate two-point equation tasks ----------
+  function newPoints(){
+    const task=genTwoPointTask(state.points.level);
+    state.points.p1=task.p1;
+    state.points.p2=task.p2;
+    state.points.target=task.target;
+    state.points.reveal=false;
+    unlockMode("points"); setSolved("points",false);
+    document.getElementById("pointsGiven").textContent=
+      "A("+task.p1.x+"; "+task.p1.y+"),  B("+task.p2.x+"; "+task.p2.y+")";
+    document.getElementById("ptK").value="";
+    document.getElementById("ptB").value="";
+    hideMessage(document.getElementById("pointsMsg"));
+    draw();
+  }
+  function setPointsLevel(level){
+    state.points.level=level;
+    document.getElementById("pointsBasic").classList.toggle("active",level==="basic");
+    document.getElementById("pointsFraction").classList.toggle("active",level==="fraction");
+    newPoints();
+  }
+  document.getElementById("pointsBasic").addEventListener("click",()=>setPointsLevel("basic"));
+  document.getElementById("pointsFraction").addEventListener("click",()=>setPointsLevel("fraction"));
+  document.getElementById("btnNewPoints").addEventListener("click",()=>{
+    if(!state.solved.points) state.stats.points.bad++;
+    newPoints();updateCounters();
+  });
+  document.getElementById("btnCheckPoints").addEventListener("click",()=>{
+    const msg=document.getElementById("pointsMsg");
+    if(state.lock.points){setMessage(msg,"warn","Задание уже завершено. Нажми «Новое».");return;}
+    const k=parseNumber(document.getElementById("ptK").value);
+    const b=parseNumber(document.getElementById("ptB").value);
+    if(k===null||b===null){setMessage(msg,"warn","Введи оба коэффициента: k и b. Можно использовать дробь, например -3/2.");return;}
+    const t=state.points.target;
+    if(nearly(k,t.k)&&nearly(b,t.b)){
+      state.stats.points.ok++; setSolved("points",true);lockMode("points");
+      state.points.reveal=true;
+      setMessage(msg,"good",
+        "✅ Верно! "+fmtEq(t.k,t.b)+". Обе заданные точки лежат на этой прямой.");
+      draw();
+    }else{
+      state.stats.points.bad++;
+      setMessage(msg,"bad",
+        "❌ Пока неверно. Проверь: k = (y₂ − y₁)/(x₂ − x₁), затем b = y₁ − kx₁. Попробуй ещё раз.");
+    }
+    updateCounters();
+  });
+  document.getElementById("btnShowPoints").addEventListener("click",()=>{
+    const msg=document.getElementById("pointsMsg");
+    if(state.lock.points){setMessage(msg,"warn","Задание уже завершено. Нажми «Новое».");return;}
+    const {p1,p2,target}=state.points;
+    state.stats.points.bad++;lockMode("points");setSolved("points",false);
+    state.points.reveal=true;
+    setMessage(msg,"warn",
+      "Решение: k = ("+p2.y+" − ("+p1.y+")) / ("+p2.x+" − ("+p1.x+
+      ")) = "+fmtNum(target.k)+". Далее b = "+p1.y+" − ("+fmtNum(target.k)+
+      ") · ("+p1.x+") = "+fmtNum(target.b)+".<div style='margin-top:8px'><b>"+
+      fmtEq(target.k,target.b)+"</b></div>");
+    updateCounters();draw();
+  });
+  ["ptK","ptB"].forEach(id=>document.getElementById(id).addEventListener("keydown",ev=>{
+    if(ev.key==="Enter"){ev.preventDefault();document.getElementById("btnCheckPoints").click();}
+  }));
 
   // ---------- pp ----------
   function setPPKind(kind){
@@ -1201,6 +1338,7 @@
 
   newBuild();
   newRead();
+  newPoints();
   newPP();
   newAxes();
   buildMeetPool(50);
