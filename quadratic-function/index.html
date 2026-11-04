@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111a2a">
+<meta name="description" content="SHIMORINMATH — тренажёр квадратичной функции. Два способа по графику: вершина и точка, три точки. Проверка значения функции и обратной задачи.">
+<title>Квадратичная функция · SHIMORINMATH</title>
+<link rel="icon" type="image/svg+xml" href="../SHIMORINMATH_Favicon.svg">
+<style>
+:root{--bg:#0b1019;--panel:#141e2d;--panel2:#1b2838;--ink:#eef4fc;--muted:#a5b5ca;--border:#304153;--orange:#ed9156;--mint:#8ee1b1;--blue:#77b9e6;--red:#ffa09e}
+*{box-sizing:border-box}html{color-scheme:dark}body{margin:0;background:radial-gradient(circle at 10% 0%,#1a2a3c 0%,var(--bg) 42%);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--blue)}button,input{font:inherit}button{cursor:pointer}
+.shell{width:min(1230px,calc(100% - 28px));margin:auto}
+.top{display:flex;align-items:center;gap:13px;padding:20px 0 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.logo-button{width:59px;height:59px;flex:0 0 59px;background:#0c1624;border:1px solid #45556b;border-radius:16px;display:grid;place-items:center;padding:11px}
+.logo-button:hover{border-color:var(--orange)}.logo-button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.logo-button img{display:block;width:100%;height:100%;transform-origin:50% 50%}
+.logo-button img.turn{animation:logo-turn 2.1s cubic-bezier(.4,0,.2,1)}
+@keyframes logo-turn{0%{transform:rotate(0)}28.571%{transform:rotate(-90deg)}71.429%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
+.brand{min-width:245px;flex:1}.brand .author{font-weight:800;font-size:15px}.brand .subtitle{color:var(--muted);font-size:12px}.brand .name{font-size:20px;font-weight:760;letter-spacing:-.3px;margin-top:3px}
+.tag{display:inline-flex;align-items:center;border:1px solid #4d6078;background:#18253a;border-radius:25px;padding:8px 12px;font-size:12px;color:#d6e3f4}
+.intro{padding:20px 0 5px}.intro h1{font-size:clamp(20px,2.5vw,28px);line-height:1.2;margin:0 0 7px}.intro p{margin:0;color:var(--muted);max-width:850px}
+.tabs{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap}
+.tab{border:1px solid var(--border);border-radius:12px;background:var(--panel);color:var(--ink);padding:11px 16px;text-align:left;font-weight:700}
+.tab small{display:block;color:var(--muted);font-size:11px;font-weight:400;margin-top:1px}.tab.active{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange) inset;background:#33241f}
+.main{display:grid;grid-template-columns:minmax(330px,.94fr) minmax(360px,1.06fr);gap:16px;margin:16px 0 30px}
+.card{border:1px solid var(--border);background:var(--panel);border-radius:18px;overflow:hidden}
+.card-header{padding:17px 19px 14px;border-bottom:1px solid var(--border)}
+.card-header h2{font-size:17px;margin:0 0 4px}.card-header p{margin:0;color:var(--muted);font-size:13px}
+.canvas-wrap{padding:12px 14px 4px;display:grid;place-items:center}
+canvas{display:block;width:min(100%,570px);height:auto;aspect-ratio:1;background:#fdfefe;border-radius:12px;touch-action:manipulation}
+.graph-caption{text-align:center;color:var(--muted);font-size:12px;padding:5px 17px 14px}
+.statebar{display:flex;gap:9px;flex-wrap:wrap;padding:12px 17px 16px;border-top:1px solid var(--border)}
+.pill{border:1px solid var(--border);background:#111a27;color:#d9e7f4;border-radius:20px;padding:5px 10px;font-size:12px}
+.steps{padding:15px 19px 18px}
+.step-progress{display:flex;gap:7px;margin-bottom:13px}.step-progress span{height:5px;border-radius:5px;background:#344456;flex:1}.step-progress span.done{background:var(--mint)}.step-progress span.current{background:var(--orange)}
+.step-label{font-size:12px;font-weight:750;letter-spacing:.06em;color:var(--orange);text-transform:uppercase}
+.question{margin:4px 0 14px;font-size:16px;font-weight:680;line-height:1.4}
+.math{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:1.18em;white-space:normal}
+.fields{display:flex;gap:9px;align-items:flex-end;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:5px;min-width:100px;flex:1}
+.field label{font-size:12px;color:var(--muted)}
+.field input{width:100%;color:var(--ink);background:#0d1622;border:1px solid #57708a;border-radius:10px;padding:11px 12px;outline:none;font-size:17px}
+.field input:focus{border-color:var(--blue);box-shadow:0 0 0 2px #77b9e640}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.btn{border-radius:10px;border:1px solid var(--border);padding:11px 15px;color:var(--ink);background:#233249;font-weight:700}.btn.primary{background:var(--orange);border-color:var(--orange);color:#171b21}.btn.primary:hover{filter:brightness(1.06)}.btn:disabled{cursor:not-allowed;opacity:.35}
+.status{min-height:52px;margin-top:14px;padding:12px 13px;border:1px solid var(--border);border-radius:11px;background:#101927;font-size:13px;color:var(--muted)}
+.status.ok{background:#123327;border-color:#386c50;color:#b9f0cf}.status.bad{background:#382421;border-color:#8e5148;color:#ffcbc0}
+.hint{margin-top:10px;background:#122337;border:1px solid #2e566c;border-radius:11px;padding:11px 13px;color:#d3eafa;font-size:13px}
+.hint[hidden]{display:none}
+.example{border-top:1px solid var(--border);padding:17px 19px}.example h3{font-size:14px;margin:0 0 10px}.example p{color:var(--muted);font-size:13px;line-height:1.65;margin:6px 0}
+.math-block{background:#0d1624;border:1px solid var(--border);border-radius:9px;padding:10px 12px;color:#fff;margin-top:8px}
+.frac{display:inline-flex;vertical-align:middle;flex-direction:column;align-items:center;line-height:1.05;font-size:.82em;margin:0 .14em;transform:translateY(-.02em)}
+.frac .num{padding:0 .18em .12em;border-bottom:1px solid currentColor}.frac .den{padding:.12em .18em 0}
+.foot{font-size:12px;color:var(--muted);padding:10px 0 28px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+kbd{background:#0d1624;border:1px solid #45566c;border-radius:5px;padding:1px 5px}
+@media(max-width:860px){.main{grid-template-columns:1fr}.canvas-wrap canvas{width:min(100%,570px)}}
+@media(max-width:510px){.shell{width:calc(100% - 18px)}.top{padding:14px 0}.logo-button{width:53px;height:53px;flex-basis:53px}.brand .name{font-size:17px}.tag{width:100%;justify-content:center}.card-header{padding:14px}.steps{padding:14px}.question{font-size:15px}.field{min-width:88px}.btn{flex:1}.graph-caption{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.logo-button img.turn{animation:none!important}*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="top">
+<button class="logo-button" type="button" id="logoButton" aria-label="Анимировать логотип SHIMORINMATH"><img id="brandLogo" src="../SHIMORINMATH_Logo_White.svg" alt="Ш!" width="40" height="40"></button>
+<div class="brand"><div class="author">Шиморин Б. В.</div><div class="subtitle">методические разработки · SHIMORINMATH</div><div class="name">Квадратичная функция · тренажёр</div></div>
+<div class="tag">Тренинг до воскресенья, 08.11.2026</div>
+</header>
+<section class="intro">
+<h1>Восстанови параболу. Пройди три шага.</h1>
+<p>Сначала определяешь формулу по графику. Затем находишь <span class="math">f(t)</span> и все <span class="math">x</span>, для которых <span class="math">f(x)</span> равно заданному числу. Никаких других типов заданий.</p>
+<div class="tabs" role="tablist" aria-label="Способ нахождения функции">
+<button type="button" class="tab active" data-mode="vertex" aria-selected="true">01 · Вершина и точка<small>Находим a, m, n по клеткам</small></button>
+<button type="button" class="tab" data-mode="three" aria-selected="false">02 · Три точки<small>Находим a, b, c через систему</small></button>
+</div>
+</section>
+<main class="main">
+<section class="card">
+<div class="card-header"><h2 id="graphTitle">Парабола по вершине и точке</h2><p id="graphIntro">Отметки V и P соответствуют узловым точкам сетки.</p></div>
+<div class="canvas-wrap"><canvas id="graph" width="720" height="720" aria-label="Координатная сетка с графиком параболы и отмеченными точками"></canvas></div>
+<div class="graph-caption" id="dotsText" aria-live="polite">Одна клетка = одна единица.</div>
+<div class="statebar"><span class="pill" id="modeCount">В этом режиме: 0</span><span class="pill" id="totalCount">Всего решено: 0</span><span class="pill">Задачи без ограничений</span></div>
+</section>
+<section class="card">
+<div class="card-header"><h2>Решение по шагам</h2><p>Следующий шаг откроется только после правильного ответа.</p></div>
+<div class="steps">
+<div class="step-progress" aria-hidden="true"><span id="bar0" class="current"></span><span id="bar1"></span><span id="bar2"></span></div>
+<div class="step-label" id="stepLabel">Шаг 1 из 3</div>
+<div class="question" id="question"></div>
+<div class="fields" id="fields"></div>
+<div class="actions">
+<button class="btn primary" id="check" type="button">Проверить</button>
+<button class="btn" id="hintBtn" type="button">Подсказка</button>
+<button class="btn" id="next" type="button" disabled>Следующая задача</button>
+</div>
+<div class="status" id="status" role="status" aria-live="polite">Решай самостоятельно, затем проверяй.</div>
+<div class="hint" id="hintBox" hidden></div>
+</div>
+<div class="example" id="reference">
+<h3>Напоминание о методе</h3>
+<div id="methodText"></div>
+</div>
+</section>
+</main>
+<footer class="foot"><span>SHIMORINMATH · алгебра · тренажёр без регистрации</span><span><a href="../linear-function/">Линейная функция</a> · результаты сохраняются только в этом браузере</span></footer>
+</div>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id);};
+var canvas=$('graph'),ctx=canvas.getContext('2d');
+var mode='vertex',step=0,task=null,attempts=0,stats={vertex:0,three:0};
+try{var saved=JSON.parse(localStorage.getItem('shimorin-quad-v1'));if(saved&&Number.isInteger(saved.vertex)&&Number.isInteger(saved.three)){stats=saved;}}catch(e){}
+function rnd(lo,hi){return Math.floor(Math.random()*(hi-lo+1))+lo;}
+function pick(a){return a[rnd(0,a.length-1)];}
+function formatN(n){return Number.isInteger(n)?String(n):String(n).replace('.',',');}
+function fractionHTML(n){
+ if(Number.isInteger(n))return String(n);
+ var sign=n<0?'−':'',a=Math.abs(n),den=2,num=Math.round(a*den);
+ if(Math.abs(a*den-num)>1e-8)return formatN(n);
+ return sign+'<span class="frac"><span class="num">'+num+'</span><span class="den">'+den+'</span></span>';
+}
+function f(q,x){return q.a*(x-q.m)*(x-q.m)+q.n;}
+function generate(which){
+ for(var tries=0;tries<1200;tries++){
+  var q={mode:which,m:rnd(-2,2),n:rnd(-4,4),a:pick([-2,-1,-0.5,0.5,1,2])};
+  if(which==='three'){q.a=pick([-2,-1,1,2]);q.n=rnd(-3,3);}
+  q.b=-2*q.a*q.m;q.c=q.a*q.m*q.m+q.n;
+  var possible=[];
+  for(var x=-5;x<=5;x++){var y=f(q,x);if(Number.isInteger(y)&&y>=-7&&y<=7)possible.push({x:x,y:y});}
+  if(which==='vertex'){
+   var options=possible.filter(function(p){return p.x!==q.m && Math.abs(p.x-q.m)>=1 && Math.abs(p.y-q.n)>=1 && Math.abs(p.x-q.m)<=3;});
+   if(options.length<1)continue;
+   q.points=[{name:'V',x:q.m,y:q.n},Object.assign({name:'P'},pick(options))];
+  }else{
+   if(possible.length<3)continue;
+   var candidates=possible.slice(),selected=[];
+   if(Math.random()<0.80&&possible.some(function(p){return p.x===0;})){
+    selected.push(possible.find(function(p){return p.x===0;}));
+    candidates=candidates.filter(function(p){return p.x!==0;});
+   }
+   while(selected.length<3&&candidates.length){
+    var nidx=rnd(0,candidates.length-1);selected.push(candidates.splice(nidx,1)[0]);
+   }
+   if(selected.length!==3)continue;
+   selected.sort(function(a,b){return a.x-b.x;});
+   q.points=selected.map(function(p,i){return {name:'ABC'[i],x:p.x,y:p.y};});
+  }
+  var distances=[1,2].filter(function(h){return q.m-h>=-6&&q.m+h<=6&&f(q,q.m+h)>=-7&&f(q,q.m+h)<=7;});
+  if(!distances.length)continue;
+  q.h=pick(distances);q.target=f(q,q.m+q.h);
+  q.roots=[q.m-q.h,q.m+q.h];
+  var xs=[];
+  for(var j=-5;j<=5;j++){var value=f(q,j);if(value>=-10&&value<=10&&j!==q.m+q.h&&j!==q.m-q.h)xs.push(j);}
+  if(!xs.length)continue;
+  q.evalX=pick(xs);q.evalY=f(q,q.evalX);
+  return q;
+ }
+ throw Error('Не удалось подобрать задачу');
+}
+function drawGraph(q){
+ var w=canvas.width,h=canvas.height,sc=40,ox=w/2,oy=h/2;
+ ctx.clearRect(0,0,w,h);
+ ctx.fillStyle='#FCFDFE';ctx.fillRect(0,0,w,h);
+ ctx.lineWidth=1;ctx.strokeStyle='#e8edf1';
+ for(var i=-9;i<=9;i++){
+  ctx.beginPath();ctx.moveTo(ox+i*sc,0);ctx.lineTo(ox+i*sc,h);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(0,oy+i*sc);ctx.lineTo(w,oy+i*sc);ctx.stroke();
+ }
+ ctx.strokeStyle='#38495b';ctx.lineWidth=2.5;
+ ctx.beginPath();ctx.moveTo(0,oy);ctx.lineTo(w,oy);ctx.moveTo(ox,0);ctx.lineTo(ox,h);ctx.stroke();
+ ctx.fillStyle='#304559';ctx.font='16px system-ui';
+ ctx.fillText('x',w-24,oy-10);ctx.fillText('y',ox+10,22);ctx.fillText('0',ox+6,oy+20);
+ ctx.font='13px system-ui';
+ for(var t=-8;t<=8;t++){if(t===0)continue;ctx.fillText(String(t),ox+t*sc-4,oy+17);if(t%2===0)ctx.fillText(String(t),ox+9,oy-t*sc+5);}
+ ctx.strokeStyle='#187fac';ctx.lineWidth=4;ctx.lineJoin='round';ctx.beginPath();
+ var lastIn=false;
+ for(var xi=-900;xi<=900;xi++){
+  var vx=xi/100,vy=f(q,vx),px=ox+vx*sc,py=oy-vy*sc;
+  var inside=px>=0&&px<=w&&py>=0&&py<=h;
+  if(inside){if(!lastIn)ctx.moveTo(px,py);else ctx.lineTo(px,py);}
+  lastIn=inside;
+ }
+ ctx.stroke();
+ q.points.forEach(function(p){
+  var px=ox+p.x*sc,py=oy-p.y*sc;
+  ctx.beginPath();ctx.arc(px,py,6,0,2*Math.PI);ctx.fillStyle='#ec7d41';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#a84410';ctx.font='bold 20px system-ui';
+  ctx.fillText(p.name,px+10,py-10);
+ });
+}
+function saveStats(){try{localStorage.setItem('shimorin-quad-v1',JSON.stringify(stats));}catch(e){}}
+function parseNumber(str){
+ var s=String(str).trim().replace(/\s/g,'').replace(/−/g,'-').replace(',','.');
+ if(!s)return NaN;
+ if(s.indexOf('/')!==-1){
+  var parts=s.split('/');
+  if(parts.length!==2||!parts[0]||!parts[1])return NaN;
+  var a=Number(parts[0]),b=Number(parts[1]);
+  return Number.isFinite(a)&&Number.isFinite(b)&&b!==0?a/b:NaN;
+ }
+ var n=Number(s);return Number.isFinite(n)?n:NaN;
+}
+function equal(a,b){return Number.isFinite(a)&&Math.abs(a-b)<0.0000001;}
+function values(){return Array.prototype.map.call($('fields').querySelectorAll('input'),function(el){return parseNumber(el.value);});}
+function field(name,label){
+ var wrap=document.createElement('div');wrap.className='field';
+ var lab=document.createElement('label');lab.htmlFor='field'+name;lab.textContent=label;
+ var inp=document.createElement('input');inp.id='field'+name;inp.type='text';inp.inputMode='text';inp.autocomplete='off';inp.autocapitalize='off';inp.spellcheck=false;inp.placeholder='число';
+ wrap.appendChild(lab);wrap.appendChild(inp);$('fields').appendChild(wrap);
+ inp.addEventListener('keydown',function(e){if(e.key==='Enter')$('check').click();});
+}
+function formula(q){
+ if(q.mode==='vertex'){
+  var mid=q.m>=0?'− '+q.m:'+ '+(-q.m);
+  var tail=q.n>=0?' + '+q.n:' − '+(-q.n);
+  return 'f(x) = '+fractionHTML(q.a)+'(x '+mid+')²'+tail;
+ }
+ var first=(q.a===1?'':q.a===-1?'−':fractionHTML(q.a))+'x²';
+ var second=q.b===0?'':(q.b>0?' + ':' − ')+(Math.abs(q.b)===1?'':Math.abs(q.b))+'x';
+ var third=q.c===0?'':(q.c>0?' + ':' − ')+Math.abs(q.c);
+ return 'f(x) = '+first+second+third;
+}
+function renderReference(){
+ if(mode==='vertex'){
+  $('methodText').innerHTML='<p>Вершина <span class="math">V(m; n)</span> задаёт <span class="math">m</span> и <span class="math">n</span>. До точки <span class="math">P</span> отступи от вершины на <span class="math">h</span> клеток вбок и на <span class="math">v</span> клеток вверх или вниз.</p><div class="math-block"><span class="math">|a| = <span class="frac"><span class="num">v</span><span class="den">h²</span></span>; &nbsp; f(x) = a(x − m)² + n</span></div><p>Ветви вверх: <span class="math">a &gt; 0</span>; вниз: <span class="math">a &lt; 0</span>. Никаких систем для первого способа.</p>';
+ }else{
+  $('methodText').innerHTML='<p>Каждая отмеченная точка <span class="math">(x; y)</span> означает <span class="math">y = ax² + bx + c</span>. Подставь координаты точек <span class="math">A, B, C</span> и реши систему для трёх коэффициентов.</p><div class="math-block"><span class="math">f(x) = ax² + bx + c</span></div><p>Если одна точка имеет <span class="math">x = 0</span>, она сразу даёт <span class="math">c = y</span>. Остальные две помогают найти <span class="math">a</span> и <span class="math">b</span>.</p>';
+ }
+}
+function setStatus(message,type){$('status').className='status'+(type?' '+type:'');$('status').innerHTML=message;}
+function renderStep(){
+ $('hintBox').hidden=true;$('hintBtn').disabled=false;
+ $('stepLabel').textContent='Шаг '+(step+1)+' из 3';
+ for(var i=0;i<3;i++)$('bar'+i).className=i<step?'done':i===step?'current':'';
+ $('fields').innerHTML='';$('check').disabled=false;$('next').disabled=true;
+ if(step===0){
+  $('question').innerHTML=mode==='vertex'?'По графику определите <span class="math">a, m, n</span> в записи <span class="math">f(x) = a(x − m)² + n</span>.':'По трём точкам определите <span class="math">a, b, c</span> в записи <span class="math">f(x) = ax² + bx + c</span>.';
+  (mode==='vertex'?[['a','Коэффициент a'],['m','Число m'],['n','Число n']]:[['a','Коэффициент a'],['b','Коэффициент b'],['c','Коэффициент c']]).forEach(function(pair){field(pair[0],pair[1]);});
+ }else if(step===1){
+  $('question').innerHTML='Найдите значение <span class="math">f('+task.evalX+')</span> для полученной функции.';
+  field('y','Значение функции');
+ }else{
+  $('question').innerHTML='При каких <span class="math">x</span> значение <span class="math">f(x)</span> равно <span class="math">'+fractionHTML(task.target)+'</span>? Найдите оба решения.';
+  field('x1','Первое значение x');field('x2','Второе значение x');
+ }
+ setStatus('Выполни этот шаг самостоятельно и нажми «Проверить».','');
+ setTimeout(function(){var inp=$('fields').querySelector('input');if(inp&&window.innerWidth>780)inp.focus();},0);
+}
+function switchTask(which){
+ mode=which||mode;step=0;attempts=0;task=generate(mode);
+ document.querySelectorAll('.tab').forEach(function(el){var active=el.dataset.mode===mode;el.classList.toggle('active',active);el.setAttribute('aria-selected',String(active));});
+ $('graphTitle').textContent=mode==='vertex'?'Вершина + одна узловая точка':'Три точки на параболе';
+ $('graphIntro').textContent=mode==='vertex'?'V — вершина, P — вторая точка. Найди a по подъёму и отступу.':'A, B, C — три точки, которые задают систему для a, b, c.';
+ $('dotsText').textContent=task.points.map(function(p){return p.name+'('+p.x+'; '+formatN(p.y)+')';}).join('   ·   ')+'   |   клетка = 1';
+ $('modeCount').textContent='В этом режиме: '+stats[mode];
+ $('totalCount').textContent='Всего решено: '+(stats.vertex+stats.three);
+ drawGraph(task);renderReference();renderStep();
+}
+function check(){
+ var v=values(),valid;
+ if(v.some(function(x){return !Number.isFinite(x);}))return setStatus('Заполни все поля числами. Дробь можно ввести как 0,5 или 1/2.','bad');
+ if(step===0)valid=mode==='vertex'?equal(v[0],task.a)&&equal(v[1],task.m)&&equal(v[2],task.n):equal(v[0],task.a)&&equal(v[1],task.b)&&equal(v[2],task.c);
+ else if(step===1)valid=equal(v[0],task.evalY);
+ else valid=(equal(v[0],task.roots[0])&&equal(v[1],task.roots[1]))||(equal(v[1],task.roots[0])&&equal(v[0],task.roots[1]));
+ if(!valid){attempts++;setStatus(step===0?'Пока неверно. Проверь координаты, знак коэффициента и вычисления.':step===1?'Проверь подстановку аргумента и знаки.':'Проверь оба корня, каждый должен давать указанное значение функции.','bad');return;}
+ if(step===0){
+  step=1;renderStep();setStatus('Коэффициенты верны! Полученная формула: <span class="math">'+formula(task)+'</span>. Теперь вычисли значение.','ok');
+ }else if(step===1){
+  step=2;renderStep();setStatus('Значение функции верное. Теперь найди все аргументы, при которых получится заданное число.','ok');
+ }else{
+  stats[mode]++;saveStats();$('check').disabled=true;$('hintBtn').disabled=true;$('next').disabled=false;
+  for(var i=0;i<3;i++)$('bar'+i).className='done';
+  $('modeCount').textContent='В этом режиме: '+stats[mode];
+  $('totalCount').textContent='Всего решено: '+(stats.vertex+stats.three);
+  setStatus('Верно! Задача решена полностью: формула найдена, значение вычислено, оба аргумента получены. Переходи к следующей.','ok');
+ }
+}
+$('check').addEventListener('click',check);
+$('next').addEventListener('click',function(){switchTask(mode);});
+$('hintBtn').addEventListener('click',function(){
+ var s='';
+ if(step===0)s=mode==='vertex'?'Прочитай вершину (m; n). Считай по сетке расстояние по горизонтали h и по вертикали v. Вычисли |a| как v, делённое на квадрат h; знак определяют ветви.':'Подставь координаты каждой из трёх точек в y = ax² + bx + c. Реши получившуюся систему. Если есть точка при x = 0, начни с неё.';
+ else if(step===1)s='В формуле вместо каждого x поставь число в скобках. Не забудь скобки вокруг отрицательных чисел.';
+ else s='Приравняй найденную формулу к числу из вопроса. Реши квадратное уравнение и проверь оба ответа подстановкой.';
+ $('hintBox').textContent=s;$('hintBox').hidden=!$('hintBox').hidden;
+});
+document.querySelectorAll('.tab').forEach(function(btn){btn.addEventListener('click',function(){switchTask(btn.dataset.mode);});});
+var logo=$('brandLogo');function animateLogo(){if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;if(!logo.classList.contains('turn'))logo.classList.add('turn');}
+$('logoButton').addEventListener('click',animateLogo);logo.addEventListener('animationend',function(){logo.classList.remove('turn');});
+switchTask('vertex');animateLogo();
+})();
+</script>
+</body>
+</html>
