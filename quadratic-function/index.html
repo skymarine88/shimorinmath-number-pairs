@@ -89,6 +89,37 @@ input[type="text"]{font-size:16px}
  .actions .btn{padding:11px 7px;font-size:13px}
  .graph-caption{overflow-wrap:anywhere}
 }
+
+/* Compact first screen and expressive statistics cards */
+.intro{padding:10px 1px 3px}
+.tabs{margin-top:3px}
+.practice-controls{margin-top:11px}
+.top{position:relative}
+.statebar{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
+ margin:13px 0 0;padding:0;border:0;
+}
+.stat-card{
+ min-width:0;display:flex;align-items:center;justify-content:space-between;gap:8px;
+ padding:13px 16px;border-radius:14px;border:1px solid rgba(232,238,252,.14);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 6px 18px rgba(0,0,0,.13);
+}
+.stat-name{font-size:15px;font-weight:800;white-space:nowrap;line-height:1.15}
+.stat-value{font-size:28px;font-weight:850;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.stat-success{background:linear-gradient(130deg,rgba(255,137,99,.25),rgba(255,111,78,.12));border-color:rgba(255,140,103,.5)}
+.stat-success .stat-value{color:#ffb28c}
+.stat-error{background:linear-gradient(130deg,rgba(156,85,79,.3),rgba(89,46,53,.19));border-color:rgba(211,114,112,.45)}
+.stat-error .stat-value{color:#ff9c96}
+.stat-skip{background:linear-gradient(130deg,rgba(91,124,166,.28),rgba(50,64,91,.22));border-color:rgba(117,156,209,.4)}
+.stat-skip .stat-value{color:#a7c8f8}
+@media(max-width:540px){
+ .statebar{gap:6px;margin-top:10px}
+ .stat-card{padding:11px 8px;border-radius:12px;min-height:65px;flex-direction:column;justify-content:center;gap:5px}
+ .stat-name{font-size:12px}
+ .stat-value{font-size:25px}
+ .main{margin-top:12px}
+}
+
 </style>
 </head>
 <body>
@@ -96,11 +127,9 @@ input[type="text"]{font-size:16px}
 <header class="top">
 <button class="logo-button" type="button" id="logoButton" aria-label="Анимировать логотип SHIMORINMATH"><img id="brandLogo" src="../SHIMORINMATH_Logo_White.svg" alt="Ш!" width="40" height="40"></button>
 <div class="brand"><div class="author">Шиморин Б. В.</div><div class="subtitle">методические разработки</div><div class="name">Квадратичная функция <span>· тренажёр</span></div></div>
-<a class="tag page-switch" href="../linear-function/" title="Тренажёр линейной функции">← Линейная функция</a><div class="tag">© 2026 · SHIMORINMATH · до 08.11</div>
+<a class="tag page-switch" href="../linear-function/" title="Тренажёр линейной функции">← Линейная функция</a>
 </header>
 <section class="intro">
-<h1>Восстанови параболу. Пройди три шага.</h1>
-<p>Сначала определяешь формулу по графику. Затем находишь <span class="math">f(t)</span> и все <span class="math">x</span>, для которых <span class="math">f(x)</span> равно заданному числу. Никаких других типов заданий.</p>
 <div class="tabs" role="tablist" aria-label="Способ нахождения функции">
 <button type="button" class="tab active" data-mode="vertex" aria-selected="true">01 · Вершина и точка<small>Находим a, m, n по клеткам</small></button>
 <button type="button" class="tab" data-mode="three" aria-selected="false">02 · Три точки<small>Находим a, b, c через систему</small></button>
@@ -120,6 +149,12 @@ input[type="text"]{font-size:16px}
  <label class="practice-check"><input id="onlyAction" type="checkbox"><span>Только выбранное действие, без поиска коэффициентов (формула будет дана)</span></label>
 </div>
 </section>
+<section class="statebar" role="group" aria-label="Счётчики результатов">
+  <div class="stat-card stat-success"><span class="stat-name">🔥 Верно</span><strong class="stat-value" id="totalCount">0</strong></div>
+  <div class="stat-card stat-error"><span class="stat-name">💩 Ошибки</span><strong class="stat-value" id="mistakesCount">0</strong></div>
+  <div class="stat-card stat-skip"><span class="stat-name">⏭️ Пропуски</span><strong class="stat-value" id="skippedCount">0</strong></div>
+  <span id="modeCount" hidden></span>
+</section>
 <main class="main">
 <section class="card">
 <div class="card-header"><h2 id="graphTitle">Парабола по вершине и точке</h2><p id="graphIntro">Отметки V и P соответствуют узловым точкам сетки.</p></div>
@@ -129,10 +164,10 @@ input[type="text"]{font-size:16px}
  <p>Нажми на три узловые точки. Сайт построит параболу автоматически, если абсциссы различны и точки не лежат на одной прямой.</p>
  <button class="btn" id="clearPoints" type="button">Очистить точки</button>
 </div>
-<div class="statebar"><span class="pill" id="modeCount">В этом режиме: 0</span><span class="pill" id="totalCount">Всего верно: 0</span><span class="pill" id="mistakesCount">Ошибок: 0</span><span class="pill" id="skippedCount">Пропусков: 0</span></div>
+
 </section>
 <section class="card">
-<div class="card-header"><h2>Решение по шагам</h2><p>Следующий шаг откроется только после правильного ответа.</p></div>
+<div class="card-header"><h2>Задание</h2></div>
 <div class="steps">
 <div class="given-formula" id="givenFormula" hidden></div>
 <div class="step-progress" aria-hidden="true"><span id="bar0" class="current"></span><span id="bar1"></span><span id="bar2"></span></div>
@@ -154,7 +189,6 @@ input[type="text"]{font-size:16px}
 </div>
 </section>
 </main>
-<footer class="foot"><span>SHIMORINMATH · алгебра · тренажёр без регистрации</span><span><a href="../linear-function/">Линейная функция</a> · результаты сохраняются только в этом браузере</span></footer>
 </div>
 <script>
 (function(){
@@ -327,7 +361,7 @@ function loadStats(){
 function saveStats(){try{localStorage.setItem("shimorin-quad-v2",JSON.stringify(stats));}catch(e){}}
 function refreshStats(){
  var s=getModeStats(mode);
- $("modeCount").textContent="Верно в режиме: "+s.ok;
+ $("modeCount").textContent="В текущем режиме: "+s.ok;
  var total={ok:0,bad:0,skip:0};
  ["vertex","three","free"].forEach(function(m){var x=getModeStats(m);total.ok+=x.ok;total.bad+=x.bad;total.skip+=x.skip;});
  $("totalCount").textContent="Всего верно: "+total.ok;
