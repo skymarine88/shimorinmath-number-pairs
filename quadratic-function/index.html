@@ -64,6 +64,30 @@ kbd{background:#0d1624;border:1px solid #45566c;border-radius:5px;padding:1px 5p
 @media(max-width:880px){.main{grid-template-columns:1fr}.canvas-wrap canvas{width:min(100%,570px)}}
 @media(max-width:510px){.shell{width:calc(100% - 18px)}.top{padding:13px 1px}.logo-button{width:54px;height:54px;flex-basis:54px}.brand .name{font-size:14px}.brand .author{font-size:14px}.tag{width:100%;justify-content:center}.card-header{padding:14px}.steps{padding:14px}.question{font-size:15px}.field{min-width:88px}.btn{flex:1}.graph-caption{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.logo-button img.turn{animation:none!important}*{scroll-behavior:auto!important}}
+
+/* Shared SHIMORINMATH interface, extended practice controls */
+.practice-controls{display:flex;gap:11px;align-items:center;flex-wrap:wrap;margin-top:14px;padding:14px;border:1px solid var(--border);background:rgba(232,238,252,.035);border-radius:14px}
+.practice-controls>label:first-child{font-size:13px;font-weight:700;color:var(--ink)}
+.practice-controls select{flex:1;min-width:240px;max-width:470px;color:var(--ink);font:inherit;font-size:14px;padding:11px 13px;border:1px solid rgba(93,214,255,.28);border-radius:11px;background:#1b2740}
+.practice-check{display:flex;gap:8px;align-items:center;width:100%;color:var(--muted);font-size:13px;cursor:pointer}
+.practice-check input{width:18px;height:18px;accent-color:#5dd6ff}
+.free-controls{border-top:1px solid var(--border);padding:12px 17px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.free-controls[hidden]{display:none}
+.free-controls p{font-size:12px;color:var(--muted);margin:0;flex:1}
+.given-formula{border:1px solid rgba(93,214,255,.24);background:rgba(93,214,255,.08);border-radius:12px;padding:10px 12px;margin-bottom:13px;font-size:14px}
+.given-formula[hidden]{display:none}
+.actions{gap:8px}.actions .btn{min-height:42px}
+#skipStep{border-color:rgba(255,209,102,.26);background:rgba(255,209,102,.11)}
+#next{border-color:rgba(93,214,255,.26);background:rgba(93,214,255,.10)}
+#graph{cursor:crosshair}#graph:not([data-mode="free"]){cursor:default}
+input[type="text"]{font-size:16px}
+@media(max-width:560px){
+ .practice-controls{padding:11px;align-items:stretch}.practice-controls select{width:100%;min-width:0;max-width:none}
+ .free-controls{flex-direction:column;align-items:stretch}.free-controls .btn{width:100%}
+ .actions{display:grid;grid-template-columns:1fr 1fr}
+ .actions .btn{padding:11px 7px;font-size:13px}
+ .graph-caption{overflow-wrap:anywhere}
+}
 </style>
 </head>
 <body>
@@ -79,6 +103,20 @@ kbd{background:#0d1624;border:1px solid #45566c;border-radius:5px;padding:1px 5p
 <div class="tabs" role="tablist" aria-label="Способ нахождения функции">
 <button type="button" class="tab active" data-mode="vertex" aria-selected="true">01 · Вершина и точка<small>Находим a, m, n по клеткам</small></button>
 <button type="button" class="tab" data-mode="three" aria-selected="false">02 · Три точки<small>Находим a, b, c через систему</small></button>
+<button type="button" class="tab" data-mode="free" aria-selected="false">03 · Свои три точки<small>Нажми на три узла сетки</small></button>
+</div>
+<div class="practice-controls">
+ <label for="actionSelect">Что тренируем?</label>
+ <select id="actionSelect" aria-label="Выбор тренировочного действия">
+  <option value="all">Полная задача: формула, f(t), аргументы, D, вершина</option>
+  <option value="formula">Только восстановление функции</option>
+  <option value="eval">Вычислить f(t)</option>
+  <option value="inverse">Найти x, при которых f(x) = k</option>
+  <option value="disc">Вычислить дискриминант</option>
+  <option value="vx">Найти абсциссу вершины</option>
+  <option value="vy">Найти ординату вершины</option>
+ </select>
+ <label class="practice-check"><input id="onlyAction" type="checkbox"><span>Только выбранное действие, без поиска коэффициентов (формула будет дана)</span></label>
 </div>
 </section>
 <main class="main">
@@ -86,11 +124,16 @@ kbd{background:#0d1624;border:1px solid #45566c;border-radius:5px;padding:1px 5p
 <div class="card-header"><h2 id="graphTitle">Парабола по вершине и точке</h2><p id="graphIntro">Отметки V и P соответствуют узловым точкам сетки.</p></div>
 <div class="canvas-wrap"><canvas id="graph" width="720" height="720" aria-label="Координатная сетка с графиком параболы и отмеченными точками"></canvas></div>
 <div class="graph-caption" id="dotsText" aria-live="polite">Одна клетка = одна единица.</div>
-<div class="statebar"><span class="pill" id="modeCount">В этом режиме: 0</span><span class="pill" id="totalCount">Всего решено: 0</span><span class="pill">Задачи без ограничений</span></div>
+<div class="free-controls" id="freeControls" hidden>
+ <p>Нажми на три узловые точки. Сайт построит параболу автоматически, если абсциссы различны и точки не лежат на одной прямой.</p>
+ <button class="btn" id="clearPoints" type="button">Очистить точки</button>
+</div>
+<div class="statebar"><span class="pill" id="modeCount">В этом режиме: 0</span><span class="pill" id="totalCount">Всего верно: 0</span><span class="pill" id="mistakesCount">Ошибок: 0</span><span class="pill" id="skippedCount">Пропусков: 0</span></div>
 </section>
 <section class="card">
 <div class="card-header"><h2>Решение по шагам</h2><p>Следующий шаг откроется только после правильного ответа.</p></div>
 <div class="steps">
+<div class="given-formula" id="givenFormula" hidden></div>
 <div class="step-progress" aria-hidden="true"><span id="bar0" class="current"></span><span id="bar1"></span><span id="bar2"></span></div>
 <div class="step-label" id="stepLabel">Шаг 1 из 3</div>
 <div class="question" id="question"></div>
@@ -98,7 +141,8 @@ kbd{background:#0d1624;border:1px solid #45566c;border-radius:5px;padding:1px 5p
 <div class="actions">
 <button class="btn primary" id="check" type="button">Проверить</button>
 <button class="btn" id="hintBtn" type="button">Подсказка</button>
-<button class="btn" id="next" type="button" disabled>Следующая задача</button>
+<button class="btn" id="skipStep" type="button">Пропустить шаг</button>
+<button class="btn" id="next" type="button">Новое задание</button>
 </div>
 <div class="status" id="status" role="status" aria-live="polite">Решай самостоятельно, затем проверяй.</div>
 <div class="hint" id="hintBox" hidden></div>
@@ -113,19 +157,27 @@ kbd{background:#0d1624;border:1px solid #45566c;border-radius:5px;padding:1px 5p
 </div>
 <script>
 (function(){
-'use strict';
+"use strict";
 var $=function(id){return document.getElementById(id);};
-var canvas=$('graph'),ctx=canvas.getContext('2d');
-var mode='vertex',step=0,task=null,attempts=0,stats={vertex:0,three:0};
-try{var saved=JSON.parse(localStorage.getItem('shimorin-quad-v1'));if(saved&&Number.isInteger(saved.vertex)&&Number.isInteger(saved.three)){stats=saved;}}catch(e){}
+var canvas=$("graph"),ctx=canvas.getContext("2d");
+var mode="vertex",task=null,manualPoints=[],stepIndex=0,steps=[],hadSkip=false,done=false,stats={};
 function rnd(lo,hi){return Math.floor(Math.random()*(hi-lo+1))+lo;}
 function pick(a){return a[rnd(0,a.length-1)];}
 function formatN(n){return Number.isInteger(n)?String(n):String(n).replace('.',',');}
-function fractionHTML(n){
- if(Number.isInteger(n))return String(n);
- var sign=n<0?'−':'',a=Math.abs(n),den=2,num=Math.round(a*den);
- if(Math.abs(a*den-num)>1e-8)return formatN(n);
- return sign+'<span class="frac"><span class="num">'+num+'</span><span class="den">'+den+'</span></span>';
+function fractionHTML(value){
+ if(!Number.isFinite(value))return "—";
+ if(Math.abs(value-Math.round(value))<1e-9)return String(Math.round(value));
+ var neg=value<0?"−":"",x=Math.abs(value),h0=0,h1=1,k0=1,k1=0,z=x;
+ for(var i=0;i<32;i++){
+  var a=Math.floor(z),h=a*h1+h0,k=a*k1+k0;
+  if(k>10000000||!Number.isSafeInteger(h))break;
+  if(Math.abs(h/k-x)<1e-10){
+   return neg+'<span class="frac"><span class="num">'+h+'</span><span class="den">'+k+'</span></span>';
+  }
+  h0=h1;h1=h;k0=k1;k1=k;
+  var residue=z-a;if(residue<1e-12)break;z=1/residue;
+ }
+ return formatN(value);
 }
 function f(q,x){return q.a*(x-q.m)*(x-q.m)+q.n;}
 function generate(which){
@@ -169,137 +221,316 @@ function generate(which){
  }
  throw Error('Не удалось подобрать задачу');
 }
+
 function drawGraph(q){
  var w=canvas.width,h=canvas.height,sc=40,ox=w/2,oy=h/2;
  ctx.clearRect(0,0,w,h);
- ctx.fillStyle='#111b2a';ctx.fillRect(0,0,w,h);
- ctx.lineWidth=1;ctx.strokeStyle='rgba(232,238,252,.14)';
+ ctx.fillStyle="#111b2a";ctx.fillRect(0,0,w,h);
+ ctx.lineWidth=1;ctx.strokeStyle="rgba(232,238,252,.14)";
  for(var i=-9;i<=9;i++){
   ctx.beginPath();ctx.moveTo(ox+i*sc,0);ctx.lineTo(ox+i*sc,h);ctx.stroke();
   ctx.beginPath();ctx.moveTo(0,oy+i*sc);ctx.lineTo(w,oy+i*sc);ctx.stroke();
  }
- ctx.strokeStyle='rgba(232,238,252,.75)';ctx.lineWidth=2.5;
+ ctx.strokeStyle="rgba(232,238,252,.75)";ctx.lineWidth=2.5;
  ctx.beginPath();ctx.moveTo(0,oy);ctx.lineTo(w,oy);ctx.moveTo(ox,0);ctx.lineTo(ox,h);ctx.stroke();
- ctx.fillStyle='#d4e6f5';ctx.font='16px system-ui';
- ctx.fillText('x',w-24,oy-10);ctx.fillText('y',ox+10,22);ctx.fillText('0',ox+6,oy+20);
- ctx.font='13px system-ui';
- for(var t=-8;t<=8;t++){if(t===0)continue;ctx.fillText(String(t),ox+t*sc-4,oy+17);if(t%2===0)ctx.fillText(String(t),ox+9,oy-t*sc+5);}
- ctx.strokeStyle='#5dd6ff';ctx.lineWidth=4;ctx.lineJoin='round';ctx.beginPath();
- var lastIn=false;
- for(var xi=-900;xi<=900;xi++){
-  var vx=xi/100,vy=f(q,vx),px=ox+vx*sc,py=oy-vy*sc;
-  var inside=px>=0&&px<=w&&py>=0&&py<=h;
-  if(inside){if(!lastIn)ctx.moveTo(px,py);else ctx.lineTo(px,py);}
-  lastIn=inside;
+ ctx.fillStyle="#d4e6f5";ctx.font="16px system-ui";
+ ctx.fillText("x",w-24,oy-10);ctx.fillText("y",ox+10,22);ctx.fillText("0",ox+6,oy+20);
+ ctx.font="13px system-ui";
+ for(var t=-8;t<=8;t++){
+  if(t===0)continue;
+  ctx.fillText(String(t),ox+t*sc-4,oy+17);
+  if(t%2===0)ctx.fillText(String(t),ox+9,oy-t*sc+5);
  }
- ctx.stroke();
- q.points.forEach(function(p){
+ if(q){
+  ctx.strokeStyle="#5dd6ff";ctx.lineWidth=4;ctx.lineJoin="round";ctx.beginPath();
+  var lastIn=false;
+  for(var xi=-900;xi<=900;xi++){
+   var vx=xi/100,vy=f(q,vx),px=ox+vx*sc,py=oy-vy*sc;
+   var inside=px>=0&&px<=w&&py>=0&&py<=h;
+   if(inside){if(!lastIn)ctx.moveTo(px,py);else ctx.lineTo(px,py);}lastIn=inside;
+  }
+  ctx.stroke();
+ }
+ var points=q?q.points:(mode==="free"?manualPoints:[]);
+ points.forEach(function(p){
   var px=ox+p.x*sc,py=oy-p.y*sc;
-  ctx.beginPath();ctx.arc(px,py,6,0,2*Math.PI);ctx.fillStyle='#ffd166';ctx.fill();ctx.strokeStyle='#0d1521';ctx.lineWidth=2;ctx.stroke();
-  ctx.fillStyle='#ffd166';ctx.font='bold 20px system-ui';
+  ctx.beginPath();ctx.arc(px,py,6,0,2*Math.PI);ctx.fillStyle="#ffd166";ctx.fill();
+  ctx.strokeStyle="#0d1521";ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle="#ffd166";ctx.font="bold 20px system-ui";
   ctx.fillText(p.name,px+10,py-10);
  });
 }
-function saveStats(){try{localStorage.setItem('shimorin-quad-v1',JSON.stringify(stats));}catch(e){}}
-function parseNumber(str){
- var s=String(str).trim().replace(/\s/g,'').replace(/−/g,'-').replace(',','.');
+function parabolaFromThree(points){
+ if(points.length!==3)return null;
+ var p=points.slice().sort(function(a,b){return a.x-b.x;});
+ if(p[0].x===p[1].x||p[1].x===p[2].x)return null;
+ var s12=(p[1].y-p[0].y)/(p[1].x-p[0].x);
+ var s23=(p[2].y-p[1].y)/(p[2].x-p[1].x);
+ var a=(s23-s12)/(p[2].x-p[0].x);
+ if(Math.abs(a)<1e-10)return null;
+ var b=s12-a*(p[0].x+p[1].x);
+ var c=p[0].y-a*p[0].x*p[0].x-b*p[0].x;
+ var m=-b/(2*a),n=c-b*b/(4*a);
+ return {mode:"free",a:a,b:b,c:c,m:m,n:n,points:points.slice()};
+}
+function enrichFree(q){
+ var options=[];
+ for(var x=-6;x<=6;x++){if(Math.abs(x-q.m)>1e-9){var y=f(q,x);if(Math.abs(y)<=160)options.push({x:x,y:y});}}
+ if(!options.length)options=[{x:0,y:f(q,0)}];
+ var e=pick(options);q.evalX=e.x;q.evalY=e.y;
+ var inverse=options.filter(function(p){return Math.abs(p.x-q.m)>1e-8;});
+ var r=pick(inverse);q.target=r.y;q.roots=[r.x,2*q.m-r.x];
+ return q;
+}
+function parseNumber(raw){
+ var s=String(raw).trim().replace(/[−–]/g,"-").replace(/[⁄∕]/g,"/").replace(/\s/g,"").replace(/,/g,".");
  if(!s)return NaN;
- if(s.indexOf('/')!==-1){
-  var parts=s.split('/');
-  if(parts.length!==2||!parts[0]||!parts[1])return NaN;
-  var a=Number(parts[0]),b=Number(parts[1]);
-  return Number.isFinite(a)&&Number.isFinite(b)&&b!==0?a/b:NaN;
- }
- var n=Number(s);return Number.isFinite(n)?n:NaN;
+ var re=/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:\/[+-]?(?:\d+(?:\.\d*)?|\.\d+))?$/;
+ if(!re.test(s))return NaN;
+ var a=s.split("/").map(Number),v=a.length===2?a[0]/a[1]:a[0];
+ return Number.isFinite(v)?v:NaN;
 }
-function equal(a,b){return Number.isFinite(a)&&Math.abs(a-b)<0.0000001;}
-function values(){return Array.prototype.map.call($('fields').querySelectorAll('input'),function(el){return parseNumber(el.value);});}
-function field(name,label){
- var wrap=document.createElement('div');wrap.className='field';
- var lab=document.createElement('label');lab.htmlFor='field'+name;lab.textContent=label;
- var inp=document.createElement('input');inp.id='field'+name;inp.type='text';inp.inputMode='text';inp.autocomplete='off';inp.autocapitalize='off';inp.spellcheck=false;inp.placeholder='число';
- wrap.appendChild(lab);wrap.appendChild(inp);$('fields').appendChild(wrap);
- inp.addEventListener('keydown',function(e){if(e.key==='Enter')$('check').click();});
+function close(a,b){return Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(a-b)<=1e-7*Math.max(1,Math.abs(b));}
+function quadraticFormula(q){
+ var a=q.a,b=q.b,c=q.c;
+ var first=(close(a,1)?"":close(a,-1)?"−":fractionHTML(a))+"x²";
+ var termB=close(b,0)?"":(b>0?" + ":" − ")+(close(Math.abs(b),1)?"":fractionHTML(Math.abs(b)))+"x";
+ var termC=close(c,0)?"":(c>0?" + ":" − ")+fractionHTML(Math.abs(c));
+ return "f(x) = "+first+termB+termC;
 }
-function formula(q){
- if(q.mode==='vertex'){
-  var mid=q.m>=0?'− '+q.m:'+ '+(-q.m);
-  var tail=q.n>=0?' + '+q.n:' − '+(-q.n);
-  return 'f(x) = '+fractionHTML(q.a)+'(x '+mid+')²'+tail;
+function vertexFormula(q){
+ var head=close(q.a,1)?"":close(q.a,-1)?"−":fractionHTML(q.a);
+ var within=close(q.m,0)?"x":q.m>0?"x − "+fractionHTML(q.m):"x + "+fractionHTML(-q.m);
+ var shift=close(q.n,0)?"":q.n>0?" + "+fractionHTML(q.n):" − "+fractionHTML(-q.n);
+ return "f(x) = "+head+"("+within+")²"+shift;
+}
+function displayFormula(q){return q.mode==="vertex"?vertexFormula(q):quadraticFormula(q);}
+
+function getModeStats(which){
+ var out=stats[which];if(!out){stats[which]={ok:0,bad:0,skip:0};out=stats[which];}
+ return out;
+}
+function loadStats(){
+ var old={};try{old=JSON.parse(localStorage.getItem("shimorin-quad-v2"))||{};}catch(e){}
+ ["vertex","three","free"].forEach(function(k){
+  var s=old[k]||{};
+  stats[k]={ok:Number.isInteger(s.ok)?Math.max(0,s.ok):0,bad:Number.isInteger(s.bad)?Math.max(0,s.bad):0,skip:Number.isInteger(s.skip)?Math.max(0,s.skip):0};
+ });
+ if(!Object.keys(old).length){
+  try{
+   var prev=JSON.parse(localStorage.getItem("shimorin-quad-v1"))||{};
+   ["vertex","three"].forEach(function(k){if(Number.isInteger(prev[k]))stats[k].ok=prev[k];});
+  }catch(e){}
  }
- var first=(q.a===1?'':q.a===-1?'−':fractionHTML(q.a))+'x²';
- var second=q.b===0?'':(q.b>0?' + ':' − ')+(Math.abs(q.b)===1?'':Math.abs(q.b))+'x';
- var third=q.c===0?'':(q.c>0?' + ':' − ')+Math.abs(q.c);
- return 'f(x) = '+first+second+third;
+}
+function saveStats(){try{localStorage.setItem("shimorin-quad-v2",JSON.stringify(stats));}catch(e){}}
+function refreshStats(){
+ var s=getModeStats(mode);
+ $("modeCount").textContent="Верно в режиме: "+s.ok;
+ var total={ok:0,bad:0,skip:0};
+ ["vertex","three","free"].forEach(function(m){var x=getModeStats(m);total.ok+=x.ok;total.bad+=x.bad;total.skip+=x.skip;});
+ $("totalCount").textContent="Всего верно: "+total.ok;
+ $("mistakesCount").textContent="Ошибок: "+total.bad;
+ $("skippedCount").textContent="Пропусков: "+total.skip;
+}
+function getSelectedSteps(){
+ var action=$("actionSelect").value,only=$("onlyAction").checked;
+ if(action==="formula")return ["coeff"];
+ if(action==="all")return only?["eval","inverse","disc","vx","vy"]:["coeff","eval","inverse","disc","vx","vy"];
+ return only?[action]:["coeff",action];
+}
+function updateOptions(){
+ var modeIsFree=mode==="free";
+ document.querySelectorAll(".tab").forEach(function(el){var active=el.dataset.mode===mode;el.classList.toggle("active",active);el.setAttribute("aria-selected",String(active));});
+ $("freeControls").hidden=!modeIsFree;
+ $("graph").dataset.mode=mode;
+ $("graphTitle").textContent=mode==="vertex"?"Вершина + узловая точка":mode==="three"?"Три узловые точки":"Свободное построение";
+ $("graphIntro").textContent=mode==="vertex"?"V — вершина, P — дополнительная точка. Читай подъём и отступ.":mode==="three"?"A, B, C — целочисленные точки. Вершина дробная.":"Выбери три точки нажатием на узлы сетки. Для параболы нужны три разные абсциссы.";
+ var isFormula=$("actionSelect").value==="formula";
+ $("onlyAction").disabled=isFormula;
+ $("onlyAction").parentElement.style.opacity=isFormula?".48":"1";
 }
 function renderReference(){
- if(mode==='vertex'){
-  $('methodText').innerHTML='<p>Вершина <span class="math">V(m; n)</span> задаёт <span class="math">m</span> и <span class="math">n</span>. До точки <span class="math">P</span> отступи от вершины на <span class="math">h</span> клеток вбок и на <span class="math">v</span> клеток вверх или вниз.</p><div class="math-block"><span class="math">|a| = <span class="frac"><span class="num">v</span><span class="den">h²</span></span>; &nbsp; f(x) = a(x − m)² + n</span></div><p>Ветви вверх: <span class="math">a &gt; 0</span>; вниз: <span class="math">a &lt; 0</span>. Никаких систем для первого способа.</p>';
+ var ref=mode==="vertex"?
+ '<p>По вершине <span class="math">V(m; n)</span> сразу найди <span class="math">m</span> и <span class="math">n</span>. Отступ от вершины по горизонтали <span class="math">h</span>, подъём или спуск <span class="math">v</span>.</p><div class="math-block"><span class="math">|a| = <span class="frac"><span class="num">v</span><span class="den">h²</span></span>, &nbsp; f(x) = a(x − m)² + n</span></div><p>Знак <span class="math">a</span> определяй по направлению ветвей.</p>':
+ '<p>Три различные абсциссы дают три уравнения относительно <span class="math">a, b, c</span>. При <span class="math">x = 0</span> сразу видно <span class="math">c</span>.</p><div class="math-block"><span class="math">f(x) = ax² + bx + c</span></div><p>Дискриминант: <span class="math">D = b² − 4ac</span>. Вершина: <span class="math">x<sub>v</sub> = −b/(2a)</span>, затем <span class="math">y<sub>v</sub> = f(x<sub>v</sub>)</span>.</p>';
+ if(mode==="free")ref+='<p>При трёх выбранных точках кривая строится сразу. Если точки лежат на одной прямой, параболы с <span class="math">a ≠ 0</span> нет.</p>';
+ $("methodText").innerHTML=ref;
+}
+function setStatus(message,kind){$("status").className="status"+(kind?" "+kind:"");$("status").innerHTML=message;}
+function setControlsAwaiting(){
+ $("stepLabel").textContent="Выбери три точки на графике";
+ $("question").textContent="Нажимай на узлы координатной сетки. После третьей подходящей точки появится парабола и задание.";
+ $("fields").innerHTML="";
+ $("givenFormula").hidden=true;
+ $("check").disabled=true;$("hintBtn").disabled=true;$("skipStep").disabled=true;
+ for(var i=0;i<3;i++)$("bar"+i).className="";
+ setStatus("Выбрано точек: "+manualPoints.length+" из 3.", "");
+}
+function getInputs(){return Array.prototype.map.call($("fields").querySelectorAll("input"),function(inp){return parseNumber(inp.value);});}
+function addField(id,text){
+ var w=document.createElement("div");w.className="field";
+ var label=document.createElement("label");label.textContent=text;label.htmlFor=id;
+ var input=document.createElement("input");input.id=id;input.type="text";input.inputMode="text";input.autocomplete="off";input.autocapitalize="off";input.spellcheck=false;input.placeholder="число или дробь";input.enterKeyHint="done";
+ input.addEventListener("keydown",function(ev){if(ev.key==="Enter"){ev.preventDefault();checkCurrent();}});
+ w.appendChild(label);w.appendChild(input);$("fields").appendChild(w);
+}
+function renderStep(message,kind){
+ if(!task){setControlsAwaiting();return;}
+ steps=getSelectedSteps();
+ if(stepIndex>=steps.length)stepIndex=0;
+ var name=steps[stepIndex],total=steps.length;
+ $("stepLabel").textContent="Шаг "+(stepIndex+1)+" из "+total;
+ for(var i=0;i<3;i++)$("bar"+i).className=(i/3<(stepIndex/total))?"done":(i/3<(stepIndex+1)/total)?"current":"";
+ $("fields").innerHTML="";$("check").disabled=false;$("hintBtn").disabled=false;$("skipStep").disabled=false;
+ $("hintBox").hidden=true;
+ var show=$("onlyAction").checked&&!($("actionSelect").value==="formula");
+ $("givenFormula").hidden=!show;
+ if(show)$("givenFormula").innerHTML="Дана функция: <span class='math'>"+displayFormula(task)+"</span>";
+ if(name==="coeff"){
+  $("question").innerHTML=mode==="vertex"?"По вершине и второй точке восстанови <span class='math'>f(x)=a(x−m)²+n</span>.":"По трём точкам восстанови <span class='math'>f(x)=ax²+bx+c</span>.";
+  var fields=mode==="vertex"?[["a","Коэффициент a"],["m","Абсцисса m"],["n","Ордината n"]]:[["a","Коэффициент a"],["b","Коэффициент b"],["c","Коэффициент c"]];
+  fields.forEach(function(pair){addField(pair[0],pair[1]);});
+ }else if(name==="eval"){
+  $("question").innerHTML="Найди <span class='math'>f("+task.evalX+")</span>.";
+  addField("answer","Значение функции");
+ }else if(name==="inverse"){
+  $("question").innerHTML="Найди <strong>все</strong> аргументы <span class='math'>x</span>, при которых <span class='math'>f(x) = "+fractionHTML(task.target)+"</span>. В этой задаче два различных корня.";
+  addField("x1","Первый корень");addField("x2","Второй корень");
+ }else if(name==="disc"){
+  $("question").innerHTML="Найди дискриминант квадратного трёхчлена <span class='math'>D = b² − 4ac</span>.";
+  addField("D","Дискриминант D");
+ }else if(name==="vx"){
+  $("question").innerHTML="Укажи <strong>точную абсциссу вершины</strong> параболы.";
+  addField("m","Абсцисса вершины");
+ }else if(name==="vy"){
+  $("question").innerHTML="Укажи <strong>точную ординату вершины</strong> параболы.";
+  addField("n","Ордината вершины");
+ }
+ setStatus(message||"Вводи числа или дроби, например −3/2 или −1,5.",kind||"");
+}
+function correctForCurrent(){
+ var n=steps[stepIndex],v=getInputs();
+ if(v.some(function(x){return !Number.isFinite(x);}))return null;
+ if(n==="coeff"){
+  if(mode==="vertex")return close(v[0],task.a)&&close(v[1],task.m)&&close(v[2],task.n);
+  return close(v[0],task.a)&&close(v[1],task.b)&&close(v[2],task.c);
+ }
+ if(n==="eval")return close(v[0],task.evalY);
+ if(n==="inverse")return (close(v[0],task.roots[0])&&close(v[1],task.roots[1]))||(close(v[0],task.roots[1])&&close(v[1],task.roots[0]));
+ if(n==="disc")return close(v[0],task.b*task.b-4*task.a*task.c);
+ if(n==="vx")return close(v[0],task.m);
+ if(n==="vy")return close(v[0],task.n);
+ return false;
+}
+function markCompleted(){
+ done=true;$("check").disabled=true;$("hintBtn").disabled=true;$("skipStep").disabled=true;
+ for(var i=0;i<3;i++)$("bar"+i).className="done";
+ var current=getModeStats(mode);
+ if(!hadSkip){current.ok++;}else{current.skip++;}
+ saveStats();refreshStats();
+ setStatus(hadSkip?"Задание закончено, но были пропущенные шаги. Оно не засчитано как полностью решённое. Нажми «Новое задание».":"Правильно! Задание решено полностью. Нажми «Новое задание» для продолжения.","ok");
+}
+function advance(message,kind){
+ if(stepIndex+1===steps.length){markCompleted();return;}
+ stepIndex++;renderStep(message,kind);
+}
+function checkCurrent(){
+ if(!task||done)return;
+ var isRight=correctForCurrent();
+ if(isRight===null){setStatus("Заполни все поля. Разрешены обычные дроби вида 3/2, десятичные 1,5 и отрицательные числа.","bad");return;}
+ if(!isRight){
+  getModeStats(mode).bad++;saveStats();refreshStats();
+  setStatus("Пока неверно. Проверь знаки, координаты, дроби и последовательность преобразований.","bad");return;
+ }
+ var original=steps[stepIndex],message=original==="coeff"?"Коэффициенты верны! Функция: <span class='math'>"+displayFormula(task)+"</span>.": "Верно! Переходим к следующему действию.";
+ advance(message,"ok");
+}
+function skipCurrent(){
+ if(!task||done)return;
+ hadSkip=true;
+ var item=steps[stepIndex],answer="";
+ if(item==="coeff")answer="Функция: "+displayFormula(task);
+ else if(item==="eval")answer="Ответ: "+fractionHTML(task.evalY);
+ else if(item==="inverse")answer="Корни: "+fractionHTML(task.roots[0])+" и "+fractionHTML(task.roots[1]);
+ else if(item==="disc")answer="D = "+fractionHTML(task.b*task.b-4*task.a*task.c);
+ else if(item==="vx")answer="Абсцисса вершины: "+fractionHTML(task.m);
+ else if(item==="vy")answer="Ордината вершины: "+fractionHTML(task.n);
+ advance("Шаг пропущен. "+answer,"");
+}
+function resetTask(modeChanged){
+ done=false;hadSkip=false;stepIndex=0;
+ if(mode==="free"){
+  if(modeChanged)manualPoints=[];
+  task=null;drawGraph(null);
+  $("dotsText").textContent=manualPoints.length?manualPoints.map(function(p){return p.name+"("+p.x+"; "+p.y+")";}).join(" · "):"Коснись узла сетки для первой точки.";
  }else{
-  $('methodText').innerHTML='<p>Каждая отмеченная точка <span class="math">(x; y)</span> означает <span class="math">y = ax² + bx + c</span>. Подставь координаты точек <span class="math">A, B, C</span> и реши систему для трёх коэффициентов.</p><div class="math-block"><span class="math">f(x) = ax² + bx + c</span></div><p>Если одна точка имеет <span class="math">x = 0</span>, она сразу даёт <span class="math">c = y</span>. Остальные две помогают найти <span class="math">a</span> и <span class="math">b</span>.</p>';
+  task=generate(mode);drawGraph(task);
+  $("dotsText").textContent=task.points.map(function(p){return p.name+"("+formatN(p.x)+"; "+formatN(p.y)+")";}).join(" · ")+"  |  клетка = 1";
+ }
+ updateOptions();renderReference();refreshStats();renderStep();
+}
+function startNew(){
+ if(task&&!done){var s=getModeStats(mode);s.skip++;saveStats();}
+ manualPoints=[];resetTask(true);
+}
+function handleCanvasPoint(ev){
+ if(mode!=="free"||manualPoints.length===3)return;
+ if(ev.type==="pointerdown"&&ev.button!=null&&ev.button!==0)return;
+ var rect=canvas.getBoundingClientRect(),px=(ev.clientX-rect.left)*canvas.width/rect.width,py=(ev.clientY-rect.top)*canvas.height/rect.height;
+ var x=Math.round((px-canvas.width/2)/40),y=Math.round((canvas.height/2-py)/40);
+ if(Math.abs(x)>7||Math.abs(y)>7){setStatus("Выбери точку в пределах от −7 до 7 по обеим осям.","bad");return;}
+ if(manualPoints.some(function(p){return p.x===x})){
+  setStatus("Абсциссы трёх точек должны различаться. Выбери другой x.","bad");return;
+ }
+ var test=manualPoints.concat([{name:"ABC"[manualPoints.length],x:x,y:y}]);
+ if(test.length===3){
+  var q=parabolaFromThree(test);
+  if(!q){setStatus("Три точки оказались на одной прямой. Выбери другое положение третьей точки.","bad");return;}
+  manualPoints=test;task=enrichFree(q);
+  drawGraph(task);$("dotsText").textContent=manualPoints.map(function(p){return p.name+"("+p.x+"; "+p.y+")";}).join(" · ");
+  done=false;hadSkip=false;stepIndex=0;renderStep("Парабола построена. Теперь определяй функцию и выполняй выбранное действие.","ok");
+ }else{
+  manualPoints=test;drawGraph(null);
+  $("dotsText").textContent=manualPoints.map(function(p){return p.name+"("+p.x+"; "+p.y+")";}).join(" · ");
+  setStatus("Точек: "+manualPoints.length+" из 3. Выбери следующую.", "");
  }
 }
-function setStatus(message,type){$('status').className='status'+(type?' '+type:'');$('status').innerHTML=message;}
-function renderStep(){
- $('hintBox').hidden=true;$('hintBtn').disabled=false;
- $('stepLabel').textContent='Шаг '+(step+1)+' из 3';
- for(var i=0;i<3;i++)$('bar'+i).className=i<step?'done':i===step?'current':'';
- $('fields').innerHTML='';$('check').disabled=false;$('next').disabled=true;
- if(step===0){
-  $('question').innerHTML=mode==='vertex'?'По графику определите <span class="math">a, m, n</span> в записи <span class="math">f(x) = a(x − m)² + n</span>.':'По трём точкам определите <span class="math">a, b, c</span> в записи <span class="math">f(x) = ax² + bx + c</span>.';
-  (mode==='vertex'?[['a','Коэффициент a'],['m','Число m'],['n','Число n']]:[['a','Коэффициент a'],['b','Коэффициент b'],['c','Коэффициент c']]).forEach(function(pair){field(pair[0],pair[1]);});
- }else if(step===1){
-  $('question').innerHTML='Найдите значение <span class="math">f('+task.evalX+')</span> для полученной функции.';
-  field('y','Значение функции');
- }else{
-  $('question').innerHTML='При каких <span class="math">x</span> значение <span class="math">f(x)</span> равно <span class="math">'+fractionHTML(task.target)+'</span>? Найдите оба решения.';
-  field('x1','Первое значение x');field('x2','Второе значение x');
- }
- setStatus('Выполни этот шаг самостоятельно и нажми «Проверить».','');
- setTimeout(function(){var inp=$('fields').querySelector('input');if(inp&&window.innerWidth>780)inp.focus();},0);
+function hint(){
+ if(!task||done)return;
+ var item=steps[stepIndex],message="";
+ if(item==="coeff")message=mode==="vertex"?"Прочти вершину (m; n). До другой точки отступ h по горизонтали, подъём v по вертикали. |a| = v/h², знак определяется ветвями.":"Подставь координаты каждой из трёх точек в y = ax² + bx + c и реши систему.";
+ else if(item==="eval")message="Подставь число в скобках вместо каждого x. Для отрицательного аргумента используйте скобки.";
+ else if(item==="inverse")message="Приравняй формулу функции заданному значению, перенеси всё в одну часть и реши получившееся квадратное уравнение.";
+ else if(item==="disc")message="Если функция записана в вершинной форме, сначала раскрой скобки. Затем найди b² − 4ac.";
+ else if(item==="vx")message="Используй формулу −b/(2a) или прочти абсциссу вершины из вершинной формы.";
+ else if(item==="vy")message="Подставь абсциссу вершины в формулу f(x) либо прочти n из вершинной формы.";
+ $("hintBox").textContent=message;$("hintBox").hidden=!$("hintBox").hidden;
 }
-function switchTask(which){
- mode=which||mode;step=0;attempts=0;task=generate(mode);
- document.querySelectorAll('.tab').forEach(function(el){var active=el.dataset.mode===mode;el.classList.toggle('active',active);el.setAttribute('aria-selected',String(active));});
- $('graphTitle').textContent=mode==='vertex'?'Вершина + одна узловая точка':'Три точки на параболе';
- $('graphIntro').textContent=mode==='vertex'?'V — вершина, P — вторая точка. Найди a по подъёму и отступу.':'A, B, C — три узловые точки. Вершина между узлами сетки: используй систему.';
- $('dotsText').textContent=task.points.map(function(p){return p.name+'('+p.x+'; '+formatN(p.y)+')';}).join('   ·   ')+'   |   клетка = 1';
- $('modeCount').textContent='В этом режиме: '+stats[mode];
- $('totalCount').textContent='Всего решено: '+(stats.vertex+stats.three);
- drawGraph(task);renderReference();renderStep();
+$("check").addEventListener("click",checkCurrent);
+$("hintBtn").addEventListener("click",hint);
+$("skipStep").addEventListener("click",skipCurrent);
+$("next").addEventListener("click",startNew);
+$("clearPoints").addEventListener("click",function(){manualPoints=[];resetTask(true);});
+canvas.addEventListener("pointerdown",handleCanvasPoint);
+document.querySelectorAll(".tab").forEach(function(btn){btn.addEventListener("click",function(){
+ var nextMode=btn.dataset.mode;if(mode===nextMode)return;
+ mode=nextMode;manualPoints=[];resetTask(true);
+});});
+function reselect(){
+ if(mode==="free"){
+  done=false;hadSkip=false;stepIndex=0;
+  updateOptions();renderReference();renderStep();
+ }else{resetTask(false);}
 }
-function check(){
- var v=values(),valid;
- if(v.some(function(x){return !Number.isFinite(x);}))return setStatus('Заполни все поля числами. Дробь можно ввести как 0,5 или 1/2.','bad');
- if(step===0)valid=mode==='vertex'?equal(v[0],task.a)&&equal(v[1],task.m)&&equal(v[2],task.n):equal(v[0],task.a)&&equal(v[1],task.b)&&equal(v[2],task.c);
- else if(step===1)valid=equal(v[0],task.evalY);
- else valid=(equal(v[0],task.roots[0])&&equal(v[1],task.roots[1]))||(equal(v[1],task.roots[0])&&equal(v[0],task.roots[1]));
- if(!valid){attempts++;setStatus(step===0?'Пока неверно. Проверь координаты, знак коэффициента и вычисления.':step===1?'Проверь подстановку аргумента и знаки.':'Проверь оба корня, каждый должен давать указанное значение функции.','bad');return;}
- if(step===0){
-  step=1;renderStep();setStatus('Коэффициенты верны! Полученная формула: <span class="math">'+formula(task)+'</span>. Теперь вычисли значение.','ok');
- }else if(step===1){
-  step=2;renderStep();setStatus('Значение функции верное. Теперь найди все аргументы, при которых получится заданное число.','ok');
- }else{
-  stats[mode]++;saveStats();$('check').disabled=true;$('hintBtn').disabled=true;$('next').disabled=false;
-  for(var i=0;i<3;i++)$('bar'+i).className='done';
-  $('modeCount').textContent='В этом режиме: '+stats[mode];
-  $('totalCount').textContent='Всего решено: '+(stats.vertex+stats.three);
-  setStatus('Верно! Задача решена полностью: формула найдена, значение вычислено, оба аргумента получены. Переходи к следующей.','ok');
- }
-}
-$('check').addEventListener('click',check);
-$('next').addEventListener('click',function(){switchTask(mode);});
-$('hintBtn').addEventListener('click',function(){
- var s='';
- if(step===0)s=mode==='vertex'?'Прочитай вершину (m; n). Считай по сетке расстояние по горизонтали h и по вертикали v. Вычисли |a| как v, делённое на квадрат h; знак определяют ветви.':'Подставь координаты каждой из трёх точек в y = ax² + bx + c. Реши получившуюся систему. Если есть точка при x = 0, начни с неё.';
- else if(step===1)s='В формуле вместо каждого x поставь число в скобках. Не забудь скобки вокруг отрицательных чисел.';
- else s='Приравняй найденную формулу к числу из вопроса. Реши квадратное уравнение и проверь оба ответа подстановкой.';
- $('hintBox').textContent=s;$('hintBox').hidden=!$('hintBox').hidden;
-});
-document.querySelectorAll('.tab').forEach(function(btn){btn.addEventListener('click',function(){switchTask(btn.dataset.mode);});});
-var logo=$('brandLogo');function animateLogo(){if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;if(!logo.classList.contains('turn'))logo.classList.add('turn');}
-$('logoButton').addEventListener('click',animateLogo);logo.addEventListener('animationend',function(){logo.classList.remove('turn');});
-switchTask('vertex');animateLogo();
+$("actionSelect").addEventListener("change",reselect);
+$("onlyAction").addEventListener("change",reselect);
+var logo=$("brandLogo");
+function animateLogo(){if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;if(!logo.classList.contains("turn"))logo.classList.add("turn");}
+$("logoButton").addEventListener("click",animateLogo);
+logo.addEventListener("animationend",function(){logo.classList.remove("turn");});
+loadStats();resetTask(true);animateLogo();
+
 })();
 </script>
 </body>
