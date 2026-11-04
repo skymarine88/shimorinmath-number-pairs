@@ -66,6 +66,7 @@ kbd{background:#0d1624;border:1px solid #45566c;border-radius:5px;padding:1px 5p
 @media(prefers-reduced-motion:reduce){.logo-button img.turn{animation:none!important}*{scroll-behavior:auto!important}}
 
 /* Shared SHIMORINMATH interface, extended practice controls */
+.page-switch{text-decoration:none;font-weight:750;border-color:rgba(93,214,255,.38)}.page-switch:hover{background:rgba(93,214,255,.24)}
 .practice-controls{display:flex;gap:11px;align-items:center;flex-wrap:wrap;margin-top:14px;padding:14px;border:1px solid var(--border);background:rgba(232,238,252,.035);border-radius:14px}
 .practice-controls>label:first-child{font-size:13px;font-weight:700;color:var(--ink)}
 .practice-controls select{flex:1;min-width:240px;max-width:470px;color:var(--ink);font:inherit;font-size:14px;padding:11px 13px;border:1px solid rgba(93,214,255,.28);border-radius:11px;background:#1b2740}
@@ -95,7 +96,7 @@ input[type="text"]{font-size:16px}
 <header class="top">
 <button class="logo-button" type="button" id="logoButton" aria-label="Анимировать логотип SHIMORINMATH"><img id="brandLogo" src="../SHIMORINMATH_Logo_White.svg" alt="Ш!" width="40" height="40"></button>
 <div class="brand"><div class="author">Шиморин Б. В.</div><div class="subtitle">методические разработки</div><div class="name">Квадратичная функция <span>· тренажёр</span></div></div>
-<div class="tag">© 2026 · SHIMORINMATH · до 08.11</div>
+<a class="tag page-switch" href="../linear-function/" title="Тренажёр линейной функции">← Линейная функция</a><div class="tag">© 2026 · SHIMORINMATH · до 08.11</div>
 </header>
 <section class="intro">
 <h1>Восстанови параболу. Пройди три шага.</h1>
