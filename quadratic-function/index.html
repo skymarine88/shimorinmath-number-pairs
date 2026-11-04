@@ -127,18 +127,14 @@ function generate(which){
   if(which==='three'){q.a=pick([-2,-1,1,2]);q.n=rnd(-3,3);}
   q.b=-2*q.a*q.m;q.c=q.a*q.m*q.m+q.n;
   var possible=[];
-  for(var x=-5;x<=5;x++){var y=f(q,x);if(Number.isInteger(y)&&y>=-7&&y<=7)possible.push({x:x,y:y});}
+  for(var x=-(which==='three'?3:5);x<=(which==='three'?3:5);x++){var y=f(q,x);if(Number.isInteger(y)&&y>=-7&&y<=7)possible.push({x:x,y:y});}
   if(which==='vertex'){
    var options=possible.filter(function(p){return p.x!==q.m && Math.abs(p.x-q.m)>=1 && Math.abs(p.y-q.n)>=1 && Math.abs(p.x-q.m)<=3;});
    if(options.length<1)continue;
    q.points=[{name:'V',x:q.m,y:q.n},Object.assign({name:'P'},pick(options))];
   }else{
-   if(possible.length<3)continue;
-   var candidates=possible.slice(),selected=[];
-   if(Math.random()<0.80&&possible.some(function(p){return p.x===0;})){
-    selected.push(possible.find(function(p){return p.x===0;}));
-    candidates=candidates.filter(function(p){return p.x!==0;});
-   }
+   if(possible.length<3 || !possible.some(function(p){return p.x===0;}))continue;
+   var candidates=possible.filter(function(p){return p.x!==0;}),selected=[possible.find(function(p){return p.x===0;})];
    while(selected.length<3&&candidates.length){
     var nidx=rnd(0,candidates.length-1);selected.push(candidates.splice(nidx,1)[0]);
    }
