@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b0f17"><link rel="icon" type="image/svg+xml" href="../SHIMORINMATH_Favicon.svg"><title>Спасибо, месье Виет! · SHIMORINMATH</title>
+<style>
+:root{--bg:#0b0f17;--panel:#141e2d;--ink:#e8eefc;--muted:#a4b6cf;--line:#37465c;--coral:#f49078;--blue:#5dd6ff;--green:#3ddc97;--red:#ff6c87}
+*{box-sizing:border-box}[hidden]{display:none!important}html{color-scheme:dark}
+body{margin:0;background:radial-gradient(1050px 730px at 15% 0%,#1c283b,var(--bg) 60%) fixed;color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}
+a{color:var(--blue)}.wrap{max-width:1110px;width:calc(100% - 24px);margin:auto}
+header{padding:13px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.logo{width:55px;height:55px;flex:0 0 55px;border-radius:14px;background:#08111f;border:1px solid #43546b;padding:8px}.logo img{width:100%;height:100%}
+.signature{flex:1;min-width:160px}.signature b{display:block}.signature small{display:block;color:var(--muted);font-size:11px}
+.nav{display:flex;gap:7px;flex-wrap:wrap}.nav a{text-decoration:none;font-size:12px;color:var(--ink);border:1px solid #426076;background:#1a2b3e;border-radius:22px;padding:7px 10px}
+.hero{padding:14px 0 6px}.hero h1{margin:0;font-size:clamp(24px,3.4vw,36px);letter-spacing:-.035em}.hero h1 em{color:var(--coral);font-style:normal}.hero p{margin:3px 0;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:11px 0 14px}
+.stat{text-align:center;border:1px solid var(--line);border-radius:13px;background:#1b2939;padding:11px 7px}.stat span{font-size:11px;color:#ced9e6}.stat strong{display:block;font-size:26px;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:5px}
+.stat:nth-child(1){background:rgba(244,144,120,.15);border-color:#985b4c}.stat:nth-child(1) strong{color:#ffb39e}
+.stat:nth-child(2){background:rgba(255,108,135,.12);border-color:#895367}.stat:nth-child(2) strong{color:#ffa0b3}
+.stat:nth-child(3){background:rgba(255,209,102,.10);border-color:#81704d}.stat:nth-child(3) strong{color:#ffe1a0}
+.stat:nth-child(4){background:rgba(93,214,255,.08);border-color:#426b82}.stat:nth-child(4) strong{font-size:21px;color:#b0edff}
+.cols{display:grid;grid-template-columns:1fr 1.07fr;gap:14px;align-items:start;margin-bottom:25px}
+.card{background:linear-gradient(180deg,#161f2d,#111927);border:1px solid #354358;border-radius:16px;overflow:hidden}
+.card-head{padding:13px 16px;border-bottom:1px solid #354358;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.card-head h2{font-size:17px;margin:0}.body{padding:15px 16px}
+.headline{font-size:13px;font-weight:760;margin:14px 0 7px}.headline:first-child{margin-top:0}.choices{display:flex;gap:7px;flex-wrap:wrap}
+.choice{background:#1e2d43;border:1px solid #425168;border-radius:11px;color:var(--ink);padding:9px 12px;font-size:13px;font-weight:760}
+.choice small{display:block;color:var(--muted);font-size:11px;font-weight:450}.choice.active{background:rgba(244,144,120,.18);border-color:var(--coral)}
+.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{border:1px solid #45607b;border-radius:11px;background:#24354c;color:var(--ink);padding:10px 13px;font-weight:760;min-height:42px}
+.btn.primary{color:#14191d;background:linear-gradient(110deg,#f7ac93,#ee8068);border-color:#f8ab93}
+.btn.secondary{background:rgba(232,238,252,.075)}.btn.warn{border-color:#7a6651;background:rgba(255,209,102,.11)}
+.small{font-size:12px;color:var(--muted);margin:9px 0}
+.progress-info{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);margin:10px 0 7px}
+.progress{height:9px;background:#2a3649;border-radius:10px;overflow:hidden}.progress div{height:100%;width:0;background:linear-gradient(90deg,#f28d75,#ffd3a6)}
+.problem{border:1px solid #3e5b72;border-radius:13px;text-align:center;padding:21px 8px;margin-bottom:14px;background:radial-gradient(circle at 50% 10%,rgba(93,214,255,.08),transparent 70%)}
+.equation{font-family:"Cambria Math",Georgia,serif;font-size:clamp(25px,4vw,40px);font-weight:760}.sub{color:var(--muted);font-size:12px;margin-top:5px}
+.fields{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}.field{display:flex;flex-direction:column;gap:5px;min-width:130px;flex:1}
+label{color:#c5d3e6;font-size:12px}input[type=text],select{width:100%;min-height:44px;background:#0d1825;color:var(--ink);border:1px solid #5b7088;border-radius:10px;padding:10px;font-size:16px}
+input:focus,select:focus{outline:2px solid rgba(93,214,255,.38);outline-offset:1px}
+.message{margin-top:12px;border:1px solid #41546b;background:#142235;padding:10px 11px;border-radius:11px;font-size:13px;min-height:40px}
+.message.good{border-color:#417e62;background:#173127;color:#c0f2d5}.message.bad{border-color:#995365;background:#351f2d;color:#ffd0d9}.message.warn{border-color:#8a7551;background:#332b1d;color:#ffe2aa}
+.theory-card{padding:13px;border:1px solid #3a4c60;border-radius:11px;background:#1b2a3a;margin-top:11px}.theory-card b{color:#ffbaaa}.theory-card p{font-size:13px;color:#d4dfed;line-height:1.6;margin:5px 0}
+.frac{display:inline-flex;vertical-align:middle;flex-direction:column;align-items:center;font-size:.85em;line-height:1}.frac i:first-child{font-style:normal;padding:0 3px 3px;border-bottom:1px solid currentColor}.frac i:last-child{font-style:normal;padding:3px 3px 0}
+.modal{position:fixed;inset:0;z-index:20;padding:15px;background:rgba(1,5,12,.84);display:grid;place-items:center}
+.dialog{position:relative;width:min(670px,100%);max-height:86dvh;overflow:auto;border:1px solid #4c6076;background:#111d2a;border-radius:17px}
+.dialog-top{display:flex;align-items:center;justify-content:space-between;gap:7px;padding:13px 16px;border-bottom:1px solid #33465c}.dialog-top h2{margin:0;font-size:18px}.dialog-body{padding:16px}
+.checkrow{display:flex;gap:8px;align-items:center;margin:15px 0}.checkrow input{width:19px;height:19px;accent-color:var(--coral)}
+.grade{text-align:center;color:var(--coral);font-size:84px;font-weight:900;line-height:1}
+.award{text-align:center;color:#ffd78e;font-weight:800}.end-summary{text-align:center;color:var(--muted)}
+.confetti{position:absolute;top:-17px;width:8px;height:17px;animation:fall 2.8s ease-in forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(680px) rotate(640deg);opacity:0}}
+footer{padding:0 0 25px;color:#8b9db5;font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:790px){.cols{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{width:calc(100% - 16px)}header{padding:10px 0}.logo{width:49px;height:49px;flex-basis:49px}.nav{width:100%}.nav a{flex:1;text-align:center}.hero{padding-top:10px}.hero h1{font-size:27px}.stats{gap:6px}.stat{padding:9px 3px}.stat span{font-size:10px}.stat strong{font-size:23px}.stat:nth-child(4) strong{font-size:18px}.body{padding:13px}.card-head{padding:12px 13px}.choice{padding:8px 9px}.buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.btn{padding:9px 6px;font-size:13px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body><div class="wrap">
+<header><div class="logo"><img src="../SHIMORINMATH_Logo_White.svg" alt="Ш!"></div>
+<div class="signature"><b>Шиморин Б. В.</b><small>методические разработки · SHIMORINMATH</small></div>
+<nav class="nav"><a href="../quadratic-function/">Квадратичная функция</a><a href="../linear-function/">Линейная функция</a></nav></header>
+<div class="hero"><h1>Спасибо, <em>месье Виет!</em></h1><p>Квадратные уравнения · тренажёр</p></div>
+<section class="stats"><div class="stat"><span>🔥 Верно</span><strong id="statOk">0</strong></div><div class="stat"><span>💩 Ошибки</span><strong id="statBad">0</strong></div>
+<div class="stat"><span>⚡ Серия</span><strong id="statStreak">0</strong></div><div class="stat" id="timeCard"><span>⏱ Время</span><strong id="statTime">00:00</strong></div></section>
+<main class="cols">
+<section class="card"><div class="card-head"><h2>Тренировка</h2><div class="buttons" style="margin:0"><button id="btnTheory" class="btn secondary">Теория</button><button id="btnSettings" class="btn secondary">Настройки</button></div></div><div class="body">
+<div id="setup">
+<div class="headline">Тип уравнений</div><div class="choices">
+<button data-mode="mix" class="choice active">Микс<small>Неполные чаще</small></button><button data-mode="factor" class="choice">Без c<small>ax²+bx=0</small></button>
+<button data-mode="square" class="choice">Без b<small>ax²+c=0</small></button><button data-mode="full" class="choice">Полные<small>ax²+bx+c=0</small></button></div>
+<div class="headline">Сложность</div><div class="choices"><button data-level="1" class="choice active">I · База<small>Простые числа</small></button><button data-level="2" class="choice">II · Сложнее<small>Дробные корни</small></button></div>
+<div class="headline">Число заданий</div><div class="choices"><button data-count="10" class="choice active">10</button><button data-count="20" class="choice">20</button><button data-count="30" class="choice">30</button><button data-count="50" class="choice">50</button></div>
+<p class="small">Ошибочные уравнения вернутся в конце. Серия завершится только после правильного решения всех заданий.</p>
+<div class="buttons"><button id="btnStart" class="btn primary">Начать</button><button id="btnResume" class="btn secondary" hidden>Продолжить</button></div>
+</div>
+<div id="running" hidden><div class="headline" id="modeTitle">Микс · I</div><div class="progress-info"><span id="progressLabel">0 из 10</span><span id="repeatLabel"></span></div><div class="progress"><div id="progressFill"></div></div>
+<div class="buttons"><button id="btnPause" class="btn secondary">Сохранить и выйти</button><button id="btnResetSeries" class="btn secondary">Выбрать другой режим</button></div>
+<div class="theory-card"><b>Удобный способ</b><p>Без c: вынести x. Без b: выразить x². Дискриминант разрешён в обоих случаях.</p></div></div>
+</div></section>
+<section class="card"><div class="card-head"><h2>Задание</h2></div><div class="body">
+<div id="idle" class="message">Выбери режим и начни серию.</div>
+<div id="game" hidden>
+<div class="problem"><div id="equation" class="equation"></div><div id="typeNote" class="sub"></div></div>
+<div class="field"><label for="method">Как решаешь?</label><select id="method"><option value="disc">Дискриминант</option><option value="factor">Вынести x</option><option value="square">Извлечь корень</option><option value="vieta">Виет / подбор</option></select></div>
+<div class="fields"><div class="field"><label for="rootCount">Сколько действительных корней?</label><select id="rootCount"><option value="2">Два</option><option value="1">Один</option><option value="0">Нет корней</option></select></div></div>
+<div id="rootFields" class="fields"><div class="field" id="x1Col"><label for="x1">Первый корень</label><input id="x1" inputmode="text" type="text" autocomplete="off" spellcheck="false" placeholder="-3/2"></div>
+<div class="field" id="x2Col"><label for="x2">Второй корень</label><input id="x2" inputmode="text" type="text" autocomplete="off" spellcheck="false" placeholder="2"></div></div>
+<p class="small">Обычная клавиатура телефона, дроби через /: -5/2, 1,5.</p>
+<div class="buttons"><button id="btnCheck" class="btn primary">Проверить</button><button id="btnSolution" class="btn secondary">Разбор</button><button id="btnSkip" class="btn warn">Пропустить</button><button id="btnNext" class="btn secondary" hidden>Следующее</button></div>
+<div id="feedback" class="message" role="status" aria-live="polite">Решай самостоятельно.</div><div id="solution" class="theory-card" hidden></div>
+</div></div></section>
+</main><footer><span>SHIMORINMATH · Шиморин Б. В.</span><span>Сайт в браузере · прогресс сохраняется на устройстве</span></footer></div>
+<div class="modal" id="theoryModal" hidden><div class="dialog"><div class="dialog-top"><h2>Теория</h2><button class="btn secondary" data-close="theoryModal">Закрыть</button></div><div class="dialog-body">
+<div class="theory-card"><b>ax² + bx = 0</b><p>Вынести x: x(ax+b)=0. Тогда x=0 либо ax+b=0. На x делить нельзя: потеряешь нулевой корень.</p></div>
+<div class="theory-card"><b>ax² + c = 0</b><p>x²=−c/a. Если правая часть положительна, два противоположных корня. Если отрицательна, действительных корней нет.</p></div>
+<div class="theory-card"><b>ax² + bx + c = 0</b><p>D=b²−4ac. Если D&lt;0 корней нет, D=0 один, D&gt;0 два. Корни x₁,₂=(−b±√D)/(2a).</p></div>
+<p class="small">Дискриминант можно использовать и для неполных квадратных уравнений.</p>
+</div></div></div>
+<div class="modal" id="settingsModal" hidden><div class="dialog"><div class="dialog-top"><h2>Настройки</h2><button class="btn secondary" data-close="settingsModal">Закрыть</button></div><div class="dialog-body">
+<label><input type="checkbox" id="autoExplain"> Показывать разбор после ошибки</label>
+<p><label><input type="checkbox" id="showTimer" checked> Показывать таймер</label></p>
+<button class="btn secondary" id="resetStats">Сбросить статистику</button>
+</div></div></div>
+<div class="modal" id="endModal" hidden><div class="dialog" id="endDialog"><div class="dialog-top"><h2>Серия завершена 🏆</h2><button class="btn secondary" data-close="endModal">Закрыть</button></div><div class="dialog-body">
+<div class="grade" id="grade">5</div><p id="award" class="award"></p><p id="endSummary" class="end-summary"></p>
+<div class="buttons"><button id="btnAgain" class="btn primary">Ещё серию</button><button id="btnMenu" class="btn secondary">Выбрать режим</button></div>
+</div></div></div>
+<script>/*__SHIMORIN_APP_CODE__*/</script>
+</body></html>
