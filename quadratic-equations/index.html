@@ -55,15 +55,19 @@ footer{padding:0 0 25px;color:#8b9db5;font-size:11px;display:flex;justify-conten
 <header><div class="logo"><img src="../SHIMORINMATH_Logo_White.svg" alt="Ш!"></div>
 <div class="signature"><b>Шиморин Б. В.</b><small>методические разработки · SHIMORINMATH</small></div>
 <nav class="nav"><a href="../quadratic-function/">Квадратичная функция</a><a href="../linear-function/">Линейная функция</a></nav></header>
-<div class="hero"><h1>Спасибо, <em>месье Виет!</em></h1><p>Квадратные уравнения · тренажёр</p></div>
+<div class="hero"><h1>Спасибо, <em>месье Виет!</em></h1><p>Виет и переброска · тренажёр</p></div>
 <section class="stats"><div class="stat"><span>🔥 Верно</span><strong id="statOk">0</strong></div><div class="stat"><span>💩 Ошибки</span><strong id="statBad">0</strong></div>
 <div class="stat"><span>⚡ Серия</span><strong id="statStreak">0</strong></div><div class="stat" id="timeCard"><span>⏱ Время</span><strong id="statTime">00:00</strong></div></section>
 <main class="cols">
 <section class="card"><div class="card-head"><h2>Тренировка</h2><div class="buttons" style="margin:0"><button id="btnTheory" class="btn secondary">Теория</button><button id="btnSettings" class="btn secondary">Настройки</button></div></div><div class="body">
 <div id="setup">
-<div class="headline">Тип уравнений</div><div class="choices">
-<button data-mode="mix" class="choice active">Микс<small>Неполные чаще</small></button><button data-mode="factor" class="choice">Без c<small>ax²+bx=0</small></button>
-<button data-mode="square" class="choice">Без b<small>ax²+c=0</small></button><button data-mode="full" class="choice">Полные<small>ax²+bx+c=0</small></button></div>
+
+<div class="headline">Способ решения</div>
+<div class="choices">
+<button data-mode="vieta" class="choice">Теорема Виета<small>x² + px + q = 0</small></button>
+<button data-mode="transfer" class="choice">Переброска<small>ax² + bx + c = 0</small></button>
+<button data-mode="mix" class="choice active">Микс<small>Оба способа</small></button>
+</div>
 <div class="headline">Сложность</div><div class="choices"><button data-level="1" class="choice active">I · База<small>Простые числа</small></button><button data-level="2" class="choice">II · Сложнее<small>Дробные корни</small></button></div>
 <div class="headline">Число заданий</div><div class="choices"><button data-count="10" class="choice active">10</button><button data-count="20" class="choice">20</button><button data-count="30" class="choice">30</button><button data-count="50" class="choice">50</button></div>
 <p class="small">Ошибочные уравнения вернутся в конце. Серия завершится только после правильного решения всех заданий.</p>
@@ -71,27 +75,35 @@ footer{padding:0 0 25px;color:#8b9db5;font-size:11px;display:flex;justify-conten
 </div>
 <div id="running" hidden><div class="headline" id="modeTitle">Микс · I</div><div class="progress-info"><span id="progressLabel">0 из 10</span><span id="repeatLabel"></span></div><div class="progress"><div id="progressFill"></div></div>
 <div class="buttons"><button id="btnPause" class="btn secondary">Сохранить и выйти</button><button id="btnResetSeries" class="btn secondary">Выбрать другой режим</button></div>
-<div class="theory-card"><b>Удобный способ</b><p>Без c: вынести x. Без b: выразить x². Дискриминант разрешён в обоих случаях.</p></div></div>
+<div class="theory-card"><b>Два приёма</b><p><b>Виет:</b> сумма корней равна −p, произведение равно q. <b>Переброска:</b> подбери t₁, t₂ с суммой −b и произведением a·c, затем раздели оба на a.</p></div></div>
 </div></section>
 <section class="card"><div class="card-head"><h2>Задание</h2></div><div class="body">
 <div id="idle" class="message">Выбери режим и начни серию.</div>
 <div id="game" hidden>
 <div class="problem"><div id="equation" class="equation"></div><div id="typeNote" class="sub"></div></div>
-<div class="field"><label for="method">Как решаешь?</label><select id="method"><option value="disc">Дискриминант</option><option value="factor">Вынести x</option><option value="square">Извлечь корень</option><option value="vieta">Виет / подбор</option></select></div>
-<div class="fields"><div class="field"><label for="rootCount">Сколько действительных корней?</label><select id="rootCount"><option value="2">Два</option><option value="1">Один</option><option value="0">Нет корней</option></select></div></div>
-<div id="rootFields" class="fields"><div class="field" id="x1Col"><label for="x1">Первый корень</label><input id="x1" inputmode="text" type="text" autocomplete="off" spellcheck="false" placeholder="-3/2"></div>
-<div class="field" id="x2Col"><label for="x2">Второй корень</label><input id="x2" inputmode="text" type="text" autocomplete="off" spellcheck="false" placeholder="2"></div></div>
-<p class="small">Обычная клавиатура телефона, дроби через /: -5/2, 1,5.</p>
+
+<div id="methodHint" class="theory-card" style="margin-top:0"></div>
+<div id="transferSteps" hidden>
+<div class="field" style="margin-top:12px"><label for="ac">Шаг 1. Вычисли a·c</label><input id="ac" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="Например, 6"></div>
+<div class="sub" style="margin-top:10px">Шаг 2. Подбери корни t₁, t₂ вспомогательного уравнения t² + bt + ac = 0</div>
+<div class="fields"><div class="field"><label for="t1">t₁</label><input id="t1" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="-1"></div>
+<div class="field"><label for="t2">t₂</label><input id="t2" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="-6"></div></div>
+<div class="sub" style="margin-top:10px">Шаг 3. Раздели найденные числа на a, получи исходные корни</div>
+</div>
+<div class="fields"><div class="field"><label for="x1">x₁</label><input id="x1" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="-1/2"></div>
+<div class="field"><label for="x2">x₂</label><input id="x2" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="-3"></div></div>
+<p class="small">Ответы можно вводить дробями: -5/2. На телефоне открывается обычная клавиатура.</p>
+
 <div class="buttons"><button id="btnCheck" class="btn primary">Проверить</button><button id="btnSolution" class="btn secondary">Разбор</button><button id="btnSkip" class="btn warn">Пропустить</button><button id="btnNext" class="btn secondary" hidden>Следующее</button></div>
 <div id="feedback" class="message" role="status" aria-live="polite">Решай самостоятельно.</div><div id="solution" class="theory-card" hidden></div>
 </div></div></section>
 </main><footer><span>SHIMORINMATH · Шиморин Б. В.</span><span>Сайт в браузере · прогресс сохраняется на устройстве</span></footer></div>
-<div class="modal" id="theoryModal" hidden><div class="dialog"><div class="dialog-top"><h2>Теория</h2><button class="btn secondary" data-close="theoryModal">Закрыть</button></div><div class="dialog-body">
-<div class="theory-card"><b>ax² + bx = 0</b><p>Вынести x: x(ax+b)=0. Тогда x=0 либо ax+b=0. На x делить нельзя: потеряешь нулевой корень.</p></div>
-<div class="theory-card"><b>ax² + c = 0</b><p>x²=−c/a. Если правая часть положительна, два противоположных корня. Если отрицательна, действительных корней нет.</p></div>
-<div class="theory-card"><b>ax² + bx + c = 0</b><p>D=b²−4ac. Если D&lt;0 корней нет, D=0 один, D&gt;0 два. Корни x₁,₂=(−b±√D)/(2a).</p></div>
-<p class="small">Дискриминант можно использовать и для неполных квадратных уравнений.</p>
+
+<div class="modal" id="theoryModal" hidden><div class="dialog"><div class="dialog-top"><h2>Два способа</h2><button class="btn secondary" data-close="theoryModal">Закрыть</button></div><div class="dialog-body">
+<div class="theory-card"><b>1. Теорема Виета</b><p>Для x² + px + q = 0 ищем два числа, сумма которых −p, а произведение q.</p><p>Например, x² − 5x + 6 = 0: сумма 5, произведение 6. Корни: 2 и 3.</p></div>
+<div class="theory-card"><b>2. Метод переброски</b><p>Для ax² + bx + c = 0 сначала ищем корни вспомогательного уравнения t² + bt + ac = 0.</p><p>Например, 2x² + 7x + 3 = 0. Получаем t² + 7t + 6 = 0. По Виету t₁ = −1, t₂ = −6. Затем x₁ = −1/2, x₂ = −3.</p><p>Важно: коэффициент a «перебрасывается» к c, а найденные вспомогательные корни обязательно делятся на a.</p></div>
 </div></div></div>
+
 <div class="modal" id="settingsModal" hidden><div class="dialog"><div class="dialog-top"><h2>Настройки</h2><button class="btn secondary" data-close="settingsModal">Закрыть</button></div><div class="dialog-body">
 <label><input type="checkbox" id="autoExplain"> Показывать разбор после ошибки</label>
 <p><label><input type="checkbox" id="showTimer" checked> Показывать таймер</label></p>
@@ -107,54 +119,36 @@ footer{padding:0 0 25px;color:#8b9db5;font-size:11px;display:flex;justify-conten
 var $=id=>document.getElementById(id),pick=a=>a[Math.floor(Math.random()*a.length)],rand=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 var abs=Math.abs,config={mode:"mix",level:1,count:10},stat={ok:0,bad:0,streak:0,skip:0,best:0};
 var prefs={autoExplain:false,showTimer:true},session=null,interval=null;
-var S="shimorin-viete-web-session-v1",T="shimorin-viete-web-stats-v1",P="shimorin-viete-web-prefs-v1";
+var S="shimorin-viete-web-session-v2",T="shimorin-viete-web-stats-v2",P="shimorin-viete-web-prefs-v2";
 function load(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}
 function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 function gcd(a,b){a=abs(a);b=abs(b);while(b){var r=a%b;a=b;b=r;}return a||1;}
 function uniq(a){return a.filter((v,i)=>!a.some((x,j)=>j<i&&abs(x-v)<1e-8));}
-function factor(level){
- var a=rand(1,level===1?5:9)*pick([-1,1]);
- var b=level===1||Math.random()<.65?a*pick([-4,-3,-2,-1,1,2,3,4]):rand(1,14)*pick([-1,1]);
- return {kind:"factor",a:a,b:b,c:0,roots:[0,-b/a]};
-}
-function square(level){
- var real=Math.random()<.82,a,c;
- if(real){
-  var den=level===1?1:pick([1,1,2,3]),num=rand(1,5),scale=rand(1,3),sign=pick([-1,1]);
-  a=den*den*scale*sign;c=-num*num*scale*sign;
-  if(abs(a)>45||abs(c)>95)return square(level);
- }else{
-  a=rand(1,level===1?5:8)*pick([-1,1]);
-  c=rand(1,level===1?16:30)*(a>0?1:-1);
+
+function vieta(level){
+ for(var attempt=0;attempt<180;attempt++){
+  var lim=level===1?6:11,r1=rand(-lim,lim),r2=Math.random()<.1?r1:rand(-lim,lim);
+  if(!r1||!r2||r1+r2===0)continue;
+  var b=-(r1+r2),c=r1*r2;
+  if(abs(b)>(level===1?12:20)||abs(c)>(level===1?36:95))continue;
+  return {kind:"vieta",a:1,b:b,c:c,roots:[r1,r2]};
  }
- return {kind:"square",a:a,b:0,c:c,roots:real?[-Math.sqrt(-c/a),Math.sqrt(-c/a)]:[]};
+ return {kind:"vieta",a:1,b:-5,c:6,roots:[2,3]};
 }
-function full(level){
- if(Math.random()<.13){
-  var a=rand(1,4),b=rand(1,5)*pick([-1,1]),c=rand(6,25);
-  if(b*b>=4*a*c)return full(level);
-  if(Math.random()<.5){a=-a;b=-b;c=-c;}
-  return {kind:"full",a:a,b:b,c:c,roots:[]};
+function transfer(level){
+ for(var attempt=0;attempt<500;attempt++){
+  var a=rand(2,level===1?5:9),lim=level===1?7:13;
+  var t1=rand(-lim,lim),t2=Math.random()<.08?t1:rand(-lim,lim);
+  if(!t1||!t2||t1+t2===0||(t1*t2)%a!==0)continue;
+  var b=-(t1+t2),c=t1*t2/a;
+  if(gcd(gcd(a,b),c)!==1||abs(b)>(level===1?15:27)||abs(c)>(level===1?35:95))continue;
+  if(level===2&&Math.random()<.75&&t1%a===0&&t2%a===0)continue;
+  return {kind:"transfer",a:a,b:b,c:c,tRoots:[t1,t2],roots:[t1/a,t2/a]};
  }
- for(var attempt=0;attempt<120;attempt++){
-  var q1=level===1?1:pick([1,1,2,3]),q2=level===1?1:pick([1,1,2,3]);
-  var p1=rand(1,6)*pick([-1,1]),p2=Math.random()<.15?p1*q2/q1:rand(1,6)*pick([-1,1]);
-  if(!Number.isInteger(p2)||p2===0)continue;
-  var scale=rand(1,level===1?2:3),a=scale*q1*q2,b=-scale*(p1*q2+p2*q1),c=scale*p1*p2;
-  var div=gcd(gcd(a,b),c);a/=div;b/=div;c/=div;
-  if(a===0||b===0||c===0||abs(a)>38||abs(b)>38||abs(c)>100)continue;
-  if(Math.random()<.5){a=-a;b=-b;c=-c;}
-  var D=b*b-4*a*c;if(D<0)continue;
-  var roots=uniq([(-b-Math.sqrt(D))/(2*a),(-b+Math.sqrt(D))/(2*a)]);
-  if(roots.some(r=>abs(r)>8))continue;
-  return {kind:"full",a:a,b:b,c:c,roots:roots};
- }
- return {kind:"full",a:1,b:-5,c:6,roots:[2,3]};
+ return {kind:"transfer",a:2,b:7,c:3,tRoots:[-1,-6],roots:[-.5,-3]};
 }
-function generate(mode,level){
- var type=mode==="mix"?pick(["factor","factor","factor","square","square","square","full","full"]):mode;
- return type==="factor"?factor(level):type==="square"?square(level):full(level);
-}
+function generate(mode,level){var kind=mode==="mix"?pick(["vieta","transfer"]):mode;return kind==="transfer"?transfer(level):vieta(level);}
+
 function term(k,v,first){
  if(k===0)return "";
  var sign=k<0?"−":"+",a=abs(k),piece=(a===1&&v?"":String(a))+v;
@@ -175,15 +169,23 @@ function frac(n){
  }
  return String(n).replace(".",",");
 }
+
 function solution(q){
- var d=q.b*q.b-4*q.a*q.c,x=q.roots.slice().sort((a,b)=>a-b);
- var h="<p><b>"+equation(q)+"</b></p>";
- if(q.kind==="factor")h+="<p>Вынесем x: x("+term(q.a,"x",true)+term(q.b,"",false)+") = 0. Поэтому x=0 либо ax+b=0.</p>";
- if(q.kind==="square")h+="<p>x² = "+frac(-q.c/q.a)+". "+(x.length?"Возьми квадратный корень с обоими знаками.":"Правая часть отрицательная: действительных корней нет.")+"</p>";
- h+="<p>D = ("+q.b+")² − 4·("+q.a+")·("+q.c+") = <b>"+frac(d)+"</b></p>";
- h+=x.length?"<p><b>Корни: "+x.map(frac).join(" и ")+"</b></p>":"<p><b>Действительных корней нет.</b></p>";
- return h;
+ var r=q.roots.slice().sort((a,b)=>a-b);
+ var s="<p><b>"+equation(q)+"</b></p>";
+ if(q.kind==="vieta"){
+  s+="<p>По Виету: x₁ + x₂ = "+frac(-q.b)+", x₁·x₂ = "+frac(q.c)+".</p>";
+ }else{
+  s+="<p>Перебрасываем a к c: a·c = "+q.a+"·("+q.c+") = "+frac(q.a*q.c)+".</p>";
+  s+="<p>Вспомогательное уравнение: <b>"+equation({a:1,b:q.b,c:q.a*q.c})+"</b>.</p>";
+  s+="<p>По Виету: t₁ + t₂ = "+frac(-q.b)+", t₁·t₂ = "+frac(q.a*q.c)+".</p>";
+  s+="<p>Вспомогательные корни: <b>"+q.tRoots.slice().sort((a,b)=>a-b).map(frac).join(" и ")+"</b>.</p>";
+  s+="<p>Делим каждый t на a = "+q.a+": получаем исходные корни.</p>";
+ }
+ s+="<p><b>Ответ: "+r.map(frac).join(" и ")+"</b>.</p>";
+ return s;
 }
+
 function refresh(){
  $("statOk").textContent=stat.ok;$("statBad").textContent=stat.bad;$("statStreak").textContent=stat.streak;
  $("timeCard").hidden=!prefs.showTimer;
@@ -210,63 +212,71 @@ function createSession(){
 }
 function current(){return session&&session.current!==null?session.tasks[session.current]:null;}
 function feedback(kind,msg){$("feedback").className="message"+(kind?" "+kind:"");$("feedback").innerHTML=msg;}
-function rootsChanged(){
- var n=Number($("rootCount").value);$("rootFields").hidden=n===0;$("x1Col").hidden=n===0;$("x2Col").hidden=n!==2;
-}
+
 function renderCurrent(){
- var q=current();
- if(!q)return;
+ var q=current();if(!q)return;
+ var transferMode=q.kind==="transfer";
  $("equation").textContent=equation(q);
- $("typeNote").textContent=q.kind==="factor"?"Неполное: нет c":q.kind==="square"?"Неполное: нет b":"Полное квадратное уравнение";
- $("method").value="disc";$("rootCount").value="2";$("x1").value="";$("x2").value="";rootsChanged();
+ $("typeNote").textContent=transferMode?"Метод переброски":"Подбор корней по теореме Виета";
+ $("transferSteps").hidden=!transferMode;
+ $("methodHint").innerHTML=transferMode?
+  "<b>Переброска:</b> сначала a·c, затем корни t₁, t₂ по Виету, потом x₁ = t₁/a и x₂ = t₂/a.":
+  "<b>Виет:</b> найди два числа с суммой "+(-q.b)+" и произведением "+q.c+".";
+ ["ac","t1","t2","x1","x2"].forEach(id=>$(id).value="");
  $("solution").hidden=true;$("solution").innerHTML="";
  $("btnNext").hidden=true;$("btnCheck").disabled=false;$("btnSkip").disabled=false;$("btnSolution").disabled=false;
  if(session.awaitingNext){$("btnCheck").disabled=true;$("btnSkip").disabled=true;$("btnSolution").disabled=true;$("btnNext").hidden=false;feedback("good","Ответ уже проверен. Переходи к следующему заданию.");}
- else feedback("",q.review?"Повторение ошибки. Реши самостоятельно.":"Выбери количество действительных корней и введи ответы.");
+ else feedback("",q.review?"Повторение: реши самостоятельно.":"Введи корни. В режиме переброски заполни также промежуточные шаги.");
 }
+
 function nextTask(){
  if(!session||session.finished)return;
  var id=session.pending.length?session.pending.shift():session.retry.shift();
  if(id===undefined){finish();return;}
  session.current=id;session.dirty=false;session.awaitingNext=false;renderCurrent();save();
 }
+
 function showRunning(){
  $("setup").hidden=true;$("running").hidden=false;$("idle").hidden=true;$("game").hidden=false;
- var labels={mix:"Микс",factor:"Без c",square:"Без b",full:"Полные"};
+ var labels={mix:"Микс",vieta:"Теорема Виета",transfer:"Переброска"};
  $("modeTitle").textContent=labels[session.mode]+" · уровень "+(session.level===1?"I":"II");
  if(interval!==null)clearInterval(interval);interval=setInterval(refresh,1000);refresh();
 }
-function correct(){
- var q=current();if(!q)return false;
- var want=q.roots.slice().sort((a,b)=>a-b),cnt=Number($("rootCount").value);
- if(want.length!==cnt)return false;
- if(cnt===0)return true;
- var a=parseNumber($("x1").value),b=cnt===2?parseNumber($("x2").value):NaN;
- if(!Number.isFinite(a))return false;
- if(cnt===1)return abs(a-want[0])<1e-7;
- return Number.isFinite(b)&&((abs(a-want[0])<1e-7&&abs(b-want[1])<1e-7)||(abs(a-want[1])<1e-7&&abs(b-want[0])<1e-7));
+
+
+function matches(a,b){return a.length===b.length&&a.every(Number.isFinite)&&
+ ((abs(a[0]-b[0])<1e-8&&abs(a[1]-b[1])<1e-8)||(abs(a[0]-b[1])<1e-8&&abs(a[1]-b[0])<1e-8));}
+function validate(){
+ var q=current();if(!q)return "Нет задания";
+ if(q.kind==="transfer"){
+  var ac=parseNumber($("ac").value);
+  if(!Number.isFinite(ac)||abs(ac-q.a*q.c)>1e-8)return "Сначала проверь произведение a·c.";
+  if(!matches([parseNumber($("t1").value),parseNumber($("t2").value)],q.tRoots))return "Неверно подобраны t₁, t₂. Их сумма должна быть −b, а произведение a·c.";
+ }
+ if(!matches([parseNumber($("x1").value),parseNumber($("x2").value)],q.roots))
+  return q.kind==="transfer"?"Проверь деление вспомогательных корней на a.":"Проверь сумму, произведение и знаки корней.";
+ return "";
 }
 function check(){
- var q=current();if(!q||session.finished)return;
- if(!correct()){
+ var q=current();if(!q||session.finished||session.awaitingNext)return;
+ var problem=validate();
+ if(problem){
   session.dirty=true;q.flagged=true;stat.bad++;stat.streak=0;
-  feedback("bad","Неверно. Проверь число корней, знаки и вычисления. Можно исправить ответ.");
+  feedback("bad",problem+" Можно исправить ответ.");
   if(prefs.autoExplain){$("solution").hidden=false;$("solution").innerHTML=solution(q);}
   save();return;
  }
  if(!q.review&&!session.dirty)session.first++;
- if(session.dirty||!q.review&&q.flagged){
-  q.review=true;session.retry.push(q.id);
- }else{q.solved=true;session.mastered++;stat.ok++;}
+ if(session.dirty||!q.review&&q.flagged){q.review=true;session.retry.push(q.id);}
+ else{q.solved=true;session.mastered++;stat.ok++;}
  stat.streak++;stat.best=Math.max(stat.best,stat.streak);
- var message=q.solved?"Верно! Задание засчитано.":"Верно. Уравнение ещё появится на повторении.";
- if(q.kind==="factor"&&$("method").value==="disc")message+=" Дискриминант подходит, но вынести x короче.";
- if(q.kind==="square"&&$("method").value==="disc")message+=" Дискриминант подходит, но можно сразу выразить x².";
+ var message=q.solved?"Верно! Задание засчитано.":"Верно. Это уравнение ещё появится на повторении.";
  if([5,10,20].includes(stat.streak))message+=" 🔥 "+stat.streak+" подряд!";
  feedback("good",message);
  session.awaitingNext=true;
  $("btnCheck").disabled=true;$("btnSkip").disabled=true;$("btnSolution").disabled=true;$("btnNext").hidden=false;save();
 }
+
 function skip(reveal){
  var q=current();if(!q||session.finished)return;
  q.review=true;q.flagged=true;session.dirty=true;session.retry.push(q.id);
@@ -312,7 +322,7 @@ document.querySelectorAll("[data-mode],[data-level],[data-count]").forEach(btn=>
  config[key]=key==="mode"?v:Number(v);updateChoices();
 }));
 $("btnStart").addEventListener("click",createSession);$("btnResume").addEventListener("click",resume);
-$("rootCount").addEventListener("change",rootsChanged);$("btnCheck").addEventListener("click",check);
+$("btnCheck").addEventListener("click",check);
 $("btnSolution").addEventListener("click",()=>skip(true));$("btnSkip").addEventListener("click",()=>skip(false));
 $("btnNext").addEventListener("click",nextTask);$("btnPause").addEventListener("click",pause);$("btnResetSeries").addEventListener("click",pause);
 $("btnTheory").addEventListener("click",()=>open("theoryModal"));$("btnSettings").addEventListener("click",()=>open("settingsModal"));
