@@ -101,5 +101,235 @@ footer{padding:0 0 25px;color:#8b9db5;font-size:11px;display:flex;justify-conten
 <div class="grade" id="grade">5</div><p id="award" class="award"></p><p id="endSummary" class="end-summary"></p>
 <div class="buttons"><button id="btnAgain" class="btn primary">Ещё серию</button><button id="btnMenu" class="btn secondary">Выбрать режим</button></div>
 </div></div></div>
-<script>/*__SHIMORIN_APP_CODE__*/</script>
+<script>
+(function(){
+"use strict";
+var $=id=>document.getElementById(id),pick=a=>a[Math.floor(Math.random()*a.length)],rand=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+var abs=Math.abs,config={mode:"mix",level:1,count:10},stat={ok:0,bad:0,streak:0,skip:0,best:0};
+var prefs={autoExplain:false,showTimer:true},session=null,intervalId=null;
+var S="shimorin-viete-web-session-v1",T="shimorin-viete-web-stats-v1",P="shimorin-viete-web-prefs-v1";
+function load(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function gcd(a,b){a=abs(a);b=abs(b);while(b){var r=a%b;a=b;b=r;}return a||1;}
+function uniq(a){return a.filter((v,i)=>!a.some((x,j)=>j<i&&abs(x-v)<1e-8));}
+function factor(level){
+ var a=rand(1,level===1?5:9)*pick([-1,1]);
+ var b=level===1||Math.random()<.65?a*pick([-4,-3,-2,-1,1,2,3,4]):rand(1,14)*pick([-1,1]);
+ return {kind:"factor",a:a,b:b,c:0,roots:[0,-b/a]};
+}
+function square(level){
+ var real=Math.random()<.82,a,c;
+ if(real){
+  var den=level===1?1:pick([1,1,2,3]),num=rand(1,5),scale=rand(1,3),sign=pick([-1,1]);
+  a=den*den*scale*sign;c=-num*num*scale*sign;
+  if(abs(a)>45||abs(c)>95)return square(level);
+ }else{
+  a=rand(1,level===1?5:8)*pick([-1,1]);
+  c=rand(1,level===1?16:30)*(a>0?1:-1);
+ }
+ return {kind:"square",a:a,b:0,c:c,roots:real?[-Math.sqrt(-c/a),Math.sqrt(-c/a)]:[]};
+}
+function full(level){
+ if(Math.random()<.13){
+  var a=rand(1,4),b=rand(1,5)*pick([-1,1]),c=rand(6,25);
+  if(b*b>=4*a*c)return full(level);
+  if(Math.random()<.5){a=-a;b=-b;c=-c;}
+  return {kind:"full",a:a,b:b,c:c,roots:[]};
+ }
+ for(var attempt=0;attempt<120;attempt++){
+  var q1=level===1?1:pick([1,1,2,3]),q2=level===1?1:pick([1,1,2,3]);
+  var p1=rand(1,6)*pick([-1,1]),p2=Math.random()<.15?p1*q2/q1:rand(1,6)*pick([-1,1]);
+  if(!Number.isInteger(p2)||p2===0)continue;
+  var scale=rand(1,level===1?2:3),a=scale*q1*q2,b=-scale*(p1*q2+p2*q1),c=scale*p1*p2;
+  var div=gcd(gcd(a,b),c);a/=div;b/=div;c/=div;
+  if(a===0||b===0||c===0||abs(a)>38||abs(b)>38||abs(c)>100)continue;
+  if(Math.random()<.5){a=-a;b=-b;c=-c;}
+  var D=b*b-4*a*c;if(D<0)continue;
+  var roots=uniq([(-b-Math.sqrt(D))/(2*a),(-b+Math.sqrt(D))/(2*a)]);
+  if(roots.some(r=>abs(r)>8))continue;
+  return {kind:"full",a:a,b:b,c:c,roots:roots};
+ }
+ return {kind:"full",a:1,b:-5,c:6,roots:[2,3]};
+}
+function generate(mode,level){
+ var type=mode==="mix"?pick(["factor","factor","factor","square","square","square","full","full"]):mode;
+ return type==="factor"?factor(level):type==="square"?square(level):full(level);
+}
+function term(k,v,first){
+ if(k===0)return "";
+ var sign=k<0?"−":"+",a=abs(k),piece=(a===1&&v?"":String(a))+v;
+ return first?(k<0?"−":"")+piece:" "+sign+" "+piece;
+}
+function equation(q){return term(q.a,"x²",true)+term(q.b,"x",false)+term(q.c,"",false)+" = 0";}
+function parseNumber(raw){
+ var s=String(raw).trim().replace(/[−–]/g,"-").replace(/[⁄∕]/g,"/").replace(/\s+/g,"").replace(",",".");
+ if(!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:\/[+-]?(?:\d+(?:\.\d*)?|\.\d+))?$/.test(s))return NaN;
+ var z=s.split("/").map(Number),n=z.length===2?z[0]/z[1]:z[0];
+ return Number.isFinite(n)?n:NaN;
+}
+function frac(n){
+ if(abs(n-Math.round(n))<1e-8)return String(Math.round(n));
+ for(var d=2;d<150;d++){
+  var num=Math.round(abs(n)*d);
+  if(abs(num/d-abs(n))<1e-9){var g=gcd(num,d);return (n<0?"−":"")+'<span class="frac"><i>'+(num/g)+'</i><i>'+(d/g)+'</i></span>';}
+ }
+ return String(n).replace(".",",");
+}
+function solution(q){
+ var d=q.b*q.b-4*q.a*q.c,x=q.roots.slice().sort((a,b)=>a-b);
+ var h="<p><b>"+equation(q)+"</b></p>";
+ if(q.kind==="factor")h+="<p>Вынесем x: x("+term(q.a,"x",true)+term(q.b,"",false)+") = 0. Поэтому x=0 либо ax+b=0.</p>";
+ if(q.kind==="square")h+="<p>x² = "+frac(-q.c/q.a)+". "+(x.length?"Возьми квадратный корень с обоими знаками.":"Правая часть отрицательная: действительных корней нет.")+"</p>";
+ h+="<p>D = ("+q.b+")² − 4·("+q.a+")·("+q.c+") = <b>"+frac(d)+"</b></p>";
+ h+=x.length?"<p><b>Корни: "+x.map(frac).join(" и ")+"</b></p>":"<p><b>Действительных корней нет.</b></p>";
+ return h;
+}
+function refresh(){
+ $("statOk").textContent=stat.ok;$("statBad").textContent=stat.bad;$("statStreak").textContent=stat.streak;
+ $("timeCard").hidden=!prefs.showTimer;
+ var seconds=session?Math.floor(Math.max(0,((session.pausedAt||Date.now())-session.started)/1000)):0;
+ $("statTime").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
+ if(session){
+  $("progressLabel").textContent="Освоено: "+session.mastered+" из "+session.count;
+  $("repeatLabel").textContent=session.retry.length?"Повторений: "+session.retry.length:"Основной круг";
+  $("progressFill").style.width=(100*session.mastered/session.count)+"%";
+ }
+}
+function save(){store(T,stat);if(session)store(S,session);refresh();}
+function updateChoices(){
+ document.querySelectorAll("[data-mode],[data-level],[data-count]").forEach(btn=>{
+  var key=btn.dataset.mode?"mode":btn.dataset.level?"level":"count";
+  btn.classList.toggle("active",String(config[key])===String(btn.dataset[key]));
+ });
+}
+function createSession(){
+ var tasks=[];
+ for(var i=0;i<config.count;i++){var q=generate(config.mode,config.level);q.id=i;q.review=false;q.flagged=false;q.solved=false;tasks.push(q);}
+ session={mode:config.mode,level:config.level,count:config.count,tasks:tasks,pending:tasks.map(x=>x.id),retry:[],current:null,dirty:false,mastered:0,first:0,started:Date.now(),pausedAt:null,finished:false};
+ nextTask();showRunning();save();
+}
+function current(){return session&&session.current!==null?session.tasks[session.current]:null;}
+function feedback(kind,msg){$("feedback").className="message"+(kind?" "+kind:"");$("feedback").innerHTML=msg;}
+function rootsChanged(){
+ var n=Number($("rootCount").value);$("rootFields").hidden=n===0;$("x1Col").hidden=n===0;$("x2Col").hidden=n!==2;
+}
+function renderCurrent(){
+ var q=current();
+ if(!q)return;
+ $("equation").textContent=equation(q);
+ $("typeNote").textContent=q.kind==="factor"?"Неполное: нет c":q.kind==="square"?"Неполное: нет b":"Полное квадратное уравнение";
+ $("method").value="disc";$("rootCount").value="2";$("x1").value="";$("x2").value="";rootsChanged();
+ $("solution").hidden=true;$("solution").innerHTML="";
+ $("btnNext").hidden=true;$("btnCheck").disabled=false;$("btnSkip").disabled=false;$("btnSolution").disabled=false;
+ feedback("",q.review?"Повторение ошибки. Реши самостоятельно.":"Выбери количество действительных корней и введи ответы.");
+}
+function nextTask(){
+ if(!session||session.finished)return;
+ var id=session.pending.length?session.pending.shift():session.retry.shift();
+ if(id===undefined){finish();return;}
+ session.current=id;session.dirty=false;renderCurrent();save();
+}
+function showRunning(){
+ $("setup").hidden=true;$("running").hidden=false;$("idle").hidden=true;$("game").hidden=false;
+ var labels={mix:"Микс",factor:"Без c",square:"Без b",full:"Полные"};
+ $("modeTitle").textContent=labels[session.mode]+" · уровень "+(session.level===1?"I":"II");
+ if(interval!==null)clearInterval(interval);interval=setInterval(refresh,1000);refresh();
+}
+function correct(){
+ var q=current();if(!q)return false;
+ var want=q.roots.slice().sort((a,b)=>a-b),cnt=Number($("rootCount").value);
+ if(want.length!==cnt)return false;
+ if(cnt===0)return true;
+ var a=parseNumber($("x1").value),b=cnt===2?parseNumber($("x2").value):NaN;
+ if(!Number.isFinite(a))return false;
+ if(cnt===1)return abs(a-want[0])<1e-7;
+ return Number.isFinite(b)&&((abs(a-want[0])<1e-7&&abs(b-want[1])<1e-7)||(abs(a-want[1])<1e-7&&abs(b-want[0])<1e-7));
+}
+function check(){
+ var q=current();if(!q||session.finished)return;
+ if(!correct()){
+  session.dirty=true;q.flagged=true;stat.bad++;stat.streak=0;
+  feedback("bad","Неверно. Проверь число корней, знаки и вычисления. Можно исправить ответ.");
+  if(prefs.autoExplain){$("solution").hidden=false;$("solution").innerHTML=solution(q);}
+  save();return;
+ }
+ if(!q.review&&!session.dirty)session.first++;
+ if(session.dirty||!q.review&&q.flagged){
+  q.review=true;session.retry.push(q.id);
+ }else{q.solved=true;session.mastered++;stat.ok++;}
+ stat.streak++;stat.best=Math.max(stat.best,stat.streak);
+ var message=q.solved?"Верно! Задание засчитано.":"Верно. Уравнение ещё появится на повторении.";
+ if(q.kind==="factor"&&$("method").value==="disc")message+=" Дискриминант подходит, но вынести x короче.";
+ if(q.kind==="square"&&$("method").value==="disc")message+=" Дискриминант подходит, но можно сразу выразить x².";
+ if([5,10,20].includes(stat.streak))message+=" 🔥 "+stat.streak+" подряд!";
+ feedback("good",message);
+ $("btnCheck").disabled=true;$("btnSkip").disabled=true;$("btnSolution").disabled=true;$("btnNext").hidden=false;save();
+}
+function skip(reveal){
+ var q=current();if(!q||session.finished)return;
+ q.review=true;q.flagged=true;session.dirty=true;session.retry.push(q.id);
+ stat.skip++;stat.streak=0;
+ if(reveal){$("solution").hidden=false;$("solution").innerHTML=solution(q);feedback("warn","Разбор показан. Уравнение вернётся для самостоятельного решения.");}
+ else feedback("warn","Пропущено. Уравнение появится в повторении.");
+ $("btnCheck").disabled=true;$("btnSkip").disabled=true;$("btnSolution").disabled=true;$("btnNext").hidden=false;save();
+}
+function finish(){
+ session.finished=true;session.current=null;session.pausedAt=Date.now();save();
+ if(interval!==null){clearInterval(interval);interval=null;}
+ store(S,null);
+ var pct=Math.round(100*session.first/session.count),grade=pct>=90?5:pct>=75?4:pct>=55?3:2;
+ $("grade").textContent=grade;
+ $("award").textContent=grade===5?"Отличная серия! 🔥":grade===4?"Уверенная работа! ⚡":grade===3?"Основы есть. Тренируем точность.":"Трудные места нашли. Продолжаем.";
+ $("endSummary").textContent="Решено "+session.count+". Без ошибок с первого раза: "+session.first+" ("+pct+"%).";
+ $("endModal").hidden=false;
+ var dialog=$("endDialog");
+ dialog.querySelectorAll(".confetti").forEach(x=>x.remove());
+ for(var i=0;i<24;i++){
+  var element=document.createElement("i");element.className="confetti";element.style.left=rand(0,100)+"%";element.style.animationDelay=(Math.random()*1.1)+"s";element.style.background=pick(["#f49078","#5dd6ff","#ffd166","#3ddc97"]);dialog.appendChild(element);
+ }
+}
+function pause(){
+ if(!session||session.finished)return;
+ session.pausedAt=Date.now();save();
+ if(interval!==null){clearInterval(interval);interval=null;}
+ $("setup").hidden=false;$("running").hidden=true;$("game").hidden=true;$("idle").hidden=false;
+ $("idle").textContent="Серия сохранена. Нажми «Продолжить».";
+ $("btnResume").hidden=false;
+}
+function resume(){
+ var saved=load(S);if(!saved||saved.finished)return;
+ session=saved;
+ if(session.pausedAt){session.started+=Date.now()-session.pausedAt;session.pausedAt=null;}
+ showRunning();renderCurrent();save();
+}
+function open(id){$(id).hidden=false;}
+function close(id){$(id).hidden=true;}
+document.querySelectorAll("[data-mode],[data-level],[data-count]").forEach(btn=>btn.addEventListener("click",function(){
+ var key=this.dataset.mode?"mode":this.dataset.level?"level":"count",v=this.dataset[key];
+ config[key]=key==="mode"?v:Number(v);updateChoices();
+}));
+$("btnStart").addEventListener("click",createSession);$("btnResume").addEventListener("click",resume);
+$("rootCount").addEventListener("change",rootsChanged);$("btnCheck").addEventListener("click",check);
+$("btnSolution").addEventListener("click",()=>skip(true));$("btnSkip").addEventListener("click",()=>skip(false));
+$("btnNext").addEventListener("click",nextTask);$("btnPause").addEventListener("click",pause);$("btnResetSeries").addEventListener("click",pause);
+$("btnTheory").addEventListener("click",()=>open("theoryModal"));$("btnSettings").addEventListener("click",()=>open("settingsModal"));
+document.querySelectorAll("[data-close]").forEach(btn=>btn.addEventListener("click",()=>close(btn.dataset.close)));
+["theoryModal","settingsModal","endModal"].forEach(id=>$(id).addEventListener("click",e=>{if(e.target===$(id))close(id);}));
+document.addEventListener("keydown",e=>{if(e.key==="Escape")["theoryModal","settingsModal","endModal"].forEach(close);
+ if(e.key==="Enter"&&e.target.tagName==="INPUT"&&!$("game").hidden){e.preventDefault();check();}
+});
+$("autoExplain").addEventListener("change",function(){prefs.autoExplain=this.checked;store(P,prefs);});
+$("showTimer").addEventListener("change",function(){prefs.showTimer=this.checked;store(P,prefs);refresh();});
+$("resetStats").addEventListener("click",function(){stat={ok:0,bad:0,streak:0,skip:0,best:0};refresh();store(T,stat);});
+$("btnAgain").addEventListener("click",()=>{close("endModal");createSession();});
+$("btnMenu").addEventListener("click",()=>{close("endModal");session=null;store(S,null);$("running").hidden=true;$("setup").hidden=false;$("game").hidden=true;$("idle").hidden=false;if(interval!==null){clearInterval(interval);interval=null;}refresh();});
+(function init(){
+ var s=load(T),p=load(P);
+ if(s&&Number.isInteger(s.ok))stat=s;
+ if(p){prefs.autoExplain=!!p.autoExplain;prefs.showTimer=p.showTimer!==false;}
+ $("autoExplain").checked=prefs.autoExplain;$("showTimer").checked=prefs.showTimer;
+ $("btnResume").hidden=!load(S);updateChoices();refresh();
+})();
+})();
+</script>
 </body></html>
