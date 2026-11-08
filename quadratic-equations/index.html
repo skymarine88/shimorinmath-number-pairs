@@ -106,7 +106,7 @@ footer{padding:0 0 25px;color:#8b9db5;font-size:11px;display:flex;justify-conten
 "use strict";
 var $=id=>document.getElementById(id),pick=a=>a[Math.floor(Math.random()*a.length)],rand=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 var abs=Math.abs,config={mode:"mix",level:1,count:10},stat={ok:0,bad:0,streak:0,skip:0,best:0};
-var prefs={autoExplain:false,showTimer:true},session=null,intervalId=null;
+var prefs={autoExplain:false,showTimer:true},session=null,interval=null;
 var S="shimorin-viete-web-session-v1",T="shimorin-viete-web-stats-v1",P="shimorin-viete-web-prefs-v1";
 function load(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}}
 function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
