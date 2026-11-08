@@ -221,13 +221,14 @@ function renderCurrent(){
  $("method").value="disc";$("rootCount").value="2";$("x1").value="";$("x2").value="";rootsChanged();
  $("solution").hidden=true;$("solution").innerHTML="";
  $("btnNext").hidden=true;$("btnCheck").disabled=false;$("btnSkip").disabled=false;$("btnSolution").disabled=false;
- feedback("",q.review?"Повторение ошибки. Реши самостоятельно.":"Выбери количество действительных корней и введи ответы.");
+ if(session.awaitingNext){$("btnCheck").disabled=true;$("btnSkip").disabled=true;$("btnSolution").disabled=true;$("btnNext").hidden=false;feedback("good","Ответ уже проверен. Переходи к следующему заданию.");}
+ else feedback("",q.review?"Повторение ошибки. Реши самостоятельно.":"Выбери количество действительных корней и введи ответы.");
 }
 function nextTask(){
  if(!session||session.finished)return;
  var id=session.pending.length?session.pending.shift():session.retry.shift();
  if(id===undefined){finish();return;}
- session.current=id;session.dirty=false;renderCurrent();save();
+ session.current=id;session.dirty=false;session.awaitingNext=false;renderCurrent();save();
 }
 function showRunning(){
  $("setup").hidden=true;$("running").hidden=false;$("idle").hidden=true;$("game").hidden=false;
@@ -263,6 +264,7 @@ function check(){
  if(q.kind==="square"&&$("method").value==="disc")message+=" Дискриминант подходит, но можно сразу выразить x².";
  if([5,10,20].includes(stat.streak))message+=" 🔥 "+stat.streak+" подряд!";
  feedback("good",message);
+ session.awaitingNext=true;
  $("btnCheck").disabled=true;$("btnSkip").disabled=true;$("btnSolution").disabled=true;$("btnNext").hidden=false;save();
 }
 function skip(reveal){
@@ -271,6 +273,7 @@ function skip(reveal){
  stat.skip++;stat.streak=0;
  if(reveal){$("solution").hidden=false;$("solution").innerHTML=solution(q);feedback("warn","Разбор показан. Уравнение вернётся для самостоятельного решения.");}
  else feedback("warn","Пропущено. Уравнение появится в повторении.");
+ session.awaitingNext=true;
  $("btnCheck").disabled=true;$("btnSkip").disabled=true;$("btnSolution").disabled=true;$("btnNext").hidden=false;save();
 }
 function finish(){
