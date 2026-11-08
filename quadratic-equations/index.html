@@ -205,8 +205,9 @@ function updateChoices(){
  });
 }
 function createSession(){
- var tasks=[];
- for(var i=0;i<config.count;i++){var q=generate(config.mode,config.level);q.id=i;q.review=false;q.flagged=false;q.solved=false;tasks.push(q);}
+ var tasks=[],seen=new Set();
+ for(var i=0;i<config.count;i++){var q,tries=0;do{q=generate(config.mode,config.level);tries++;}while(seen.has(q.kind+":"+q.a+":"+q.b+":"+q.c)&&tries<100);
+  seen.add(q.kind+":"+q.a+":"+q.b+":"+q.c);q.id=i;q.review=false;q.flagged=false;q.solved=false;tasks.push(q);}
  session={mode:config.mode,level:config.level,count:config.count,tasks:tasks,pending:tasks.map(x=>x.id),retry:[],current:null,dirty:false,mastered:0,first:0,started:Date.now(),pausedAt:null,finished:false};
  nextTask();showRunning();save();
 }
