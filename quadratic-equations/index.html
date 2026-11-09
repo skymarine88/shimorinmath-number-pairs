@@ -1032,7 +1032,16 @@ const resetBtn = document.getElementById("resetBtn");
     });
   }
 
-  elLevel.addEventListener("change", newTask);
+  // Keep visible method buttons and the original level selector synchronized.
+  const levelTabs=[...document.querySelectorAll("[data-select-level]")];
+  function selectLevel(value){
+    elLevel.value=String(value);
+    levelTabs.forEach(btn=>{const on=btn.dataset.selectLevel===elLevel.value;btn.classList.toggle("active",on);btn.setAttribute("aria-pressed",String(on));});
+    newTask();
+  }
+  levelTabs.forEach(btn=>btn.addEventListener("click",()=>selectLevel(btn.dataset.selectLevel)));
+  elLevel.addEventListener("change",()=>selectLevel(elLevel.value));
+  levelTabs.forEach(btn=>btn.setAttribute("aria-pressed",String(btn.dataset.selectLevel===elLevel.value)));
   if (reduceChk && reducePanel){
     [ra, rb, rc].forEach(inp => { if (inp) inp.addEventListener("input", refreshAuxDisplay); });
     reduceChk.addEventListener("change", () => {
