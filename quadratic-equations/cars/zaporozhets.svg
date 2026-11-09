@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="320" viewBox="0 0 640 320" role="img" aria-label="Запорожец">
+ <defs><radialGradient id="bg"><stop stop-color="#e6a03a" stop-opacity=".28"/><stop offset="1" stop-color="#0e1427" stop-opacity="0"/></radialGradient>
+ <linearGradient id="paint" x1="0" y1="0" x2="0.2" y2="1"><stop stop-color="#ffffff" stop-opacity=".48"/><stop offset=".28" stop-color="#e4ab47"/><stop offset=".72" stop-color="#e4ab47"/><stop offset="1" stop-color="#111b2e"/></linearGradient>
+ <linearGradient id="glass" x1="0" x2="0.7" y2="1"><stop stop-color="#9ad6e5" stop-opacity=".88"/><stop offset=".4" stop-color="#21354a"/><stop offset="1" stop-color="#0e1724"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="14"/></filter>
+ </defs>
+ <rect width="640" height="320" rx="24" fill="#10172b"/>
+ <ellipse cx="318" cy="177" rx="290" ry="160" fill="url(#bg)"/>
+ <ellipse cx="317" cy="262" rx="255" ry="23" fill="#03060e" opacity=".7" filter="url(#glow)"/>
+ <path d="M100 212 L121 163 Q127 123 166 118 L326 109 Q377 109 393 149 L452 170 Q519 178 545 206 L550 233 L97 233Z" fill="url(#paint)" stroke="#dce4ee" stroke-opacity=".57" stroke-width="2.5" stroke-linejoin="round"/>
+ <path d="M151 157 L167 129 Q192 123 243 123 L242 170 L145 170Z M258 123 L322 120 Q357 120 373 152 L381 172 L258 171Z" fill="url(#glass)" stroke="#c0d8e4" stroke-opacity=".65" stroke-width="3"/>
+ <path d="M116 188 Q290 178 515 194" stroke="#fff" stroke-opacity=".25" stroke-width="4" fill="none"/>
+ <path d="M119 235 Q323 248 544 235" stroke="#151b2d" stroke-width="9" fill="none"/>
+ <path d="M190 195 H205 M409 193 H425" stroke="#eef7fc" stroke-width="6" stroke-linecap="round" opacity=".65"/>
+ <rect x='505' y='204' width='26' height='13' rx='6' fill='#fff0b1'/><rect x='117' y='203' width='18' height='10' rx='3' fill='#ff5b3f'/><rect x='426' y='208' width='64' height='12' rx='5' fill='#473525'/>
+ <g><circle cx="168" cy="240" r="37" fill="#060811" stroke="#111827" stroke-width="6"/><circle cx="168" cy="240" r="23" fill="#a6b2c5" stroke="#eaf0fb" stroke-width="3"/><circle cx="168" cy="240" r="9" fill="#263247"/>
+ <circle cx="455" cy="240" r="37" fill="#060811" stroke="#111827" stroke-width="6"/><circle cx="455" cy="240" r="23" fill="#a6b2c5" stroke="#eaf0fb" stroke-width="3"/><circle cx="455" cy="240" r="9" fill="#263247"/></g>
+ <ellipse cx="320" cy="290" rx="220" ry="2.5" fill="#e6a03a" opacity=".56"/>
+ </svg>
