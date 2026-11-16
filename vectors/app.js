@@ -1,5 +1,5 @@
 import {PREP,EGE,generatePrep,generateEge,checkTask,parseLinear} from './catalog.js';
-import {VectorBoard} from './graph.js';
+import {VectorBoard} from './graph.js?v=midpoint-20261116';
 import {add,sub,vec,fmt,parseNumber,same} from './engine.js';
 import {openStore,readState,saveState} from './storage.js';
 import {answerTotals} from './score.js';

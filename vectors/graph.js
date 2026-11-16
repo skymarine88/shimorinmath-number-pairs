@@ -13,20 +13,24 @@ export class VectorBoard{
  h+='<text x="286" y="317" class="tick">0</text><text x="577" y="295" class="axis-label">x</text><text x="311" y="31" class="axis-label">y</text>';
  if(this.triangle){const v=this.vectors.find(x=>x.id===this.selected)||this.vectors[0];if(v){const p=this.point(v.start),q=this.point([v.end[0],v.start[1]]),r=this.point(v.end);h+=`<path d="M${p}L${q}L${r}" stroke="#babac1" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>`;}}
  if(this.angle!==null){const r=40,theta=this.angle*Math.PI/180,p=[300+r*Math.cos(theta),300-r*Math.sin(theta)];if(this.angle>0&&this.angle<180)h+=`<path d="M340 300A40 40 0 0 0 ${p}" fill="none" stroke="#a0a0a7" stroke-width="1.4"/>`;h+=`<text x="349" y="280" class="tick">${this.angle}°</text>`;}
- for(const v of this.vectors){const p=this.point(v.start),q=this.point(v.end),color=v.color||CORAL,marker=color===CORAL?'a':color===INK?'b':'c';const chosen=v.id===this.selected,zero=norm(sub(v.end,v.start))<.01;h+=`<g data-vector="${v.id}"><title>${v.label}${v.editable?' — можно перемещать':''}</title>`;
+ for(const v of this.vectors){const p=this.point(v.start),q=this.point(v.end),color=v.color||CORAL,marker=color===CORAL?'a':color===INK?'b':'c';const zero=norm(sub(v.end,v.start))<.01;h+=`<g data-vector="${v.id}"><title>${v.label}${v.editable?' — можно перемещать':''}</title>`;
  if(!zero&&v.kind!=='point')h+=`<line x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}" stroke="${color}" stroke-width="${v.dashed?2:3}" ${v.dashed?'stroke-dasharray="7 5"':''} ${v.kind==='segment'?'':`marker-end="url(#head-${marker})"`}/>`;
  if(v.editable&&v.kind!=='point')h+=`<line data-part="body" x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}" stroke="transparent" stroke-width="25" style="cursor:grab"/>`;
  h+=`<circle cx="${p[0]}" cy="${p[1]}" r="${v.kind==='point'?5:3.5}" fill="${color}"/>`;
- if(v.editable==='all'&&v.kind!=='point')h+=`<circle class="handle" data-part="tail" cx="${p[0]}" cy="${p[1]}" r="11" fill="white" fill-opacity=".01" stroke="${color}" stroke-opacity=".4"/>`;
+ if(v.editable==='all'&&v.kind!=='point')h+=`<circle class="handle" data-part="tail" cx="${p[0]}" cy="${p[1]}" r="14" fill="transparent" stroke="none" pointer-events="all"/>`;
  if(v.kind==='point'&&v.editable)h+=`<circle class="handle" data-part="body" cx="${p[0]}" cy="${p[1]}" r="13" fill="transparent"/>`;
- if(v.kind!=='point'&&(v.editable==='head'||v.editable==='all'))h+=`<circle class="handle" data-part="head" cx="${q[0]}" cy="${q[1]}" r="${chosen?10:8}" fill="white" stroke="${color}" stroke-width="1.5"/><circle class="handle" data-part="head" cx="${q[0]}" cy="${q[1]}" r="3" fill="${color}"/>`;
+ if(v.kind!=='point'&&(v.editable==='head'||v.editable==='all'))h+=`<circle class="handle" data-part="head" cx="${q[0]}" cy="${q[1]}" r="16" fill="transparent" stroke="none" pointer-events="all"/>`;
  if(v.startLabel)h+=`<text x="${p[0]-11}" y="${p[1]+18}" class="vlabel" fill="${color}">${v.startLabel}</text>`;
  if(v.endLabel)h+=`<text x="${q[0]+12}" y="${q[1]-9}" class="vlabel" fill="${color}">${v.endLabel}</text>`;
  if(v.label){
  const lx=v.kind==='point'?p[0]+11:(p[0]+q[0])/2+12,ly=v.kind==='point'?p[1]-9:(p[1]+q[1])/2-11;
  if(v.kind!=='point'&&v.kind!=='segment'){
-  const width=Math.max(12,[...v.label].length*9),right=lx+width-1,top=ly-21;
-  h+=`<g class="vector-notation" data-notation="vector"><path d="M${lx-1} ${top}H${right}M${right-3} ${top-2}L${right} ${top}L${right-3} ${top+2}" stroke="white" stroke-width="4"/><path d="M${lx-1} ${top}H${right}M${right-3} ${top-2}L${right} ${top}L${right-3} ${top+2}" stroke="${color}" stroke-width="1.2"/><text x="${lx}" y="${ly}" class="vlabel" fill="${color}">${v.label}</text></g>`;
+  const dx=q[0]-p[0],dy=q[1]-p[1],length=Math.hypot(dx,dy);
+  let nx=length>.01?dy/length:0,ny=length>.01?-dx/length:-1;
+  if(ny>0||(Math.abs(ny)<.001&&nx<0)){nx=-nx;ny=-ny;}
+  const cx=(p[0]+q[0])/2+nx*23,cy=(p[1]+q[1])/2+ny*23;
+  const width=Math.max(12,[...v.label].length*9),left=cx-width/2,right=cx+width/2,baseline=cy+10,top=baseline-21;
+  h+=`<g class="vector-notation" data-notation="vector"><path d="M${left} ${top}H${right}M${right-3} ${top-2}L${right} ${top}L${right-3} ${top+2}" stroke="white" stroke-width="4"/><path d="M${left} ${top}H${right}M${right-3} ${top-2}L${right} ${top}L${right-3} ${top+2}" stroke="${color}" stroke-width="1.2"/><text x="${cx}" y="${baseline}" text-anchor="middle" class="vlabel" fill="${color}">${v.label}</text></g>`;
  }else h+=`<text x="${lx}" y="${ly}" class="vlabel" fill="${color}">${v.label}</text>`;
  }
  h+='</g>';}
