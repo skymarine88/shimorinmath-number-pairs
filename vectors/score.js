@@ -1,5 +1,6 @@
 // Each answered task contributes once; retries never inflate either counter.
-export function answerTotals(attempts, mode='practice') {
+// A reset baseline hides earlier totals while retaining the complete learning history.
+export function answerTotals(attempts, mode='practice', baseline=null) {
  const answered=new Map();
  for (const a of attempts) {
   if (a.mode!==mode || !a.taskId || answered.has(a.taskId)) continue;
@@ -8,5 +9,5 @@ export function answerTotals(attempts, mode='practice') {
  }
  let correct=0,incorrect=0;
  for(const value of answered.values()) value?correct++:incorrect++;
- return {correct,incorrect};
+ return {correct:Math.max(0,correct-(baseline?.correct||0)),incorrect:Math.max(0,incorrect-(baseline?.incorrect||0))};
 }
