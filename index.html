@@ -8,11 +8,13 @@
  <link rel="icon" href="SHIMORINMATH_Favicon.svg" type="image/svg+xml">
  <link rel="stylesheet" href="catalog.css">
  <link rel="stylesheet" href="catalog-identity.css">
+ <link rel="stylesheet" href="brand-details.css">
+ <script defer src="brand-motion.js"></script>
 </head>
 <body>
  <a class="skip" href="#trainers">К тренажёрам</a>
  <div class="page">
-  <header class="site-header"><a class="author-identity" href="./" aria-label="Шиморин Б.В. Методические разработки — главная"><img src="brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."><span><strong>Шиморин Б.В.</strong><small>Методические разработки</small></span></a></header>
+  <header class="site-header"><div class="author-identity"><button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип Шиморина Б.В." title="Повернуть логотип" style="--logo-size:52px"><img data-logo-mark src="brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."></button><a class="author-copy" href="./" aria-label="Шиморин Б.В. Методические разработки — главная"><strong>Шиморин Б.В.</strong><small>Методические разработки</small></a></div></header>
   <main id="trainers">
    <h1>Математические тренажёры</h1>
    <div class="trainer-grid">
@@ -34,7 +36,7 @@
     </a>
    </div>
   </main>
-  <footer class="site-footer">SHIMORINMATH</footer>
+  <footer class="site-footer"><span class="shimorin-wordmark" aria-label="SHIMORINMATH"><span>SHIMORIN</span><span class="wordmark-accent">MATH</span></span></footer>
  </div>
 </body>
 </html>
