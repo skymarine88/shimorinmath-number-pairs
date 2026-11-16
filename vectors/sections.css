@@ -1,0 +1,65 @@
+.task-sections{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.section-tab{display:flex;align-items:center;justify-content:center;gap:12px;min-height:65px;border:1px solid #e2e2e6;border-radius:12px;padding:14px 20px;background:white;font-size:16px;font-weight:600;text-align:left;line-height:1.4}
+.section-tab.active{border:2px solid var(--coral);background:#fff8f5;color:#b94438;padding:13px 19px}
+.section-index{font-size:10px;letter-spacing:1px;color:#929298;font-weight:500}
+.section-tab.active .section-index{color:var(--coral)}
+.nav-primary{font-size:13px;font-weight:600;line-height:1.6;padding:13px 11px;gap:10px}
+.nav-primary>span{font-size:10px;color:#8a8a91}
+.nav-reference-label{font-size:9px;letter-spacing:1.3px;color:var(--muted);margin:22px 11px 10px}
+.practice-toolbar{margin-bottom:18px;gap:18px}
+.task-skill-picker{max-width:390px;width:100%}
+.task-skill-picker .select{font-size:12px}
+.drawing-tools{display:flex;align-items:center;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--line);padding:8px 11px;background:#fdfdfd}
+.draw-tool{font-size:10px;min-height:37px;padding:7px 9px;border-radius:6px;border:1px solid transparent}
+.draw-tool.active{border-color:#edd1cc;background:#fff4f1;color:#b94438;font-weight:600}
+.draw-tool:hover{background:#f6f6f7}
+.draw-tool.active:hover{background:#fff4f1}
+.board-caption select{border:1px solid var(--line);border-radius:4px;background:#fff;padding:3px 5px;margin-left:5px;font:inherit;font-size:11px}
+.exact-tools{padding:11px 14px;display:flex;align-items:end;gap:7px;flex-wrap:wrap;border-top:1px solid var(--line)}
+.exact-tools label{font-size:10px;flex:1;min-width:40px;max-width:90px}
+.exact-tools input{margin-top:3px;height:37px;font-size:14px;padding:7px 8px}
+.exact-tools .secondary{min-height:37px;font-size:10px;padding:8px 10px}
+.graph-holder{padding-top:4px}
+.graph g[data-vector] circle{touch-action:none}
+.linear-answer{font-family:'Cambria Math',Georgia,serif;font-size:21px}
+.reference-workspace{margin-top:25px}
+.reference-heading{margin-top:28px}
+.reference-rule{margin-top:22px}
+.reference-question{line-height:1.9;margin-top:20px!important;color:var(--ink)!important}
+.worked-solution{border-top:1px solid var(--line);padding-top:20px;margin-top:20px;font-family:'Cambria Math',Georgia,serif;font-size:18px;line-height:2}
+.task-card .task-top{gap:12px;line-height:1.5;letter-spacing:.6px}
+.task-card .task-title{font-size:21px}
+.task-card .task-prompt{font-size:14px;line-height:1.95;min-height:0}
+.board{max-width:none}
+.sidebar .skill{line-height:1.5;padding-top:9px;padding-bottom:9px}
+.sidebar .skill.active{background:#f6f6f7}
+.topbar .save-pill{cursor:default}
+@media(max-width:1100px){.section-tab{font-size:14px;padding:12px}.section-tab.active{padding:11px}.practice-toolbar .task-skill-picker{max-width:350px}.task-card .task-title{font-size:19px}}
+@media(max-width:950px){.reference-workspace{grid-template-columns:1fr}.workspace{gap:15px}.task-card .task-prompt{font-size:14px}}
+@media(max-width:650px){
+ #navigation{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:12px;gap:3px}
+ #navigation .nav-primary,#navigation .nav-reference-label{display:none}
+ #navigation .nav-item{min-height:36px;font-size:10px;padding:9px 3px}
+ .sidebar{padding-bottom:2px}
+ main{padding-top:14px}
+ .task-sections{gap:8px;margin-bottom:5px}
+ .section-tab{gap:0;min-height:58px;padding:9px 12px;font-size:12px;line-height:1.5;justify-content:center;text-align:center}
+ .section-tab.active{padding:8px 11px}
+ .section-index{display:none}
+ .practice-toolbar{padding:10px 0;margin-bottom:12px;align-items:center;gap:8px}
+ .practice-toolbar .task-skill-picker{max-width:calc(100% - 172px);font-size:9px}
+ .practice-toolbar .task-skill-picker .select{font-size:10px;max-width:100%;padding:8px 6px}
+ .drawing-tools{padding:7px;gap:2px}
+ .draw-tool{font-size:9px;padding:7px 7px;min-height:36px}
+ .board-caption{font-size:10px}
+ .exact-tools{padding:10px;gap:6px}
+ .exact-tools label{max-width:none;flex:1;min-width:36px}
+ .exact-tools .secondary{font-size:9px;padding:8px 9px}
+ .task-card .task-title{font-size:20px}
+ .task-card .task-top{font-size:8px}
+ .task-card .task-prompt{font-size:13px}
+ .reference-heading{margin-top:22px}
+ .reference-workspace{margin-top:20px}
+ .worked-solution{font-size:17px}
+}
+@media(max-width:360px){.practice-toolbar .task-skill-picker{max-width:100%;font-size:9px;order:2}.section-tab{font-size:11px}.exact-tools .secondary{flex:1 0 40%}.drawing-tools .draw-tool{font-size:9px;padding:7px 5px}.task-card .task-title{font-size:18px}}

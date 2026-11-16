@@ -1,0 +1,12 @@
+.brand{line-height:1.3}
+.product-mark{margin-top:27px;margin-bottom:24px}
+.sidebar #navigation{margin-top:0}
+.nav-primary + .nav-item[data-view]{margin-top:20px}
+.math-keyboard{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:-4px 0 18px}
+.math-key{display:grid;place-items:center;min-height:42px;border:1px solid #e4e4e8;border-radius:8px;background:white;font-size:16px;font-variant-numeric:tabular-nums;touch-action:manipulation}
+.math-key:hover{border-color:#ecc7c1;background:#fff8f5}
+.math-key:active{background:#fbece8}
+.math-symbol{font-family:'Cambria Math','STIX Two Math',Georgia,serif;font-size:23px;color:#b94c40;background:#fff9f7}
+.worked-solution math{font-size:20px;max-width:100%;overflow-x:auto}
+.graph .vector-notation path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:650px){.product-mark{margin-top:0}.sidebar #navigation{margin-top:12px}.math-key{min-height:44px}.math-keyboard{gap:6px;margin-bottom:16px}.worked-solution math{font-size:18px}}
