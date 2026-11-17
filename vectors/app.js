@@ -1,4 +1,5 @@
-import {PREP,EGE,generatePrep,generateEge,checkTask,parseLinear} from './catalog.js';
+import {PREP,EGE,generatePrep,generateEge,checkTask,parseLinear} from './catalog.js?v=cosine-20261117';
+import {scheduledCosine} from './cosine.js';
 import {VectorBoard} from './graph.js?v=midpoint-20261116';
 import {add,sub,vec,fmt,parseNumber,same} from './engine.js';
 import {openStore,readState,saveState} from './storage.js';
@@ -19,6 +20,11 @@ const metadata=()=>list(state.section).find(x=>x.id===state.selected[state.secti
 const mode=()=>state.section==='ege'?'ege':'practice';
 function taskCurrent(task){return{task,raw:[],endpoint:clone(task.endpoint||[1,1]),given:clone(task.given||[]),work:[],history:[],tool:'select',snap:task.snap||.5,range:null,tries:0,helped:false,done:false,feedback:null,presentedAt:new Date().toISOString()};}
 function nextTask(section,type){
+ if(type==='cosine'||type.startsWith('ege-cosine-')){
+  const key=section+':'+type,index=state.cursors[key]||0;state.cursors[key]=index+1;
+  const seed=section==='ege'?bank.filter(t=>t.type===type)[index]?.seed??randomSeed():randomSeed();
+  return scheduledCosine(state,options=>section==='prepare'?generatePrep(type,seed,options):generateEge(type,seed,options));
+ }
  if(section==='prepare'){if(type==='length'){const sequence=state.cursors['prepare:length']||0;state.cursors['prepare:length']=sequence+1;state.modulusScheduleSeed??=randomSeed();return generatePrep(type,randomSeed(),{sequence,scheduleSeed:state.modulusScheduleSeed});}return generatePrep(type,randomSeed());}
  const pool=bank.filter(t=>t.type===type),index=state.cursors[type]||0;state.cursors[type]=index+1;
  return clone(pool[index]||generateEge(type,randomSeed()));

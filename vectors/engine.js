@@ -1,3 +1,4 @@
+import {chooseCosinePair} from './cosine.js';
 export const VERSION='1.0.0';
 export const TYPES=[
  {id:'coordinates',name:'Координаты вектора',group:'Основа',short:'От начала к концу',idea:'Координаты вектора — это перемещение, а не положение его конца.',rule:'AB⃗ = (xB − xA; yB − yA)',example:'A(−2; 1), B(3; −2): AB⃗ = (3 − (−2); −2 − 1) = (5; −3).',hint:'От координат конца вычтите координаты начала. Вправо и вверх — плюс, влево и вниз — минус.'},
@@ -31,7 +32,7 @@ export function parseNumber(value){
  const n=p.length===2?p[0]/p[1]:p[0];return Number.isFinite(n)&&Math.abs(n)<1e9?n:null;
 }
 const triples=[[3,4],[4,3],[-3,4],[3,-4],[-4,-3],[-4,3],[0,5],[5,0],[-5,0],[0,-5]];
-export function generate(type,seed,mode='practice'){
+export function generate(type,seed,mode='practice',options={}){
  const R=rng(seed),ri=(a,b)=>a+Math.floor(R()*(b-a+1)),pick=xs=>xs[ri(0,xs.length-1)],nz=()=>pick([-4,-3,-2,2,3,4]);
  const rand=()=>{let a;do{a=[ri(-5,5),ri(-5,5)];}while(norm(a)<2);return a;};
  const a=rand(),b=rand(),start=[ri(-4,0),ri(-3,1)];
@@ -46,7 +47,7 @@ export function generate(type,seed,mode='practice'){
  case 'length':t.a=pick(triples);t.k=pick([1,1,2]);t.a=mul(t.k,t.a);scalar(norm(t.a));t.graph='one';t.prompt=`Найддите длину вектора a⃗ = ${vec(t.a)}.`.replace('Найддите','Найдите');t.solution=`|a⃗| = √((${fmt(t.a[0])})² + (${fmt(t.a[1])})²) = √${dot(t.a,t.a)} = ${fmt(t.expected[0])}.`;break;
  case 'combination':{t.k=pick([-2,-1,2,3]);t.n=pick([-2,-1,1,2]);const c=mul(pick([1,2]),pick(triples));t.a=[ri(-3,3),ri(-3,3)];t.b=mul(1/t.n,sub(c,mul(t.k,t.a)));if(!t.b.every(Number.isInteger)||norm(t.a)===0){return generate(type,seed+997,mode);}scalar(norm(c));t.prompt=`Даны a⃗ = ${vec(t.a)} и b⃗ = ${vec(t.b)}. Найдите длину вектора ${fmt(t.k)}a⃗ ${t.n>0?'+':'−'} ${Math.abs(t.n)===1?'':Math.abs(t.n)}b⃗.`;t.solution=`c⃗ = ${fmt(t.k)} · ${vec(t.a)} + (${fmt(t.n)}) · ${vec(t.b)} = ${vec(c)}. |c⃗| = √(${c[0]**2} + ${c[1]**2}) = ${fmt(norm(c))}.`;break;}
  case 'dot':scalar(dot(a,b));t.numeric=R()<0.5;t.prompt=t.numeric?`Даны векторы a⃗ = ${vec(a)} и b⃗ = ${vec(b)}. Найдите a⃗ · b⃗.`:'На координатной плоскости изображены a⃗ и b⃗. Найдите их скалярное произведение a⃗ · b⃗.';t.solution=`a⃗ · b⃗ = (${fmt(a[0])}) · (${fmt(b[0])}) + (${fmt(a[1])}) · (${fmt(b[1])}) = ${fmt(t.expected[0])}.`;break;
- case 'cosine':t.a=pick(triples);t.b=pick(triples);scalar(dot(t.a,t.b)/(norm(t.a)*norm(t.b)));t.prompt=`Найдите косинус угла между a⃗ = ${vec(t.a)} и b⃗ = ${vec(t.b)}.`;t.solution=`a⃗ · b⃗ = ${fmt(dot(t.a,t.b))}; |a⃗| = |b⃗| = 5. cos φ = ${fmt(dot(t.a,t.b))}/25 = ${fmt(t.expected[0])}.`;break;
+ case 'cosine':[t.a,t.b]=chooseCosinePair(pick,triples,triples,options.sequence??seed);scalar(dot(t.a,t.b)/(norm(t.a)*norm(t.b)));t.prompt=`Найдите косинус угла между a⃗ = ${vec(t.a)} и b⃗ = ${vec(t.b)}.`;t.solution=`a⃗ · b⃗ = ${fmt(dot(t.a,t.b))}; |a⃗| = |b⃗| = 5. cos φ = ${fmt(dot(t.a,t.b))}/25 = ${fmt(t.expected[0])}.`;break;
  case 'angleDot':t.la=ri(2,9);t.lb=ri(2,9);t.angle=pick([0,60,90,120,180]);t.graph='angle';scalar(t.la*t.lb*Math.round(Math.cos(t.angle*Math.PI/180)*2)/2);t.prompt=`Длины векторов равны ${t.la} и ${t.lb}, угол между ними ${t.angle}°. Найдите их скалярное произведение.`;t.solution=`a⃗ · b⃗ = ${t.la} · ${t.lb} · cos ${t.angle}° = ${fmt(t.expected[0])}.`;break;
  case 'perpendicular':t.a=[nz(),ri(-4,4)];t.b=[0,t.a[0]*pick([-2,-1,1,2])];scalar(-t.a[1]*t.b[1]/t.a[0]);t.graph='parameter';t.prompt=`При каком t векторы a⃗ = ${vec(t.a)} и b⃗ = (t; ${fmt(t.b[1])}) перпендикулярны?`;t.solution=`(${fmt(t.a[0])})t + (${fmt(t.a[1])}) · (${fmt(t.b[1])}) = 0. t = ${fmt(t.expected[0])}.`;break;
  case 'parallel':t.a=[nz(),nz()];t.k=pick([-3,-2,2,3]);t.b=[0,t.a[1]*t.k];scalar(t.a[0]*t.k);t.graph='parameter';t.prompt=`При каком t векторы a⃗ = ${vec(t.a)} и b⃗ = (t; ${fmt(t.b[1])}) коллинеарны?`;t.solution=`По вторым координатам множитель равен ${fmt(t.b[1])}/(${fmt(t.a[1])}) = ${fmt(t.k)}. t = ${fmt(t.k)} · (${fmt(t.a[0])}) = ${fmt(t.expected[0])}.`;break;

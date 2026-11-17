@@ -1,4 +1,5 @@
-import {generate as legacyGenerate,rng,add,sub,mul,dot,norm,vec,fmt,parseNumber,same} from './engine.js';
+import {generate as legacyGenerate,rng,add,sub,mul,dot,norm,vec,fmt,parseNumber,same} from './engine.js?v=cosine-20261117';
+import {chooseCosinePair} from './cosine.js';
 import {generateModulus} from './modulus.js';
 import {checkRootAnswer} from './exact-number.js';
 export const PREP=[
@@ -35,7 +36,7 @@ export function generatePrep(type,seed,options={}){
  if(type==='length')return generateModulus(seed,options);
  const g=seeded(seed),t=base('prepare',type,seed);let a=randomNonzero(g),b=randomNonzero(g);
  if(['sum','dot','cosine'].includes(type)){
-  const q=legacyGenerate(type,seed,'practice');Object.assign(t,{a:q.a,b:q.b,expected:q.expected,prompt:q.prompt,solution:q.solution});a=q.a;b=q.b;
+  const q=legacyGenerate(type,seed,'practice',options);Object.assign(t,{a:q.a,b:q.b,expected:q.expected,prompt:q.prompt,solution:q.solution});a=q.a;b=q.b;
   t.given=[V('a',a,[-2,-1])];if(['sum','dot','cosine'].includes(type))t.given.push(V('b',b,[2,3]));
   if(type==='sum'){t.op=q.op;t.build=true;t.answerKind='construction';t.prompt=`Постройте вектор c⃗ = a⃗ ${q.op===1?'+':'−'} b⃗.`;}
  }else if(type==='scale'){
@@ -65,7 +66,7 @@ function geometryTask(seed){
  t.given.push(V('a',a,A),V('b',b,A));for(const v of t.given)v.editable=false;
  t.prompt=description+` Выразите ${target}⃗ через a⃗ и b⃗.`;t.solution=`${target}⃗ = ${linearText(t.expected)}.`;return t;
 }
-export function generateEge(type,seed){
+export function generateEge(type,seed,options={}){
  const g=seeded(seed),meta=EGE.find(x=>x.id===type);if(!meta)throw Error('Unknown EGE prototype');
  const t=base('ege',type,seed);t.source={fileId:'15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw',task:2,variants:meta.variants,pages:meta.variants.map(v=>11+(v-1)*4)};
  let a=randomNonzero(g),b=randomNonzero(g),c=randomNonzero(g);
@@ -87,7 +88,7 @@ export function generateEge(type,seed){
   do{a=randomNonzero(g);}while(a.some(x=>x===0));b=mul(g.pick([.5,1,2]),[-a[1],a[0]]);t.unknownVector=g.pick(['a','b']);t.axis=g.ri(0,1);const av=a.map((x,i)=>t.unknownVector==='a'&&t.axis===i?'t':fmt(x)),bv=b.map((x,i)=>t.unknownVector==='b'&&t.axis===i?'t':fmt(x));
   t.expected=[(t.unknownVector==='a'?a:b)[t.axis]];t.prompt=`Векторы a⃗ = (${av.join('; ')}) и b⃗ = (${bv.join('; ')}) перпендикулярны. Найдите t.`;t.solution=`a⃗ · b⃗ = 0. Подставляем координаты и решаем линейное уравнение: t = ${fmt(t.expected[0])}.`;
  }else if(type.startsWith('ege-cosine-')){
-  a=mul(g.pick([1,2]),g.pick(pts));b=mul(g.pick([1,2]),g.pick(type.endsWith('drawing')?pts:[...pts,[7,24],[-7,24],[7,-24],[-7,-24]]));
+  [a,b]=chooseCosinePair(g.pick,pts,type.endsWith('drawing')?pts:[...pts,[7,24],[-7,24],[7,-24],[-7,-24]],options.sequence??seed);a=mul(g.pick([1,2]),a);b=mul(g.pick([1,2]),b);
   t.expected=[dot(a,b)/norm(a)/norm(b)];t.prompt=type.endsWith('drawing')?'На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.':`Даны a⃗ = ${vec(a)} и b⃗ = ${vec(b)}. Найдите косинус угла между ними.`;
   if(type.endsWith('drawing'))t.given=[V('a',a,[-3,-2]),V('b',b,[1,3])];
   t.solution=`a⃗ · b⃗ = ${fmt(dot(a,b))}; |a⃗| · |b⃗| = ${fmt(norm(a)*norm(b))}. cos φ = ${fmt(t.expected[0])}.`;

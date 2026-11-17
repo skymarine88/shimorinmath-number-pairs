@@ -8438,10 +8438,10 @@
       "section": "ege",
       "type": "ege-cosine-coordinates",
       "seed": 25000,
-      "prompt": "Даны a⃗ = (−6; −8) и b⃗ = (−6; −8). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 100; |a⃗| · |b⃗| = 100. cos φ = 1.",
+      "prompt": "Даны a⃗ = (−6; −8) и b⃗ = (7; 24). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −234; |a⃗| · |b⃗| = 250. cos φ = −0,936.",
       "expected": [
-        1
+        -0.9359999999999999
       ],
       "answerKind": "scalar",
       "given": [],
@@ -8474,8 +8474,8 @@
         -8
       ],
       "b": [
-        -6,
-        -8
+        7,
+        24
       ],
       "c": [
         3,
@@ -8487,10 +8487,10 @@
       "section": "ege",
       "type": "ege-cosine-coordinates",
       "seed": 25001,
-      "prompt": "Даны a⃗ = (8; 6) и b⃗ = (−4; 3). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −14; |a⃗| · |b⃗| = 50. cos φ = −0,28.",
+      "prompt": "Даны a⃗ = (−4; 3) и b⃗ = (−3; 4). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 24; |a⃗| · |b⃗| = 25. cos φ = 0,96.",
       "expected": [
-        -0.27999999999999997
+        0.96
       ],
       "answerKind": "scalar",
       "given": [],
@@ -8519,12 +8519,12 @@
         ]
       },
       "a": [
-        8,
-        6
-      ],
-      "b": [
         -4,
         3
+      ],
+      "b": [
+        -3,
+        4
       ],
       "c": [
         -2,
@@ -8536,10 +8536,10 @@
       "section": "ege",
       "type": "ege-cosine-coordinates",
       "seed": 25002,
-      "prompt": "Даны a⃗ = (−3; 4) и b⃗ = (5; 0). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −15; |a⃗| · |b⃗| = 25. cos φ = −0,6.",
+      "prompt": "Даны a⃗ = (3; −4) и b⃗ = (−8; 6). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −48; |a⃗| · |b⃗| = 50. cos φ = −0,96.",
       "expected": [
-        -0.6
+        -0.96
       ],
       "answerKind": "scalar",
       "given": [],
@@ -8568,12 +8568,12 @@
         ]
       },
       "a": [
-        -3,
-        4
+        3,
+        -4
       ],
       "b": [
-        5,
-        0
+        -8,
+        6
       ],
       "c": [
         -5,
@@ -8585,10 +8585,10 @@
       "section": "ege",
       "type": "ege-cosine-coordinates",
       "seed": 25003,
-      "prompt": "Даны a⃗ = (3; 4) и b⃗ = (6; 8). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 50; |a⃗| · |b⃗| = 50. cos φ = 1.",
+      "prompt": "Даны a⃗ = (−6; 8) и b⃗ = (3; 4). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 14; |a⃗| · |b⃗| = 50. cos φ = 0,28.",
       "expected": [
-        1
+        0.27999999999999997
       ],
       "answerKind": "scalar",
       "given": [],
@@ -8617,12 +8617,12 @@
         ]
       },
       "a": [
-        3,
-        4
+        -6,
+        8
       ],
       "b": [
-        6,
-        8
+        3,
+        4
       ],
       "c": [
         -4,
@@ -8634,203 +8634,7 @@
       "section": "ege",
       "type": "ege-cosine-coordinates",
       "seed": 25004,
-      "prompt": "Даны a⃗ = (6; 8) и b⃗ = (−14; 48). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 300; |a⃗| · |b⃗| = 500. cos φ = 0,6.",
-      "expected": [
-        0.6
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        6,
-        8
-      ],
-      "b": [
-        -14,
-        48
-      ],
-      "c": [
-        3,
-        -3
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25005",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25005,
-      "prompt": "Даны a⃗ = (−3; −4) и b⃗ = (−7; 24). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −75; |a⃗| · |b⃗| = 125. cos φ = −0,6.",
-      "expected": [
-        -0.6
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        -3,
-        -4
-      ],
-      "b": [
-        -7,
-        24
-      ],
-      "c": [
-        2,
-        3
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25006",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25006,
-      "prompt": "Даны a⃗ = (3; 4) и b⃗ = (0; 5). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 20; |a⃗| · |b⃗| = 25. cos φ = 0,8.",
-      "expected": [
-        0.8
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        3,
-        4
-      ],
-      "b": [
-        0,
-        5
-      ],
-      "c": [
-        0,
-        -2
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25007",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25007,
-      "prompt": "Даны a⃗ = (5; 0) и b⃗ = (0; 10). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 50. cos φ = 0.",
-      "expected": [
-        0
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        5,
-        0
-      ],
-      "b": [
-        0,
-        10
-      ],
-      "c": [
-        2,
-        -3
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25008",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25008,
-      "prompt": "Даны a⃗ = (−6; −8) и b⃗ = (−8; 6). Найдите косинус угла между ними.",
+      "prompt": "Даны a⃗ = (−8; 6) и b⃗ = (6; 8). Найдите косинус угла между ними.",
       "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 100. cos φ = 0.",
       "expected": [
         0
@@ -8862,417 +8666,25 @@
         ]
       },
       "a": [
-        -6,
-        -8
-      ],
-      "b": [
         -8,
         6
       ],
-      "c": [
-        1,
-        2
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25009",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25009,
-      "prompt": "Даны a⃗ = (8; 6) и b⃗ = (−4; 3). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −14; |a⃗| · |b⃗| = 50. cos φ = −0,28.",
-      "expected": [
-        -0.27999999999999997
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        8,
-        6
-      ],
       "b": [
-        -4,
-        3
-      ],
-      "c": [
-        -2,
-        2
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25010",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25010,
-      "prompt": "Даны a⃗ = (8; 6) и b⃗ = (3; −4). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 50. cos φ = 0.",
-      "expected": [
-        0
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        8,
-        6
-      ],
-      "b": [
-        3,
-        -4
-      ],
-      "c": [
-        -4,
-        1
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25011",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25011,
-      "prompt": "Даны a⃗ = (0; 5) и b⃗ = (−14; 48). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 240; |a⃗| · |b⃗| = 250. cos φ = 0,96.",
-      "expected": [
-        0.96
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        0,
-        5
-      ],
-      "b": [
-        -14,
-        48
-      ],
-      "c": [
-        -2,
-        0
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25012",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25012,
-      "prompt": "Даны a⃗ = (8; 6) и b⃗ = (8; 6). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 100; |a⃗| · |b⃗| = 100. cos φ = 1.",
-      "expected": [
-        1
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        8,
-        6
-      ],
-      "b": [
-        8,
-        6
-      ],
-      "c": [
-        -3,
-        0
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25013",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25013,
-      "prompt": "Даны a⃗ = (−3; −4) и b⃗ = (−4; 3). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 25. cos φ = 0.",
-      "expected": [
-        0
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        -3,
-        -4
-      ],
-      "b": [
-        -4,
-        3
-      ],
-      "c": [
-        5,
-        0
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25014",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25014,
-      "prompt": "Даны a⃗ = (−3; −4) и b⃗ = (10; 0). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −30; |a⃗| · |b⃗| = 50. cos φ = −0,6.",
-      "expected": [
-        -0.6
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        -3,
-        -4
-      ],
-      "b": [
-        10,
-        0
-      ],
-      "c": [
-        1,
-        -2
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25015",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25015,
-      "prompt": "Даны a⃗ = (8; 6) и b⃗ = (−14; −48). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −400; |a⃗| · |b⃗| = 500. cos φ = −0,8.",
-      "expected": [
-        -0.8
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        8,
-        6
-      ],
-      "b": [
-        -14,
-        -48
-      ],
-      "c": [
-        -4,
-        0
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25016",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25016,
-      "prompt": "Даны a⃗ = (−4; 3) и b⃗ = (14; 48). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 88; |a⃗| · |b⃗| = 250. cos φ = 0,352.",
-      "expected": [
-        0.35200000000000004
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        -4,
-        3
-      ],
-      "b": [
-        14,
-        48
+        6,
+        8
       ],
       "c": [
         3,
-        4
+        -3
       ]
     },
     {
-      "id": "ege-ege-cosine-coordinates-25017",
+      "id": "ege-ege-cosine-coordinates-25005",
       "section": "ege",
       "type": "ege-cosine-coordinates",
-      "seed": 25017,
-      "prompt": "Даны a⃗ = (3; 4) и b⃗ = (−14; 48). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 150; |a⃗| · |b⃗| = 250. cos φ = 0,6.",
+      "seed": 25005,
+      "prompt": "Даны a⃗ = (3; 4) и b⃗ = (10; 0). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 30; |a⃗| · |b⃗| = 50. cos φ = 0,6.",
       "expected": [
         0.6
       ],
@@ -9307,166 +8719,19 @@
         4
       ],
       "b": [
-        -14,
-        48
-      ],
-      "c": [
-        0,
-        -5
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25018",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25018,
-      "prompt": "Даны a⃗ = (−4; 3) и b⃗ = (7; −24). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −100; |a⃗| · |b⃗| = 125. cos φ = −0,8.",
-      "expected": [
-        -0.8
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
+        10,
         0
       ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        -4,
+      "c": [
+        2,
         3
-      ],
-      "b": [
-        7,
-        -24
-      ],
-      "c": [
-        1,
-        5
       ]
     },
     {
-      "id": "ege-ege-cosine-coordinates-25019",
+      "id": "ege-ege-cosine-coordinates-25006",
       "section": "ege",
       "type": "ege-cosine-coordinates",
-      "seed": 25019,
-      "prompt": "Даны a⃗ = (−3; −4) и b⃗ = (−3; 4). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −7; |a⃗| · |b⃗| = 25. cos φ = −0,28.",
-      "expected": [
-        -0.27999999999999997
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        -3,
-        -4
-      ],
-      "b": [
-        -3,
-        4
-      ],
-      "c": [
-        3,
-        0
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25020",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25020,
-      "prompt": "Даны a⃗ = (−4; 3) и b⃗ = (3; 4). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 25. cos φ = 0.",
-      "expected": [
-        0
-      ],
-      "answerKind": "scalar",
-      "given": [],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          15,
-          29,
-          30
-        ],
-        "pages": [
-          67,
-          123,
-          127
-        ]
-      },
-      "a": [
-        -4,
-        3
-      ],
-      "b": [
-        3,
-        4
-      ],
-      "c": [
-        -1,
-        -4
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-coordinates-25021",
-      "section": "ege",
-      "type": "ege-cosine-coordinates",
-      "seed": 25021,
+      "seed": 25006,
       "prompt": "Даны a⃗ = (−3; 4) и b⃗ = (6; 8). Найдите косинус угла между ними.",
       "solution": "a⃗ · b⃗ = 14; |a⃗| · |b⃗| = 50. cos φ = 0,28.",
       "expected": [
@@ -9507,17 +8772,311 @@
         8
       ],
       "c": [
-        3,
-        3
+        0,
+        -2
       ]
     },
     {
-      "id": "ege-ege-cosine-coordinates-25022",
+      "id": "ege-ege-cosine-coordinates-25007",
       "section": "ege",
       "type": "ege-cosine-coordinates",
-      "seed": 25022,
-      "prompt": "Даны a⃗ = (−4; 3) и b⃗ = (0; 10). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 30; |a⃗| · |b⃗| = 50. cos φ = 0,6.",
+      "seed": 25007,
+      "prompt": "Даны a⃗ = (−6; 8) и b⃗ = (−14; −48). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −300; |a⃗| · |b⃗| = 500. cos φ = −0,6.",
+      "expected": [
+        -0.6
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        -6,
+        8
+      ],
+      "b": [
+        -14,
+        -48
+      ],
+      "c": [
+        2,
+        -3
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25008",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25008,
+      "prompt": "Даны a⃗ = (−6; −8) и b⃗ = (5; 0). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −30; |a⃗| · |b⃗| = 50. cos φ = −0,6.",
+      "expected": [
+        -0.6
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        -6,
+        -8
+      ],
+      "b": [
+        5,
+        0
+      ],
+      "c": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25009",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25009,
+      "prompt": "Даны a⃗ = (−4; 3) и b⃗ = (−4; 3). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 25; |a⃗| · |b⃗| = 25. cos φ = 1.",
+      "expected": [
+        1
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        -4,
+        3
+      ],
+      "b": [
+        -4,
+        3
+      ],
+      "c": [
+        -2,
+        2
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25010",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25010,
+      "prompt": "Даны a⃗ = (−4; 3) и b⃗ = (−3; 4). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 24; |a⃗| · |b⃗| = 25. cos φ = 0,96.",
+      "expected": [
+        0.96
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        -4,
+        3
+      ],
+      "b": [
+        -3,
+        4
+      ],
+      "c": [
+        -4,
+        1
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25011",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25011,
+      "prompt": "Даны a⃗ = (6; 8) и b⃗ = (14; −48). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −300; |a⃗| · |b⃗| = 500. cos φ = −0,6.",
+      "expected": [
+        -0.6
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        6,
+        8
+      ],
+      "b": [
+        14,
+        -48
+      ],
+      "c": [
+        -2,
+        0
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25012",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25012,
+      "prompt": "Даны a⃗ = (−6; −8) и b⃗ = (3; −4). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 14; |a⃗| · |b⃗| = 50. cos φ = 0,28.",
+      "expected": [
+        0.27999999999999997
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        -6,
+        -8
+      ],
+      "b": [
+        3,
+        -4
+      ],
+      "c": [
+        -3,
+        0
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25013",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25013,
+      "prompt": "Даны a⃗ = (4; 3) и b⃗ = (0; 5). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 15; |a⃗| · |b⃗| = 25. cos φ = 0,6.",
       "expected": [
         0.6
       ],
@@ -9548,27 +9107,27 @@
         ]
       },
       "a": [
-        -4,
+        4,
         3
       ],
       "b": [
         0,
-        10
+        5
       ],
       "c": [
-        -4,
-        -1
+        5,
+        0
       ]
     },
     {
-      "id": "ege-ege-cosine-coordinates-25023",
+      "id": "ege-ege-cosine-coordinates-25014",
       "section": "ege",
       "type": "ege-cosine-coordinates",
-      "seed": 25023,
-      "prompt": "Даны a⃗ = (−3; 4) и b⃗ = (−6; −8). Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −14; |a⃗| · |b⃗| = 50. cos φ = −0,28.",
+      "seed": 25014,
+      "prompt": "Даны a⃗ = (8; 6) и b⃗ = (0; 10). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 60; |a⃗| · |b⃗| = 100. cos φ = 0,6.",
       "expected": [
-        -0.27999999999999997
+        0.6
       ],
       "answerKind": "scalar",
       "given": [],
@@ -9597,12 +9156,453 @@
         ]
       },
       "a": [
-        -3,
-        4
+        8,
+        6
+      ],
+      "b": [
+        0,
+        10
+      ],
+      "c": [
+        1,
+        -2
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25015",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25015,
+      "prompt": "Даны a⃗ = (10; 0) и b⃗ = (−6; 8). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −60; |a⃗| · |b⃗| = 100. cos φ = −0,6.",
+      "expected": [
+        -0.6
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        10,
+        0
       ],
       "b": [
         -6,
+        8
+      ],
+      "c": [
+        -4,
+        0
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25016",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25016,
+      "prompt": "Даны a⃗ = (8; 6) и b⃗ = (14; 48). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 400; |a⃗| · |b⃗| = 500. cos φ = 0,8.",
+      "expected": [
+        0.8
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        8,
+        6
+      ],
+      "b": [
+        14,
+        48
+      ],
+      "c": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25017",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25017,
+      "prompt": "Даны a⃗ = (6; 8) и b⃗ = (−6; 8). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 28; |a⃗| · |b⃗| = 100. cos φ = 0,28.",
+      "expected": [
+        0.27999999999999997
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        6,
+        8
+      ],
+      "b": [
+        -6,
+        8
+      ],
+      "c": [
+        0,
+        -5
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25018",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25018,
+      "prompt": "Даны a⃗ = (4; 3) и b⃗ = (−14; 48). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 88; |a⃗| · |b⃗| = 250. cos φ = 0,352.",
+      "expected": [
+        0.35200000000000004
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        4,
+        3
+      ],
+      "b": [
+        -14,
+        48
+      ],
+      "c": [
+        1,
+        5
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25019",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25019,
+      "prompt": "Даны a⃗ = (3; −4) и b⃗ = (3; −4). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 25; |a⃗| · |b⃗| = 25. cos φ = 1.",
+      "expected": [
+        1
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        3,
+        -4
+      ],
+      "b": [
+        3,
+        -4
+      ],
+      "c": [
+        3,
+        0
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25020",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25020,
+      "prompt": "Даны a⃗ = (4; 3) и b⃗ = (−7; 24). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 44; |a⃗| · |b⃗| = 125. cos φ = 0,352.",
+      "expected": [
+        0.35200000000000004
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        4,
+        3
+      ],
+      "b": [
+        -7,
+        24
+      ],
+      "c": [
+        -1,
+        -4
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25021",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25021,
+      "prompt": "Даны a⃗ = (−6; 8) и b⃗ = (−4; 3). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 48; |a⃗| · |b⃗| = 50. cos φ = 0,96.",
+      "expected": [
+        0.96
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        -6,
+        8
+      ],
+      "b": [
+        -4,
+        3
+      ],
+      "c": [
+        3,
+        3
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25022",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25022,
+      "prompt": "Даны a⃗ = (6; −8) и b⃗ = (−14; 48). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −468; |a⃗| · |b⃗| = 500. cos φ = −0,936.",
+      "expected": [
+        -0.9359999999999999
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        6,
         -8
+      ],
+      "b": [
+        -14,
+        48
+      ],
+      "c": [
+        -4,
+        -1
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-coordinates-25023",
+      "section": "ege",
+      "type": "ege-cosine-coordinates",
+      "seed": 25023,
+      "prompt": "Даны a⃗ = (6; −8) и b⃗ = (−3; −4). Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 14; |a⃗| · |b⃗| = 50. cos φ = 0,28.",
+      "expected": [
+        0.27999999999999997
+      ],
+      "answerKind": "scalar",
+      "given": [],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          15,
+          29,
+          30
+        ],
+        "pages": [
+          67,
+          123,
+          127
+        ]
+      },
+      "a": [
+        6,
+        -8
+      ],
+      "b": [
+        -3,
+        -4
       ],
       "c": [
         0,
@@ -9614,766 +9614,6 @@
       "section": "ege",
       "type": "ege-cosine-drawing",
       "seed": 26000,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −25; |a⃗| · |b⃗| = 25. cos φ = −1.",
-      "expected": [
-        -1
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            0,
-            2
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            -2,
-            -1
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        3,
-        4
-      ],
-      "b": [
-        -3,
-        -4
-      ],
-      "c": [
-        -3,
-        0
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26001",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26001,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 25. cos φ = 0.",
-      "expected": [
-        0
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            -6,
-            2
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            5,
-            6
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        -3,
-        4
-      ],
-      "b": [
-        4,
-        3
-      ],
-      "c": [
-        5,
-        -1
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26002",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26002,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 50. cos φ = 0.",
-      "expected": [
-        0
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            3,
-            -10
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            5,
-            6
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        6,
-        -8
-      ],
-      "b": [
-        4,
-        3
-      ],
-      "c": [
-        0,
-        2
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26003",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26003,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 50. cos φ = 0.",
-      "expected": [
-        0
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            -6,
-            2
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            9,
-            9
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        -3,
-        4
-      ],
-      "b": [
-        8,
-        6
-      ],
-      "c": [
-        4,
-        3
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26004",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26004,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 50; |a⃗| · |b⃗| = 50. cos φ = 1.",
-      "expected": [
-        1
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            2,
-            -2
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            11,
-            3
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        5,
-        0
-      ],
-      "b": [
-        10,
-        0
-      ],
-      "c": [
-        -1,
-        -5
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26005",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26005,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −48; |a⃗| · |b⃗| = 50. cos φ = −0,96.",
-      "expected": [
-        -0.96
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            0,
-            -6
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            -7,
-            9
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        3,
-        -4
-      ],
-      "b": [
-        -8,
-        6
-      ],
-      "c": [
-        2,
-        3
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26006",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26006,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 25. cos φ = 0.",
-      "expected": [
-        0
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            1,
-            1
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            4,
-            -1
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        4,
-        3
-      ],
-      "b": [
-        3,
-        -4
-      ],
-      "c": [
-        -1,
-        5
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26007",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26007,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 25. cos φ = 0.",
-      "expected": [
-        0
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            -7,
-            1
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            4,
-            7
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        -4,
-        3
-      ],
-      "b": [
-        3,
-        4
-      ],
-      "c": [
-        -4,
-        5
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26008",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26008,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −24; |a⃗| · |b⃗| = 25. cos φ = −0,96.",
-      "expected": [
-        -0.96
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            -7,
-            1
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            4,
-            -1
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        -4,
-        3
-      ],
-      "b": [
-        3,
-        -4
-      ],
-      "c": [
-        -1,
-        5
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26009",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26009,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −50; |a⃗| · |b⃗| = 50. cos φ = −1.",
-      "expected": [
-        -1
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            -9,
-            6
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            4,
-            -1
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        -6,
-        8
-      ],
-      "b": [
-        3,
-        -4
-      ],
-      "c": [
-        -2,
-        -1
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26010",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26010,
       "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
       "solution": "a⃗ · b⃗ = −14; |a⃗| · |b⃗| = 50. cos φ = −0,28.",
       "expected": [
@@ -10389,236 +9629,8 @@
             -2
           ],
           "end": [
-            3,
-            6
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            4,
-            -1
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        6,
-        8
-      ],
-      "b": [
-        3,
-        -4
-      ],
-      "c": [
-        5,
-        5
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26011",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26011,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 20; |a⃗| · |b⃗| = 25. cos φ = 0,8.",
-      "expected": [
-        0.8
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            1,
-            1
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            6,
-            3
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        4,
-        3
-      ],
-      "b": [
-        5,
-        0
-      ],
-      "c": [
-        -1,
-        5
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26012",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26012,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −24; |a⃗| · |b⃗| = 25. cos φ = −0,96.",
-      "expected": [
-        -0.96
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            -7,
-            1
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            4,
-            -1
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        -4,
-        3
-      ],
-      "b": [
-        3,
-        -4
-      ],
-      "c": [
-        -1,
-        3
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26013",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26013,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 28; |a⃗| · |b⃗| = 100. cos φ = 0,28.",
-      "expected": [
-        0.27999999999999997
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            -9,
-            6
+            0,
+            -6
           ],
           "color": "#E06357",
           "editable": "translate",
@@ -10661,12 +9673,1000 @@
         ]
       },
       "a": [
-        -6,
-        8
+        3,
+        -4
       ],
       "b": [
         6,
         8
+      ],
+      "c": [
+        -3,
+        0
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26001",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26001,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 7; |a⃗| · |b⃗| = 25. cos φ = 0,28.",
+      "expected": [
+        0.27999999999999997
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            0,
+            -6
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            -2,
+            -1
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        3,
+        -4
+      ],
+      "b": [
+        -3,
+        -4
+      ],
+      "c": [
+        5,
+        -1
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26002",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26002,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 7; |a⃗| · |b⃗| = 25. cos φ = 0,28.",
+      "expected": [
+        0.27999999999999997
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            -6,
+            -6
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            4,
+            -1
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        -3,
+        -4
+      ],
+      "b": [
+        3,
+        -4
+      ],
+      "c": [
+        0,
+        2
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26003",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26003,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 14; |a⃗| · |b⃗| = 50. cos φ = 0,28.",
+      "expected": [
+        0.27999999999999997
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            3,
+            6
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            -2,
+            7
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        6,
+        8
+      ],
+      "b": [
+        -3,
+        4
+      ],
+      "c": [
+        4,
+        3
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26004",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26004,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −60; |a⃗| · |b⃗| = 100. cos φ = −0,6.",
+      "expected": [
+        -0.6
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            -9,
+            6
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            11,
+            3
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        -6,
+        8
+      ],
+      "b": [
+        10,
+        0
+      ],
+      "c": [
+        -1,
+        -5
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26005",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26005,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 28; |a⃗| · |b⃗| = 100. cos φ = 0,28.",
+      "expected": [
+        0.27999999999999997
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            3,
+            -10
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            -5,
+            -5
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        6,
+        -8
+      ],
+      "b": [
+        -6,
+        -8
+      ],
+      "c": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26006",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26006,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 25. cos φ = 0.",
+      "expected": [
+        0
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            1,
+            1
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            -2,
+            7
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        4,
+        3
+      ],
+      "b": [
+        -3,
+        4
+      ],
+      "c": [
+        -1,
+        5
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26007",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26007,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 25. cos φ = 0.",
+      "expected": [
+        0
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            0,
+            2
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            -3,
+            6
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        3,
+        4
+      ],
+      "b": [
+        -4,
+        3
+      ],
+      "c": [
+        -4,
+        5
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26008",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26008,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −7; |a⃗| · |b⃗| = 25. cos φ = −0,28.",
+      "expected": [
+        -0.27999999999999997
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            1,
+            1
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            -3,
+            6
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        4,
+        3
+      ],
+      "b": [
+        -4,
+        3
+      ],
+      "c": [
+        -1,
+        5
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26009",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26009,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 25; |a⃗| · |b⃗| = 25. cos φ = 1.",
+      "expected": [
+        1
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            -7,
+            1
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            -3,
+            6
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        -4,
+        3
+      ],
+      "b": [
+        -4,
+        3
+      ],
+      "c": [
+        -2,
+        -1
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26010",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26010,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 25. cos φ = 0.",
+      "expected": [
+        0
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            -7,
+            1
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            4,
+            7
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        -4,
+        3
+      ],
+      "b": [
+        3,
+        4
+      ],
+      "c": [
+        5,
+        5
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26011",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26011,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 14; |a⃗| · |b⃗| = 50. cos φ = 0,28.",
+      "expected": [
+        0.27999999999999997
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            0,
+            2
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            -5,
+            11
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        3,
+        4
+      ],
+      "b": [
+        -6,
+        8
+      ],
+      "c": [
+        -1,
+        5
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26012",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26012,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 20; |a⃗| · |b⃗| = 25. cos φ = 0,8.",
+      "expected": [
+        0.8
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            0,
+            2
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            1,
+            8
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        3,
+        4
+      ],
+      "b": [
+        0,
+        5
+      ],
+      "c": [
+        -1,
+        3
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26013",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26013,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 40; |a⃗| · |b⃗| = 50. cos φ = 0,8.",
+      "expected": [
+        0.8
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            7,
+            -2
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            5,
+            6
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        10,
+        0
+      ],
+      "b": [
+        4,
+        3
       ],
       "c": [
         1,
@@ -10678,6 +10678,462 @@
       "section": "ege",
       "type": "ege-cosine-drawing",
       "seed": 26014,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 30; |a⃗| · |b⃗| = 50. cos φ = 0,6.",
+      "expected": [
+        0.6
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            2,
+            -2
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            7,
+            -5
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        5,
+        0
+      ],
+      "b": [
+        6,
+        -8
+      ],
+      "c": [
+        -1,
+        5
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26015",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26015,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −80; |a⃗| · |b⃗| = 100. cos φ = −0,8.",
+      "expected": [
+        -0.8
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            -9,
+            -10
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            1,
+            13
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        -6,
+        -8
+      ],
+      "b": [
+        0,
+        10
+      ],
+      "c": [
+        0,
+        -5
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26016",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26016,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −80; |a⃗| · |b⃗| = 100. cos φ = −0,8.",
+      "expected": [
+        -0.8
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            -3,
+            8
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            -5,
+            -5
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        0,
+        10
+      ],
+      "b": [
+        -6,
+        -8
+      ],
+      "c": [
+        -3,
+        -1
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26017",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26017,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 30; |a⃗| · |b⃗| = 50. cos φ = 0,6.",
+      "expected": [
+        0.6
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            0,
+            -6
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            11,
+            3
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        3,
+        -4
+      ],
+      "b": [
+        10,
+        0
+      ],
+      "c": [
+        2,
+        0
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26018",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26018,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = 30; |a⃗| · |b⃗| = 50. cos φ = 0,6.",
+      "expected": [
+        0.6
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            -3,
+            3
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            -7,
+            9
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        0,
+        5
+      ],
+      "b": [
+        -8,
+        6
+      ],
+      "c": [
+        -4,
+        -1
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26019",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26019,
+      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
+      "solution": "a⃗ · b⃗ = −25; |a⃗| · |b⃗| = 25. cos φ = −1.",
+      "expected": [
+        -1
+      ],
+      "answerKind": "scalar",
+      "given": [
+        {
+          "id": "a",
+          "label": "a",
+          "start": [
+            -3,
+            -2
+          ],
+          "end": [
+            -6,
+            2
+          ],
+          "color": "#E06357",
+          "editable": "translate",
+          "kind": "vector"
+        },
+        {
+          "id": "b",
+          "label": "b",
+          "start": [
+            1,
+            3
+          ],
+          "end": [
+            4,
+            -1
+          ],
+          "color": "#2B3038",
+          "editable": "translate",
+          "kind": "vector"
+        }
+      ],
+      "build": false,
+      "anchor": [
+        0,
+        0
+      ],
+      "endpoint": [
+        1,
+        1
+      ],
+      "snap": 0.5,
+      "source": {
+        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
+        "task": 2,
+        "variants": [
+          16
+        ],
+        "pages": [
+          71
+        ]
+      },
+      "a": [
+        -3,
+        4
+      ],
+      "b": [
+        3,
+        -4
+      ],
+      "c": [
+        -1,
+        -2
+      ]
+    },
+    {
+      "id": "ege-ege-cosine-drawing-26020",
+      "section": "ege",
+      "type": "ege-cosine-drawing",
+      "seed": 26020,
       "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
       "solution": "a⃗ · b⃗ = 14; |a⃗| · |b⃗| = 50. cos φ = 0,28.",
       "expected": [
@@ -10746,18 +11202,18 @@
       ],
       "c": [
         -1,
-        5
+        2
       ]
     },
     {
-      "id": "ege-ege-cosine-drawing-26015",
+      "id": "ege-ege-cosine-drawing-26021",
       "section": "ege",
       "type": "ege-cosine-drawing",
-      "seed": 26015,
+      "seed": 26021,
       "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 60; |a⃗| · |b⃗| = 100. cos φ = 0,6.",
+      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 50. cos φ = 0.",
       "expected": [
-        0.6
+        0
       ],
       "answerKind": "scalar",
       "given": [
@@ -10769,8 +11225,8 @@
             -2
           ],
           "end": [
-            -3,
-            8
+            -11,
+            4
           ],
           "color": "#E06357",
           "editable": "translate",
@@ -10784,8 +11240,8 @@
             3
           ],
           "end": [
-            -7,
-            9
+            4,
+            7
           ],
           "color": "#2B3038",
           "editable": "translate",
@@ -10813,103 +11269,27 @@
         ]
       },
       "a": [
-        0,
-        10
-      ],
-      "b": [
         -8,
         6
       ],
-      "c": [
-        0,
-        -5
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26016",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26016,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 100. cos φ = 0.",
-      "expected": [
-        0
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            -9,
-            -10
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            -7,
-            9
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        -6,
-        -8
-      ],
       "b": [
-        -8,
-        6
+        3,
+        4
       ],
       "c": [
-        -3,
+        -2,
         -1
       ]
     },
     {
-      "id": "ege-ege-cosine-drawing-26017",
+      "id": "ege-ege-cosine-drawing-26022",
       "section": "ege",
       "type": "ege-cosine-drawing",
-      "seed": 26017,
+      "seed": 26022,
       "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 25. cos φ = 0.",
+      "solution": "a⃗ · b⃗ = 30; |a⃗| · |b⃗| = 50. cos φ = 0,6.",
       "expected": [
-        0
+        0.6
       ],
       "answerKind": "scalar",
       "given": [
@@ -10936,8 +11316,8 @@
             3
           ],
           "end": [
-            1,
-            8
+            7,
+            -5
           ],
           "color": "#2B3038",
           "editable": "translate",
@@ -10969,175 +11349,23 @@
         0
       ],
       "b": [
-        0,
-        5
+        6,
+        -8
       ],
       "c": [
         2,
-        0
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26018",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26018,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 30; |a⃗| · |b⃗| = 50. cos φ = 0,6.",
-      "expected": [
-        0.6
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            -3,
-            8
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            -3,
-            6
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        0,
-        10
-      ],
-      "b": [
-        -4,
-        3
-      ],
-      "c": [
-        -4,
         -1
       ]
     },
     {
-      "id": "ege-ege-cosine-drawing-26019",
+      "id": "ege-ege-cosine-drawing-26023",
       "section": "ege",
       "type": "ege-cosine-drawing",
-      "seed": 26019,
+      "seed": 26023,
       "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −7; |a⃗| · |b⃗| = 25. cos φ = −0,28.",
+      "solution": "a⃗ · b⃗ = −14; |a⃗| · |b⃗| = 50. cos φ = −0,28.",
       "expected": [
         -0.27999999999999997
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            -6,
-            -6
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            -2,
-            7
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        -3,
-        -4
-      ],
-      "b": [
-        -3,
-        4
-      ],
-      "c": [
-        -1,
-        -2
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26020",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26020,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 0; |a⃗| · |b⃗| = 50. cos φ = 0.",
-      "expected": [
-        0
       ],
       "answerKind": "scalar",
       "given": [
@@ -11164,8 +11392,8 @@
             3
           ],
           "end": [
-            9,
-            9
+            -5,
+            -5
           ],
           "color": "#2B3038",
           "editable": "translate",
@@ -11197,236 +11425,8 @@
         4
       ],
       "b": [
-        8,
-        6
-      ],
-      "c": [
-        -1,
-        2
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26021",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26021,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = 96; |a⃗| · |b⃗| = 100. cos φ = 0,96.",
-      "expected": [
-        0.96
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            3,
-            6
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            9,
-            9
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        6,
-        8
-      ],
-      "b": [
-        8,
-        6
-      ],
-      "c": [
-        -2,
-        -1
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26022",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26022,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −40; |a⃗| · |b⃗| = 50. cos φ = −0,8.",
-      "expected": [
-        -0.8
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            3,
-            -10
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            1,
-            8
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        6,
+        -6,
         -8
-      ],
-      "b": [
-        0,
-        5
-      ],
-      "c": [
-        2,
-        -1
-      ]
-    },
-    {
-      "id": "ege-ege-cosine-drawing-26023",
-      "section": "ege",
-      "type": "ege-cosine-drawing",
-      "seed": 26023,
-      "prompt": "На рисунке изображены векторы a⃗ и b⃗. Найдите косинус угла между ними.",
-      "solution": "a⃗ · b⃗ = −24; |a⃗| · |b⃗| = 25. cos φ = −0,96.",
-      "expected": [
-        -0.96
-      ],
-      "answerKind": "scalar",
-      "given": [
-        {
-          "id": "a",
-          "label": "a",
-          "start": [
-            -3,
-            -2
-          ],
-          "end": [
-            0,
-            -6
-          ],
-          "color": "#E06357",
-          "editable": "translate",
-          "kind": "vector"
-        },
-        {
-          "id": "b",
-          "label": "b",
-          "start": [
-            1,
-            3
-          ],
-          "end": [
-            -3,
-            6
-          ],
-          "color": "#2B3038",
-          "editable": "translate",
-          "kind": "vector"
-        }
-      ],
-      "build": false,
-      "anchor": [
-        0,
-        0
-      ],
-      "endpoint": [
-        1,
-        1
-      ],
-      "snap": 0.5,
-      "source": {
-        "fileId": "15mxmUZLbKUjXKXgp74UZWpas0xYNLOuw",
-        "task": 2,
-        "variants": [
-          16
-        ],
-        "pages": [
-          71
-        ]
-      },
-      "a": [
-        3,
-        -4
-      ],
-      "b": [
-        -4,
-        3
       ],
       "c": [
         -5,
