@@ -4,284 +4,134 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Линейная функция · SHIMORINMATH</title>
-<meta name="description" content="SHIMORINMATH: интерактивный тренажёр линейной функции. Графики, коэффициенты, прямая по двум точкам, пересечения и зачёт." />
-<meta name="theme-color" content="#0b0f17" />
+<meta name="description" content="SHIMORINMATH: интерактивный тренажёр линейной функции. Графики, коэффициенты, прямая по двум точкам, пересечения прямых." />
+<meta name="theme-color" content="#ffffff" />
 <meta name="application-name" content="SHIMORINMATH" />
 <meta name="apple-mobile-web-app-title" content="SHIMORINMATH" />
 <meta property="og:title" content="Линейная функция · SHIMORINMATH" />
 <meta property="og:description" content="Интерактивный тренажёр линейной функции: графики, коэффициенты, уравнение по двум точкам и проверка решений." />
 <meta property="og:type" content="website" />
 <link rel="icon" href="../SHIMORINMATH_Favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../catalog.css">
+<link rel="stylesheet" href="../catalog-identity.css">
+<link rel="stylesheet" href="../brand-details.css">
+<script defer src="../brand-motion.js"></script>
+
 <style>
-  :root{
-    --bg:#0b0f17;
-    --panel:#121a28;
-    --panel2:#0f1623;
-    --text:#e8eefc;
-    --muted:#9fb0d0;
-    --accent:#5dd6ff;
-    --good:#3ddc97;
-    --bad:#ff5d7a;
-    --warn:#ffd166;
-    --btn:#1b2740;
-    --btn2:#223152;
-    --shadow: 0 10px 30px rgba(0,0,0,.35);
-    --radius:16px;
-    --pad:14px;
-    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:var(--font);
-    background: radial-gradient(1200px 900px at 20% 0%, #12203a 0%, var(--bg) 55%) fixed;
-    color:var(--text);
-  }
-  header{
-    position:sticky; top:0; z-index:20;
-    background: linear-gradient(180deg, rgba(11,15,23,.98), rgba(11,15,23,.82));
-    border-bottom:1px solid rgba(232,238,252,.08);
-    backdrop-filter: blur(10px);
-  }
-  .wrap{max-width:1100px; margin:0 auto; padding: 12px 12px 18px}
-  .top{display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;}
-  /* Official SHIMORINMATH mark and signature.
-     Keep the original white SVG intact, including its geometric punctuation. */
-  .brand{display:flex;align-items:center;gap:13px;min-width:0}
-  .brand-icon{
-    width:62px;height:62px;flex:0 0 62px;
-    display:grid;place-items:center; padding:9px;
-    background:#08111f;
-    border:1px solid rgba(232,238,252,.20);
-    box-shadow:inset 0 0 0 1px rgba(93,214,255,.06),0 5px 18px rgba(0,0,0,.18);
-    border-radius:15px;
-    cursor:pointer;
-  }
-  .brand-icon:hover{background:#122035;border-color:rgba(93,214,255,.46)}
-  .brand-icon:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-  .brand-logo{width:100%;height:100%;display:block;transform-origin:50% 50%;will-change:transform}
-  .brand-logo.logo-turn{animation:shimorinLogoTurn 2.1s cubic-bezier(.4,0,.2,1) both}
-  @keyframes shimorinLogoTurn {
-    0%{transform:rotate(0deg)}
-    28.571%{transform:rotate(-90deg)}
-    71.429%{transform:rotate(-90deg)}
-    100%{transform:rotate(0deg)}
-  }
-  .brand-copy{min-width:0}
-  .brand-author{font-size:15px;font-weight:800;letter-spacing:.02em;line-height:1.15}
-  .brand-caption{color:var(--muted);font-size:11px;line-height:1.45;letter-spacing:.035em}
-  .brand-product{font-size:16px;font-weight:750;line-height:1.25;margin-top:5px}
-  .brand-product span{color:var(--accent);font-weight:600}
-  @media (max-width:520px){
-    .top{gap:12px}
-    .brand{gap:10px}
-    .brand-icon{width:54px;height:54px;flex-basis:54px;border-radius:13px;padding:8px}
-    .brand-author{font-size:14px}
-    .brand-caption{font-size:10px}
-    .brand-product{font-size:14px}
-  }
-  @media (prefers-reduced-motion:reduce){
-    .brand-logo.logo-turn{animation:none!important}
-    .brand-icon{transition:none}
-  }
-  .credits{font-size:12px; color:var(--muted); display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
-  .credits b{color:var(--text); font-weight:700}
-  .pill{padding:6px 10px; border-radius:999px; background: rgba(93,214,255,.12); border:1px solid rgba(93,214,255,.25); color:var(--text); font-size:12px;}
-
-  main .grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:14px; align-items:start;}
-  @media (max-width: 920px){ main .grid{grid-template-columns:1fr} }
-
-  .card{
-    background: linear-gradient(180deg, rgba(18,26,40,.95), rgba(15,22,35,.95));
-    border:1px solid rgba(232,238,252,.10);
-    border-radius:var(--radius);
-    box-shadow: var(--shadow);
-    overflow:hidden;
-  }
-  .card .hd{
-    padding: var(--pad);
-    display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap;
-    border-bottom:1px solid rgba(232,238,252,.08);
-    background: rgba(0,0,0,.10);
-  }
-  .card .hd .title{display:flex; gap:10px; align-items:center; font-weight:750;}
-  .card .bd{padding: var(--pad)}
-  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-
-  button{
-    border:none; color:var(--text);
-    background: linear-gradient(180deg, var(--btn), var(--btn2));
-    padding:10px 12px; border-radius:12px; font-weight:700; letter-spacing:.2px;
-    cursor:pointer; border:1px solid rgba(232,238,252,.10);
-    transition: transform .04s ease, filter .12s ease;
-    user-select:none; -webkit-tap-highlight-color: transparent;
-  }
-  button:active{transform: translateY(1px); filter:brightness(.95)}
-  button.secondary{background: rgba(232,238,252,.08)}
-  button.good{background: linear-gradient(180deg, rgba(61,220,151,.25), rgba(61,220,151,.12)); border-color: rgba(61,220,151,.25)}
-  button.warn{background: linear-gradient(180deg, rgba(255,209,102,.22), rgba(255,209,102,.12)); border-color: rgba(255,209,102,.25)}
-  button.bad{background: linear-gradient(180deg, rgba(255,93,122,.22), rgba(255,93,122,.12)); border-color: rgba(255,93,122,.22)}
-  button.tiny{padding:8px 10px; border-radius:10px; font-weight:750; font-size:13px}
-  button.icon{display:flex; gap:8px; align-items:center}
-
-  .tabs{display:flex; gap:8px; flex-wrap:wrap;}
-  .tab{font-size:13px; padding:9px 10px; border-radius:999px; background: rgba(232,238,252,.07); border:1px solid rgba(232,238,252,.09); color:var(--muted);}
-  .tab.active{color:var(--text); background: rgba(93,214,255,.16); border-color: rgba(93,214,255,.26);}
-
-  .choiceBtn{font-size:13px; padding:9px 10px; border-radius:999px; background: rgba(232,238,252,.07); border:1px solid rgba(232,238,252,.09); color:var(--muted);}
-  .choiceBtn.active{color:var(--text); background: rgba(93,214,255,.22); border-color: rgba(93,214,255,.32);}
-
-  .hint{color:var(--muted); font-size:13px; line-height:1.35}
-  .kpi{display:flex; gap:10px; flex-wrap:wrap; font-size:13px; color:var(--muted)}
-  .kpi span{padding:6px 10px; border-radius:999px; background: rgba(232,238,252,.06); border:1px solid rgba(232,238,252,.08)}
-  .kpi b{color:var(--text)}
-  .msg{margin-top:10px; padding:10px 12px; border-radius:12px; border:1px solid rgba(232,238,252,.10); background: rgba(0,0,0,.18); line-height:1.35;}
-  .msg.good{border-color: rgba(61,220,151,.30); background: rgba(61,220,151,.10)}
-  .msg.bad{border-color: rgba(255,93,122,.30); background: rgba(255,93,122,.10)}
-  .msg.warn{border-color: rgba(255,209,102,.30); background: rgba(255,209,102,.10)}
-  .inputs{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
-  @media (max-width: 520px){ .inputs{grid-template-columns:1fr} }
-  label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px;}
-  input{
-    width:100%; padding:11px 12px; border-radius:12px;
-    border:1px solid rgba(232,238,252,.12);
-    background: rgba(7,10,16,.55);
-    color:var(--text); outline:none; font-size:15px;
-  }
-  input:focus{border-color: rgba(93,214,255,.35)}
-  .two{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
-  .mono{font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1}
-  .eq{font-size:16px; font-weight:800; letter-spacing:.2px;}
-  .frac{display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; line-height:1.05; margin: 0 2px; font-weight:800;}
-  .frac .top{padding:0 4px}
-  .frac .bar{height:1px; width:100%; background: currentColor; opacity:.85; margin:1px 0}
-  .frac .bot{padding:0 4px}
-
-  canvas{
-    width:100%; height:auto; display:block;
-    background: radial-gradient(900px 700px at 40% 20%, rgba(93,214,255,.08), rgba(0,0,0,.05) 55%, rgba(0,0,0,.18));
-  }
-  .canvasWrap{position:relative; padding:0;}
-  .overlay{position:absolute; left:10px; top:10px; display:flex; gap:8px; flex-wrap:wrap; pointer-events:none;}
-  .overlay .badge{pointer-events:none; padding:6px 10px; border-radius:999px; font-size:12px; background: rgba(0,0,0,.35); border:1px solid rgba(232,238,252,.12); color:var(--muted);}
-  .overlay .badge b{color:var(--text)}
+main {padding:28px 0 36px}
+.title-row, .row, .kpi {display:flex; align-items:center; flex-wrap:wrap; gap:8px}
+.title-row {justify-content:space-between; gap:16px; margin-bottom:20px}
+h1 {margin:0}
+button,select,input {font:inherit; color:inherit}
+main button, dialog button,select,input:not([type=range]) {background:white; border:1px solid #cbd0d5; border-radius:10px; padding:10px 14px}
+button,select {cursor:pointer}
+button:hover:not(:disabled),select:hover {border-color:var(--coral)}
+:focus-visible {outline:2px solid #a84035; outline-offset:3px}
+button.good {background:var(--ink); color:white; border-color:var(--ink)}
+.choiceBtn.active {background:var(--pale); border-color:var(--coral); color:#983d32}
+.mode-picker {display:grid; gap:10px; margin-bottom:16px}
+.mode-picker label {font-size:clamp(22px,3vw,30px); font-weight:650; letter-spacing:-.5px}
+.mode-picker select {width:100%; max-width:640px; font-size:clamp(18px,2.4vw,24px); font-weight:600}
+.kpi {margin-bottom:16px; font-variant-numeric:tabular-nums}
+.kpi span {padding:6px 12px; border-radius:8px; font-weight:600}
+.kpi b {font-size:20px; margin-left:3px}
+.correct,.msg.good {color:#16653b; background:#edf7ef}
+.incorrect,.msg.bad {color:#a32934; background:#fff0f0}
+.grid {display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:18px; align-items:start}
+.card {min-width:0; border:1px solid var(--line); border-radius:16px; padding:18px}
+.graph-tools {justify-content:flex-end; margin-bottom:12px}
+.tiny {font-size:14px; padding:7px 11px}
+canvas {display:block; width:100%; height:auto; border:1px solid var(--line); border-radius:8px}
+.inputs,.two {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
+.inputs label,.two label {display:block; color:#505966; font-size:14px; margin-bottom:4px}
+input {width:100%; min-width:0}
+input[type=range] {margin:8px 0; accent-color:#a84035}
+input:disabled {background:#f5f6f7; color:#606671}
+.msg {margin-top:12px; padding:12px; border-radius:10px; background:#f5f6f7}
+.msg.warn {background:#f5f6f7}
+.eq,#buildEq,#ppEq,#axEq,#mEq1,#mEq2 {font:600 1.2em/1.4 "STIX Two Math","Cambria Math",Georgia,serif}
+#panelExplore h2 {font:600 24px/1.3 "STIX Two Math","Cambria Math",Georgia,serif}
+.frac {display:inline-flex; vertical-align:middle; flex-direction:column; align-items:center; line-height:1.05; margin:0 2px}
+.frac .bar {width:100%; border-bottom:1px solid}
+#scaleLabel,.muted {color:#505966}
+dialog {width:min(600px,calc(100% - 28px)); max-height:85vh; padding:24px; border:1px solid var(--line); border-radius:16px; color:var(--ink)}
+dialog::backdrop {background:rgba(43,48,56,.45)}
+dialog header {display:flex; align-items:center; justify-content:space-between}
+dialog h2,dialog p {margin:0} dialog h3 {margin:18px 0 4px}
+@media(max-width:740px){.page {padding:0 14px}.grid {grid-template-columns:1fr}.card {padding:14px}.site-header {gap:8px}.kpi span {padding:5px 8px}}
 </style>
-<link rel="stylesheet" href="../catalog-nav.css">
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <div class="top">
-      <div class="brand">
-        <button class="brand-icon" id="logoButton" type="button" aria-label="Анимировать фирменный логотип Шиморин Б.В." title="SHIMORINMATH · фирменный знак">
-          <img class="brand-logo" id="brandLogo" src="../SHIMORINMATH_Logo_White.svg" alt="Ш!" width="48" height="48" />
-        </button>
-        <div class="brand-copy">
-          <div class="brand-author">Шиморин Б.В.</div>
-          <div class="brand-caption">Методические разработки</div>
-          <div class="brand-product">Линейная функция <span>· тренажёр</span></div>
-        </div>
-      </div>
-      <div class="credits"><span class="mono" id="year" hidden></span>
-        <a class="catalog-back" href="../"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10H4M9 5L4 10L9 15"/></svg>Все тренажёры</a>
-        <button class="tiny secondary" id="btnTheory">Теория</button>
-      </div>
-    </div>
-  </div>
-</header>
-
-<main class="wrap" style="padding-top:14px;">
+<div class="page">
+<header class="site-header"><div class="author-identity"><button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип Шиморина Б.В." title="Повернуть логотип" style="--logo-size:52px"><img data-logo-mark src="../brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."></button><a class="author-copy" href="../" aria-label="Шиморин Б.В. Методические разработки — главная"><strong>Шиморин Б.В.</strong><small>Методические разработки</small></a></div><a href="../">← Все тренажёры</a></header>
+<main><div class="title-row"><h1>Линейная функция</h1><button class="btn" id="btnTheory" type="button">Теория</button></div>
+<div class="mode-picker"><label for="mode">Что тренируем?</label>
+<select id="mode">
+<option value="explore">Влияние k и b</option>
+<option value="build">Построить прямую по формуле</option>
+<option value="read">Найти k и b по графику</option>
+<option value="points">Найти формулу по двум точкам</option>
+<option value="pp">Параллельные и перпендикулярные прямые</option>
+<option value="axes">Пересечения с осями</option>
+<option value="meet">Пересечение двух прямых</option>
+</select></div>
+<div class="kpi" role="group" aria-label="Счётчики выбранного режима">
+<span class="correct">Верно <b id="okCnt">0</b></span><span class="incorrect">Ошибки <b id="badCnt">0</b></span>
+<button class="tiny" id="btnResetMode" title="Сбросить счётчики выбранного режима">Сбросить счётчики</button>
+</div>
   <div class="grid">
     <section class="card">
-      <div class="hd">
-        <div class="title">📈 График</div>
-        <div class="row">
-          <button class="tiny icon" id="btnZoomIn" title="Увеличить">➕</button>
-          <button class="tiny icon" id="btnZoomOut" title="Уменьшить">➖</button>
+      <div class="row graph-tools"><span id="scaleLabel">1×</span>
+          <button class="tiny icon" id="btnZoomIn" aria-label="Увеличить масштаб">+</button>
+          <button class="tiny icon" id="btnZoomOut" aria-label="Уменьшить масштаб">−</button>
           <button class="tiny secondary" id="btnClearClicksTop" title="Сбросить точки" style="display:none">Сбросить точки</button>
           <button class="tiny secondary" id="btnCenter" title="Сброс масштаба">Сброс вида</button>
-        </div>
       </div>
-      <div class="canvasWrap">
-        <div class="overlay">
-          <div class="badge">масштаб: <b class="mono" id="scaleLabel">1.0×</b></div>
-          <div class="badge">клик: <b class="mono" id="clickModeLabel">—</b></div>
-        </div>
-        <canvas id="c" width="980" height="720"></canvas>
-      </div>
-      <div class="bd">
-        <div class="hint" id="canvasHint">Подсказка: в режиме «Построй» — 2 клика по сетке (две точки прямой).</div>
-      </div>
+      <canvas id="c" width="1000" height="800" aria-label="Координатная плоскость с графиком линейной функции"></canvas>
     </section>
-
     <section class="card">
-      <div class="hd">
-        <div class="title">🧩 Задание</div>
-        <div class="kpi mono">
-          <span>✅ верно (режим): <b id="okCnt">0</b></span>
-          <span>❌ ошибок (режим): <b id="badCnt">0</b></span>
-          <button class="tiny secondary" id="btnResetMode" title="Сбросить счётчики текущего режима">Сброс</button>
-        </div>
-      </div>
-
-      <div class="bd">
-        <div class="tabs" id="tabs">
-          <button class="tab active" data-mode="explore">🧠 k,b</button>
-          <button class="tab" data-mode="build">✍️ Построй</button>
-          <button class="tab" data-mode="read">🔍 По графику</button>
-          <button class="tab" data-mode="points">📍 По двум точкам</button>
-          <button class="tab" data-mode="pp">∥ ⟂</button>
-          <button class="tab" data-mode="axes">🎯 Оси</button>
-          <button class="tab" data-mode="meet">✖️ Пересечение</button>
-        </div>
-
-        <div style="margin-top:12px">
-          <div class="eq" id="taskTitle">Режим</div>
-          <div class="hint" id="taskText" style="margin-top:8px"></div>
-        </div>
-
-        <div id="panelExplore" style="margin-top:12px">
+      <div>
+        <div id="panelExplore"><h2>y = kx + b</h2>
           <div class="inputs">
             <div>
-              <label>k (наклон)</label>
-              <input id="exK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 2 или -1,5 или 3/2" />
+              <label for="exK">Угловой коэффициент k</label>
+              <input id="exK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
             </div>
             <div>
-              <label>b (сдвиг вверх/вниз)</label>
-              <input id="exB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: -3" />
+              <label for="exB">Свободный член b</label>
+              <input id="exB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
             </div>
           </div>
 
           <div class="msg warn mono" style="margin-top:10px">
-            Ползунки (в реальном времени):
+            
             <div class="inputs" style="margin-top:10px">
               <div>
                 <label>k: <span class="mono" id="kLive">1</span></label>
-                <input id="kSlider" type="range" min="-6" max="6" step="0.25" value="1" />
+                <input id="kSlider" aria-label="Ползунок k" type="range" min="-6" max="6" step="0.25" value="1" />
               </div>
               <div>
                 <label>b: <span class="mono" id="bLive">0</span></label>
-                <input id="bSlider" type="range" min="-10" max="10" step="1" value="0" />
+                <input id="bSlider" aria-label="Ползунок b" type="range" min="-10" max="10" step="1" value="0" />
               </div>
             </div>
           </div>
 
           <div class="row" style="margin-top:10px">
             <button class="good" id="btnApplyExplore">Применить</button>
-            <button class="secondary" id="btnRandomExplore">Случайные k,b</button>
+            <button class="secondary" id="btnRandomExplore">Случайные k и b</button>
           </div>
           <div class="msg" id="exploreMsg" style="display:none"></div>
         </div>
 
         <div id="panelBuild" style="margin-top:12px; display:none">
           <div class="msg warn mono" style="margin-top:0">
-            Построй прямую по формуле: <span id="buildEq"></span>
+            Отметь две точки прямой <span id="buildEq"></span>
           </div>
           <div class="row" style="margin-top:10px">
             <button class="secondary" id="btnNewBuild">Новое</button>
             <button class="good" id="btnCheckBuild">Проверить</button>
             <button class="warn" id="btnShowBuild">Показать ответ</button>
-            <button class="tiny" id="btnExamBuild">🏁 Зачёт</button>
           </div>
           <div class="msg" id="buildMsg" style="display:none"></div>
         </div>
@@ -291,32 +141,20 @@
             Введи коэффициенты <b>k</b> и <b>b</b>.
           </div>
 
-          <div id="readVariant" class="msg warn mono" style="display:none">
-            Выбери вариант:
-            <div class="row" style="margin-top:10px">
-              <button class="choiceBtn active" id="rdVarGraph">По графику</button>
-              <button class="choiceBtn" id="rdVarPoints">По двум точкам</button>
-            </div>
-            <div class="muted" style="margin-top:8px" id="rdVarHint">
-              Сейчас: видишь прямую на графике и находишь k и b.
-            </div>
-          </div>
-
           <div class="inputs" style="margin-top:10px">
             <div>
-              <label>k</label>
-              <input id="rdK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: -2 или 1/2" />
+              <label for="rdK">k</label>
+              <input id="rdK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
             </div>
             <div>
-              <label>b</label>
-              <input id="rdB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 4 или -3/2" />
+              <label for="rdB">b</label>
+              <input id="rdB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
             </div>
           </div>
           <div class="row" style="margin-top:10px">
             <button class="secondary" id="btnNewRead">Новое</button>
             <button class="good" id="btnCheckRead">Проверить</button>
             <button class="warn" id="btnShowRead">Показать ответ</button>
-            <button class="tiny" id="btnExamRead">🏁 Зачёт</button>
           </div>
           <div class="msg" id="readMsg" style="display:none"></div>
         </div>
@@ -336,11 +174,11 @@
           <div class="inputs" style="margin-top:12px">
             <div>
               <label for="ptK">Угловой коэффициент k</label>
-              <input id="ptK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: -2 или 3/2" />
+              <input id="ptK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
             </div>
             <div>
               <label for="ptB">Свободный член b</label>
-              <input id="ptB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 4 или -1/3" />
+              <input id="ptB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
             </div>
           </div>
           <div class="row" style="margin-top:10px">
@@ -349,16 +187,7 @@
             <button class="warn" id="btnShowPoints">Показать решение</button>
           </div>
           <div class="msg" id="pointsMsg" role="status" aria-live="polite" style="display:none"></div>
-          <details class="msg" style="margin-top:12px">
-            <summary style="cursor:pointer;font-weight:700">Как найти уравнение по двум точкам?</summary>
-            <p>1. Найди угловой коэффициент:
-              <span class="mono">k = (y₂ − y₁) / (x₂ − x₁)</span>.
-            </p>
-            <p>2. Подставь любую заданную точку в
-              <span class="mono">y = kx + b</span> и вычисли <b>b</b>.
-            </p>
-            <p>3. Проверь полученное уравнение на второй точке. Две точки с разными абсциссами задают единственную прямую вида <span class="mono">y = kx + b</span>.</p>
-          </details>
+          
         </div>
 
         <div id="panelPP" style="margin-top:12px; display:none">
@@ -371,28 +200,18 @@
           </div>
           <div class="inputs" style="margin-top:10px">
             <div>
-              <label>k новой прямой</label>
-              <input id="ppK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 3 или -1/2" />
+              <label for="ppK">k новой прямой</label>
+              <input id="ppK" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
             </div>
             <div>
-              <label>b новой прямой</label>
-              <input id="ppB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 1" />
+              <label for="ppB">b новой прямой</label>
+              <input id="ppB" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
             </div>
           </div>
           <div class="row" style="margin-top:10px">
             <button class="secondary" id="btnNewPP">Новое</button>
             <button class="good" id="btnCheckPP">Проверить</button>
             <button class="warn" id="btnShowPP">Показать ответ</button>
-            <button class="tiny" id="btnExamPP">🏁 Зачёт</button>
-          </div>
-
-          <div id="ppExamChoice" class="msg warn mono" style="display:none">
-            Выбери вид зачёта для ∥ ⟂:
-            <div class="row" style="margin-top:10px">
-              <button class="choiceBtn" id="ppExamPar">Только ∥</button>
-              <button class="choiceBtn" id="ppExamPerp">Только ⟂</button>
-              <button class="choiceBtn active" id="ppExamMix">Смешанный</button>
-            </div>
           </div>
 
           <div class="msg" id="ppMsg" style="display:none"></div>
@@ -407,13 +226,13 @@
               <label>С Oy: (0; y)</label>
               <div class="two">
                 <input disabled value="0" class="mono"/>
-                <input id="axY" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="y = ..." class="mono"/>
+                <input id="axY" aria-label="Ордината пересечения с Oy" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" class="mono"/>
               </div>
             </div>
             <div>
               <label>С Ox: (x; 0)</label>
               <div class="two">
-                <input id="axX" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="x = ..." class="mono"/>
+                <input id="axX" aria-label="Абсцисса пересечения с Ox" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" class="mono"/>
                 <input disabled value="0" class="mono"/>
               </div>
             </div>
@@ -422,7 +241,6 @@
             <button class="secondary" id="btnNewAxes">Новое</button>
             <button class="good" id="btnCheckAxes">Проверить</button>
             <button class="warn" id="btnShowAxes">Показать ответ</button>
-            <button class="tiny" id="btnExamAxes">🏁 Зачёт</button>
           </div>
           <div class="msg" id="axesMsg" style="display:none"></div>
         </div>
@@ -438,71 +256,32 @@
             <button class="choiceBtn" id="btnMeetInf">Бесконечно много</button>
           </div>
           <div class="two" style="margin-top:10px">
-            <div><label>x</label><input id="mx" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 2 или -3/2" class="mono"/></div>
-            <div><label>y</label><input id="my" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например: 5" class="mono"/></div>
+            <div><label for="mx">x</label><input id="mx" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" class="mono"/></div>
+            <div><label for="my">y</label><input id="my" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" class="mono"/></div>
           </div>
           <div class="row" style="margin-top:10px">
             <button class="secondary" id="btnNewMeet">Новое</button>
             <button class="good" id="btnCheckMeet">Проверить</button>
             <button class="warn" id="btnShowMeet">Показать ответ</button>
-            <button class="tiny" id="btnExamMeet">🏁 Зачёт</button>
           </div>
           <div class="msg" id="meetMsg" style="display:none"></div>
-        </div>
-
-        <!-- exam bar -->
-        <div id="examBar" style="display:none; margin-top:12px">
-          <div class="msg warn mono" style="margin-top:0">
-            🏁 <b>Зачёт</b> — время: <b id="examTimeLeft">00:00</b> · задания: <b id="examCount">0</b>
-            <div class="row" style="margin-top:10px">
-              <div class="tabs" id="examNav" style="gap:6px"></div>
-              <button class="good tiny" id="examAccept">Принять</button>
-              <button class="warn tiny" id="examFinish">Закончить и проверить</button>
-              <button class="secondary tiny" id="examExit">Выйти</button>
-            </div>
-            <div class="muted" style="margin-top:8px" id="examHint">Во время зачёта проверки по одному заданию нет.</div>
-          </div>
-          <div class="msg" id="examResult" style="display:none"></div>
         </div>
 
       </div>
     </section>
   </div>
 </main>
-<footer class="wrap" style="padding-top:8px;padding-bottom:20px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
-  <span>SHIMORINMATH</span><span>От графика к формуле · от формулы к графику</span>
-</footer>
-
-<div class="modalBg" id="modalBg" style="position:fixed; inset:0; background: rgba(0,0,0,.55); display:none; z-index:50; padding:14px;">
-  <div class="card" style="max-width:850px; margin:6vh auto; border-radius:18px;">
-    <div class="hd">
-      <div style="font-weight:800">Теория (коротко и по делу)</div>
-      <button class="tiny secondary" id="btnCloseTheory">Закрыть</button>
-    </div>
-    <div class="bd">
-      <div class="muted">Линейная функция: <b>y = kx + b</b>.</div>
-      <h3>k</h3>
-      <ul class="muted">
-        <li>k &gt; 0 — вверх вправо, k &lt; 0 — вниз вправо.</li>
-        <li>Чем больше |k|, тем прямая круче.</li>
-      </ul>
-      <h3>b</h3>
-      <ul class="muted"><li><b>b</b> — пересечение с осью <b>Oy</b>: точка <b>(0; b)</b>.</li></ul>
-      <h3>Пересечения</h3>
-      <ul class="muted">
-        <li>С Oy: (0; b).</li>
-        <li>С Ox: y=0 ⇒ 0=kx+b ⇒ x=−b/k (если k≠0).</li>
-      </ul>
-      <h3>∥ и ⟂</h3>
-      <ul class="muted">
-        <li>Параллельные: одинаковый k.</li>
-        <li>Перпендикулярные: k₂=−1/k₁ (если k₁≠0).</li>
-      </ul>
-      <div class="muted">Ввод: десятичные (точка/запятая) и дроби <code>3/2</code>.</div>
-    </div>
-  </div>
-</div>
-
+<footer class="site-footer"><span class="shimorin-wordmark" aria-label="SHIMORINMATH"><span>SHIMORIN</span><span class="wordmark-accent">MATH</span></span></footer></div>
+<dialog id="theory" aria-labelledby="theoryTitle">
+<header><h2 id="theoryTitle">Теория</h2><form method="dialog"><button autofocus>К заданию</button></form></header>
+<h3>Коэффициенты прямой</h3>
+<p>График функции y = kx + b пересекает ось Oy в точке (0; b). При увеличении x на единицу значение y меняется на k. Если k &gt; 0, прямая поднимается вправо. Если k &lt; 0, опускается. При k = 0 она горизонтальна.</p>
+<h3>От формулы к графику</h3><p>Чтобы построить y = 2x − 3, подставьте x = 0 и x = 2. Получатся точки (0; −3) и (2; 1). Через них проходит единственная прямая.</p>
+<h3>От двух точек к формуле</h3>
+<p>Если абсциссы различны, угловой коэффициент равен <span class="eq">k = <span class="frac"><span>y₂ − y₁</span><span class="bar"></span><span>x₂ − x₁</span></span></span>. Затем найдите b = y₁ − kx₁. Можно также подставить обе точки в y = kx + b и решить систему.</p>
+<h3>Параллельность и перпендикулярность</h3><p>Прямые с одинаковыми k и разными b параллельны. Для двух перпендикулярных прямых вида y = kx + b выполняется k₁k₂ = −1. Чтобы провести нужную прямую через заданную точку, подставьте её координаты и найдите b.</p>
+<h3>Пересечения</h3><p>На оси Oy абсцисса равна нулю, на оси Ox нулю равна ордината. Для двух прямых приравняйте правые части их уравнений. Если угловые коэффициенты различны, получится одна абсцисса. Подставьте её в любую из формул и найдите ординату. При равных k прямые совпадают, если равны и b, иначе у них нет общих точек.</p>
+</dialog>
 <script>
 (() => {
   // ---------- utils ----------
@@ -581,18 +360,18 @@
     for(let x=xs;x<=xe;x++){
       const px=xToPx(x);
       ctx.beginPath(); ctx.moveTo(px,0); ctx.lineTo(px,canvas.height);
-      ctx.strokeStyle="rgba(232,238,252,.55)";
+      ctx.strokeStyle=x===0?"#828995":"#e1e4e8";
       ctx.lineWidth=(x===0)?3:(x%5===0?2:1.5);
       ctx.stroke();
     }
     for(let y=ys;y<=ye;y++){
       const py=yToPx(y);
       ctx.beginPath(); ctx.moveTo(0,py); ctx.lineTo(canvas.width,py);
-      ctx.strokeStyle="rgba(232,238,252,.55)";
+      ctx.strokeStyle=y===0?"#828995":"#e1e4e8";
       ctx.lineWidth=(y===0)?3:(y%5===0?2:1.5);
       ctx.stroke();
     }
-    ctx.fillStyle="rgba(232,238,252,.80)";
+    ctx.fillStyle="#434b55";
     ctx.font="14px "+getComputedStyle(document.body).fontFamily;
 
     ctx.textAlign="center"; ctx.textBaseline="top";
@@ -658,7 +437,6 @@
     }
   };
 
-  const setClickMode=t=>document.getElementById('clickModeLabel').textContent=t;
   const setBuildTopClearVisible = () => {
     const btn = document.getElementById('btnClearClicksTop');
     if(!btn) return;
@@ -887,80 +665,55 @@
     drawGrid();
 
     if(state.mode==="explore"){
-      drawLine(state.explore.k, state.explore.b, "rgba(93,214,255,.95)", 3.5);
+      drawLine(state.explore.k, state.explore.b, "#cd5448", 3.5);
     } else if(state.mode==="build"){
-      if(state.build.userLine) drawLine(state.build.userLine.k, state.build.userLine.b, "rgba(93,214,255,.95)", 3.5);
-      if(state.build.reveal) drawLine(state.build.target.k, state.build.target.b, "rgba(232,238,252,.30)", 2);
-      for(const p of state.build.clicks) drawPoint(p.x,p.y,"rgba(255,209,102,.95)",6);
+      if(state.build.userLine) drawLine(state.build.userLine.k, state.build.userLine.b, "#cd5448", 3.5);
+      if(state.build.reveal) drawLine(state.build.target.k, state.build.target.b, "#67727e", 2);
+      for(const p of state.build.clicks) drawPoint(p.x,p.y,"#303944",6);
     } else if(state.mode==="read"){
       if(state.read.variant==="graph"){
-        drawLine(state.read.target.k, state.read.target.b, "rgba(93,214,255,.95)", 3.5);
+        drawLine(state.read.target.k, state.read.target.b, "#cd5448", 3.5);
       } else {
-        for(const p of (state.read.points||[])) drawPoint(p.x, p.y, "rgba(255,209,102,.95)", 7);
+        for(const p of (state.read.points||[])) drawPoint(p.x, p.y, "#303944", 7);
       }
     } else if(state.mode==="points"){
       const {p1,p2,reveal,target}=state.points;
-      if(reveal) drawLine(target.k, target.b, "rgba(93,214,255,.95)", 3.5);
+      if(reveal) drawLine(target.k, target.b, "#cd5448", 3.5);
       for(const [name,p] of [["A",p1],["B",p2]]){
-        drawPoint(p.x,p.y,"rgba(255,209,102,.98)",8);
-        ctx.fillStyle="#ffffff";
+        drawPoint(p.x,p.y,"#303944",8);
+        ctx.fillStyle="#2b3038";
         ctx.font="bold 19px system-ui, sans-serif";
         ctx.textAlign="left";
         ctx.textBaseline="bottom";
         ctx.fillText(name,xToPx(p.x)+11,yToPx(p.y)-10);
       }
     } else if(state.mode==="pp"){
-      drawLine(state.pp.base.k, state.pp.base.b, "rgba(232,238,252,.70)", 2.5);
-      drawPoint(state.pp.point.x, state.pp.point.y, "rgba(255,209,102,.95)", 7);
-      if(state.pp.reveal && state.pp.solution) drawLine(state.pp.solution.k, state.pp.solution.b, "rgba(93,214,255,.95)", 3.5);
+      drawLine(state.pp.base.k, state.pp.base.b, "#505966", 2.5);
+      drawPoint(state.pp.point.x, state.pp.point.y, "#303944", 7);
+      if(state.pp.reveal && state.pp.solution) drawLine(state.pp.solution.k, state.pp.solution.b, "#cd5448", 3.5);
     } else if(state.mode==="axes"){
       // не рисуем заданную прямую — черновик по 2 точкам
       const pts = state.axes.drawPoints || [];
       if(pts.length===2){
         const l = lineFromTwoPoints(pts[0], pts[1]);
-        if(l) drawLine(l.k, l.b, "rgba(255,209,102,.85)", 3.0);
+        if(l) drawLine(l.k, l.b, "#455569", 3.0);
       }
-      for(const p of pts) drawPoint(p.x,p.y,"rgba(255,209,102,.95)",6);
+      for(const p of pts) drawPoint(p.x,p.y,"#303944",6);
     } else if(state.mode==="meet"){
       // NOTE: no intersection point drawn (no hint)
-      drawLine(state.meet.l1.k, state.meet.l1.b, "rgba(93,214,255,.85)", 3.0);
-      drawLine(state.meet.l2.k, state.meet.l2.b, "rgba(255,209,102,.85)", 3.0);
+      drawLine(state.meet.l1.k, state.meet.l1.b, "#cd5448", 3.0);
+      drawLine(state.meet.l2.k, state.meet.l2.b, "#455569", 3.0);
     }
   }
 
   // ---------- mode logic ----------
   function switchMode(mode){
     state.mode=mode;
-    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.mode===mode));
-    ['panelExplore','panelBuild','panelRead','panelPoints','panelPP','panelAxes','panelMeet'].forEach(pid=>{
-      document.getElementById(pid).style.display = (pid === 'panel'+mode.charAt(0).toUpperCase()+mode.slice(1)) ? "block" : "none";
-    });
-    // fix mapping for explore/build/read/pp/axes/meet
-    document.getElementById('panelExplore').style.display = (mode==="explore") ? "block" : "none";
-    document.getElementById('panelBuild').style.display = (mode==="build") ? "block" : "none";
-    document.getElementById('panelRead').style.display = (mode==="read") ? "block" : "none";
-    document.getElementById('panelPoints').style.display = (mode==="points") ? "block" : "none";
-    document.getElementById('panelPP').style.display = (mode==="pp") ? "block" : "none";
-    document.getElementById('panelAxes').style.display = (mode==="axes") ? "block" : "none";
-    document.getElementById('panelMeet').style.display = (mode==="meet") ? "block" : "none";
-
-    const title=document.getElementById('taskTitle');
-    const text=document.getElementById('taskText');
-
-    if(mode==="explore"){ title.textContent="Режим: влияние k и b"; text.innerHTML="Меняй коэффициенты и смотри на график."; setClickMode("—"); }
-    if(mode==="build"){ title.textContent="Режим: построить по формуле"; text.textContent="2 клика по сетке — две точки прямой."; setClickMode("2 клика"); }
-    if(mode==="read"){
-      title.textContent="Режим: найти k и b";
-      text.textContent = (state.read.variant==="points")
-        ? "Даны две узловые точки — найди k и b (через систему уравнений)."
-        : "На графике дана прямая — введи k и b.";
-      setClickMode("—");
+    document.getElementById("mode").value = mode;
+    const panels = {explore:"panelExplore", build:"panelBuild", read:"panelRead", points:"panelPoints", pp:"panelPP", axes:"panelAxes", meet:"panelMeet"};
+    for (const [key, id] of Object.entries(panels)) {
+      document.getElementById(id).style.display = key === mode ? "block" : "none";
     }
-    if(mode==="points"){ title.textContent="Режим: прямая по двум точкам"; text.textContent="По координатам A и B найди k, затем b. Точки отмечены на координатной плоскости; прямая появится после правильного решения."; setClickMode("—"); }
-    if(mode==="pp"){ title.textContent="Режим: ∥ / ⟂ через точку"; text.textContent="Выбери ∥ или ⟂ и введи k,b."; setClickMode("—"); }
-    if(mode==="axes"){ title.textContent="Режим: пересечения с осями"; text.textContent="Можно набросать прямую по 2 точкам (черновик). Проверяем только введённые координаты."; setClickMode("клики"); }
-    if(mode==="meet"){ title.textContent="Режим: пересечение двух прямых"; text.textContent="Введи (x;y). В этом режиме всегда есть точка пересечения (не в узле)."; setClickMode("—"); }
-
     updateCounters();
     setBuildTopClearVisible();
     draw();
@@ -973,6 +726,8 @@
   const bLive = document.getElementById('bLive');
   function syncSlidersToExplore(){
     const k=state.explore.k, b=state.explore.b;
+    document.getElementById("exK").value = String(k);
+    document.getElementById("exB").value = String(b);
     const kc=Math.max(Number(kSlider.min), Math.min(Number(kSlider.max), k));
     const bc=Math.max(Number(bSlider.min), Math.min(Number(bSlider.max), b));
     kSlider.value=String(kc); bSlider.value=String(bc);
@@ -1031,8 +786,8 @@
     const xs=[-6,-3,0,3,6];
     let ok=true;
     for(const x of xs){ if(Math.abs((t.k*x+t.b)-(u.k*x+u.b))>1e-6){ ok=false; break; } }
-    if(ok){ setSolved('build', true); state.stats.build.ok++; setMessage(msg,"good",`✅ Верно! ${fmtEq(t.k,t.b)}.`); }
-    else{ setSolved('build', false); state.stats.build.bad++; setMessage(msg,"bad",`❌ Неверно. Правильно: ${fmtEq(t.k,t.b)}.`); }
+    if(ok){ setSolved('build', true); state.stats.build.ok++; setMessage(msg,"good",`Верно! ${fmtEq(t.k,t.b)}.`); }
+    else{ setSolved('build', false); state.stats.build.bad++; setMessage(msg,"bad",`Неверно. Правильно: ${fmtEq(t.k,t.b)}.`); }
     updateCounters();
   });
 
@@ -1067,26 +822,6 @@
     newRead();
   });
 
-  function setReadVariant(v){
-    state.read.variant=v;
-    const a=document.getElementById('rdVarGraph');
-    const b=document.getElementById('rdVarPoints');
-    if(a&&b){
-      if(v==='graph'){ a.classList.add('active'); b.classList.remove('active'); }
-      else{ b.classList.add('active'); a.classList.remove('active'); }
-    }
-    const h=document.getElementById('rdVarHint');
-    if(h){
-      h.textContent = (v==='graph')
-        ? 'Сейчас: видишь прямую на графике и находишь k и b.'
-        : 'Сейчас: даны две узловые точки (x₁; y₁) и (x₂; y₂). Найди k и b, подставляя их координаты в систему уравнений: y₁ = kx₁ + b и y₂ = kx₂ + b.';
-    }
-    switchMode('read');
-    newRead();
-  }
-  document.getElementById('rdVarGraph').addEventListener('click', ()=>setReadVariant('graph'));
-  document.getElementById('rdVarPoints').addEventListener('click', ()=>setReadVariant('points'));
-
   document.getElementById('btnCheckRead').addEventListener('click', ()=>{
     const msg=document.getElementById('readMsg');
     if(state.lock.read){ setMessage(msg,"warn","Уже проверено. Нажми «Новое»."); return; }
@@ -1096,9 +831,9 @@
     if(k==null||b==null){ setSolved('read', false); state.stats.read.bad++; updateCounters(); setMessage(msg,"warn","Введи k и b."); return; }
     const t=state.read.target;
     if(Math.abs(k-t.k)<1e-6 && Math.abs(b-t.b)<1e-6){
-      setSolved('read', true); state.stats.read.ok++; setMessage(msg,"good",`✅ Верно! ${fmtEq(t.k,t.b)}.`);
+      setSolved('read', true); state.stats.read.ok++; setMessage(msg,"good",`Верно! ${fmtEq(t.k,t.b)}.`);
     } else {
-      setSolved('read', false); state.stats.read.bad++; setMessage(msg,"bad",`❌ Неверно. Правильно: ${fmtEq(t.k,t.b)}.`);
+      setSolved('read', false); state.stats.read.bad++; setMessage(msg,"bad",`Неверно. Правильно: ${fmtEq(t.k,t.b)}.`);
     }
     updateCounters();
   });
@@ -1151,12 +886,12 @@
       state.stats.points.ok++; setSolved("points",true);lockMode("points");
       state.points.reveal=true;
       setMessage(msg,"good",
-        "✅ Верно! "+fmtEq(t.k,t.b)+". Обе заданные точки лежат на этой прямой.");
+        "Верно! "+fmtEq(t.k,t.b)+". Обе заданные точки лежат на этой прямой.");
       draw();
     }else{
       state.stats.points.bad++;
       setMessage(msg,"bad",
-        "❌ Пока неверно. Проверь: k = (y₂ − y₁)/(x₂ − x₁), затем b = y₁ − kx₁. Попробуй ещё раз.");
+        "С этими коэффициентами прямая не проходит через обе заданные точки.");
     }
     updateCounters();
   });
@@ -1226,9 +961,9 @@
     if(k==null||b==null){ setSolved('pp', false); state.stats.pp.bad++; updateCounters(); setMessage(msg,"warn","Введи k и b."); return; }
     const sol=state.pp.solution;
     if(Math.abs(k-sol.k)<1e-6 && Math.abs(b-sol.b)<1e-6){
-      setSolved('pp', true); state.stats.pp.ok++; setMessage(msg,"good",`✅ Верно! ${fmtEq(sol.k,sol.b)}.`);
+      setSolved('pp', true); state.stats.pp.ok++; setMessage(msg,"good",`Верно! ${fmtEq(sol.k,sol.b)}.`);
     } else {
-      setSolved('pp', false); state.stats.pp.bad++; setMessage(msg,"bad",`❌ Неверно. Правильно: ${fmtEq(sol.k,sol.b)}.`);
+      setSolved('pp', false); state.stats.pp.bad++; setMessage(msg,"bad",`Неверно. Правильно: ${fmtEq(sol.k,sol.b)}.`);
     }
     updateCounters();
   });
@@ -1266,8 +1001,8 @@
     if(x==null||y==null){ setSolved('axes', false); state.stats.axes.bad++; updateCounters(); setMessage(msg,"warn","Введи x и y."); return; }
     const ints=intercepts(state.axes.line.k, state.axes.line.b);
     const ok = ints.ox && Math.abs(x-ints.ox.x)<1e-6 && Math.abs(y-ints.oy.y)<1e-6;
-    if(ok){ setSolved('axes', true); state.stats.axes.ok++; setMessage(msg,"good",`✅ Верно!`); }
-    else{ setSolved('axes', false); state.stats.axes.bad++; setMessage(msg,"bad",`❌ Неверно. Ответ: Oy (0; ${fmtNum(ints.oy.y)}), Ox (${fmtNum(ints.ox.x)}; 0).`); }
+    if(ok){ setSolved('axes', true); state.stats.axes.ok++; setMessage(msg,"good",`Верно!`); }
+    else{ setSolved('axes', false); state.stats.axes.bad++; setMessage(msg,"bad",`Неверно. Ответ: Oy (0; ${fmtNum(ints.oy.y)}), Ox (${fmtNum(ints.ox.x)}; 0).`); }
     updateCounters();
   });
   document.getElementById('btnShowAxes').addEventListener('click', ()=>{
@@ -1320,7 +1055,7 @@
       setSolved('meet', false);
       state.stats.meet.bad++;
       updateCounters();
-      setMessage(msg,"bad","❌ В этом варианте всегда есть точка пересечения. Выбери «Есть точка».");
+      setMessage(msg,"bad","В этом варианте всегда есть точка пересечения. Выбери «Есть точка».");
       return;
     }
 
@@ -1330,9 +1065,9 @@
 
     const sol = state.meet.solution;
     if(sol && sol.type==="point" && Math.abs(x-sol.x)<1e-6 && Math.abs(y-sol.y)<1e-6){
-      setSolved('meet', true); state.stats.meet.ok++; setMessage(msg,"good",`✅ Верно! (${fmtNum(sol.x)}; ${fmtNum(sol.y)}).`);
+      setSolved('meet', true); state.stats.meet.ok++; setMessage(msg,"good",`Верно! (${fmtNum(sol.x)}; ${fmtNum(sol.y)}).`);
     } else {
-      setSolved('meet', false); state.stats.meet.bad++; setMessage(msg,"bad",`❌ Неверно. Правильно: (${fmtNum(sol.x)}; ${fmtNum(sol.y)}).`);
+      setSolved('meet', false); state.stats.meet.bad++; setMessage(msg,"bad",`Неверно. Правильно: (${fmtNum(sol.x)}; ${fmtNum(sol.y)}).`);
     }
     updateCounters();
   });
@@ -1392,35 +1127,17 @@
   });
 
   // ---------- tabs ----------
-  document.querySelectorAll('.tab').forEach(t=>{
-    t.addEventListener('click', ()=>switchMode(t.dataset.mode));
-  });
+  document.getElementById("mode").addEventListener("change", event => switchMode(event.target.value));
 
   // ---------- zoom & modal ----------
   document.getElementById('btnZoomIn').addEventListener('click', ()=>zoom(1.25));
   document.getElementById('btnZoomOut').addEventListener('click', ()=>zoom(1.25**-1));
   document.getElementById('btnCenter').addEventListener('click', resetView);
 
-  const modalBg=document.getElementById('modalBg');
-  document.getElementById('btnTheory').addEventListener('click', ()=>modalBg.style.display="block");
-  document.getElementById('btnCloseTheory').addEventListener('click', ()=>modalBg.style.display="none");
-  modalBg.addEventListener('click', (e)=>{ if(e.target===modalBg) modalBg.style.display="none"; });
+  document.getElementById("btnTheory").addEventListener("click", () => {
+    document.getElementById("theory").showModal();
+  });
 
-  // ---------- brand mark ----------
-  // Official 90° signature animation reused from SHIMORINMATH arithmetic trainer.
-  const brandLogo=document.getElementById("brandLogo");
-  const logoButton=document.getElementById("logoButton");
-  function animateLogo(){
-    if(typeof matchMedia==="function" && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if(brandLogo.classList.contains("logo-turn")) return;
-    brandLogo.classList.add("logo-turn");
-  }
-  logoButton.addEventListener("click",animateLogo);
-  brandLogo.addEventListener("animationend",()=>brandLogo.classList.remove("logo-turn"));
-
-  // ---------- init ----------
-  document.getElementById('year').textContent=new Date().getFullYear();
-  animateLogo();
   resetView();
   syncSlidersToExplore();
 
@@ -1437,4 +1154,3 @@
 </script>
 </body>
 </html>
-
