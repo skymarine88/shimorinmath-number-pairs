@@ -3,143 +3,79 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0f17">
+<meta name="theme-color" content="#ffffff">
 <meta name="description" content="SHIMORINMATH — тренажёр квадратичной функции. Два способа по графику: вершина и точка, три точки. Проверка значения функции и обратной задачи.">
 <title>Квадратичная функция · SHIMORINMATH</title>
 <link rel="icon" type="image/svg+xml" href="../SHIMORINMATH_Favicon.svg">
+
+<link rel="stylesheet" href="../catalog.css">
+<link rel="stylesheet" href="../catalog-identity.css">
+<link rel="stylesheet" href="../brand-details.css">
+<script defer src="../brand-motion.js"></script>
 <style>
-:root{
- --bg:#0b0f17;--panel:#121a28;--panel2:#0f1623;--ink:#e8eefc;--muted:#9fb0d0;
- --border:rgba(232,238,252,.10);--orange:#5dd6ff;--mint:#3ddc97;--blue:#5dd6ff;--red:#ff5d7a;
- --btn:#1b2740;--btn2:#223152;--shadow:0 10px 30px rgba(0,0,0,.35)
-}
-*{box-sizing:border-box}html{color-scheme:dark}
-body{margin:0;background:radial-gradient(1200px 900px at 20% 0%,#12203a 0%,var(--bg) 55%) fixed;color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-a{color:var(--blue)}a:hover{text-decoration:none}
-button,input{font:inherit}button{cursor:pointer}
-.shell{max-width:1150px;width:calc(100% - 24px);margin:auto}
-.top{display:flex;align-items:center;gap:13px;padding:13px 5px 14px;border-bottom:1px solid rgba(232,238,252,.10);flex-wrap:wrap;position:sticky;top:0;z-index:20;background:linear-gradient(180deg,rgba(11,15,23,.98),rgba(11,15,23,.92));backdrop-filter:blur(10px)}
-.logo-button{width:62px;height:62px;flex:0 0 62px;background:#08111f;border:1px solid rgba(232,238,252,.20);border-radius:15px;display:grid;place-items:center;padding:9px;box-shadow:inset 0 0 0 1px rgba(93,214,255,.06),0 5px 18px rgba(0,0,0,.18)}
-.logo-button:hover{background:#122035;border-color:rgba(93,214,255,.46)}.logo-button:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
-.logo-button img{display:block;width:100%;height:100%;transform-origin:50% 50%}
-.logo-button img.turn{animation:logo-turn 2.1s cubic-bezier(.4,0,.2,1) both}
-@keyframes logo-turn{0%{transform:rotate(0)}28.571%{transform:rotate(-90deg)}71.429%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
-.brand{min-width:245px;flex:1}.brand .author{font-weight:800;font-size:15px;letter-spacing:.02em;line-height:1.2}.brand .subtitle{color:var(--muted);font-size:11px;letter-spacing:.035em}.brand .name{font-size:16px;font-weight:760;line-height:1.25;margin-top:5px}.brand .name span{color:var(--blue);font-weight:600}
-.tag{display:inline-flex;align-items:center;border:1px solid rgba(93,214,255,.25);background:rgba(93,214,255,.12);border-radius:999px;padding:7px 11px;font-size:12px;color:var(--ink)}
-.intro{padding:20px 1px 6px}.intro h1{font-size:clamp(21px,2.5vw,28px);line-height:1.2;margin:0 0 8px}.intro p{margin:0;color:var(--muted);max-width:890px}
-.tabs{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap}
-.tab{border:1px solid var(--border);border-radius:999px;background:rgba(232,238,252,.07);color:var(--ink);padding:10px 16px;text-align:left;font-weight:700;transition:filter .12s ease}
-.tab:hover{filter:brightness(1.15)}.tab small{display:block;color:var(--muted);font-size:11px;font-weight:400;margin-top:1px}.tab.active{border-color:rgba(93,214,255,.35);box-shadow:0 0 0 1px rgba(93,214,255,.12) inset;background:rgba(93,214,255,.16)}
-.main{display:grid;grid-template-columns:minmax(330px,1.12fr) minmax(350px,.88fr);gap:14px;margin:15px 0 25px;align-items:start}
-.card{border:1px solid rgba(232,238,252,.10);background:linear-gradient(180deg,rgba(18,26,40,.96),rgba(15,22,35,.96));border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
-.card-header{padding:15px 17px 13px;border-bottom:1px solid rgba(232,238,252,.08);background:rgba(0,0,0,.10)}
-.card-header h2{font-size:16px;margin:0 0 4px}.card-header p{margin:0;color:var(--muted);font-size:13px}
-.canvas-wrap{padding:12px 12px 4px;display:grid;place-items:center}
-canvas{display:block;width:min(100%,570px);height:auto;aspect-ratio:1;background:#101a2b;border-radius:12px;touch-action:manipulation;border:1px solid rgba(232,238,252,.09)}
-.graph-caption{text-align:center;color:var(--muted);font-size:12px;padding:6px 15px 14px}
-.statebar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 15px 15px;border-top:1px solid var(--border)}
-.pill{border:1px solid rgba(232,238,252,.08);background:rgba(232,238,252,.06);color:#d9e7f4;border-radius:999px;padding:5px 10px;font-size:12px}
-.steps{padding:15px 17px 18px}
-.step-progress{display:flex;gap:7px;margin-bottom:13px}.step-progress span{height:5px;border-radius:5px;background:#344456;flex:1}.step-progress span.done{background:var(--mint)}.step-progress span.current{background:var(--blue)}
-.step-label{font-size:12px;font-weight:750;letter-spacing:.05em;color:var(--blue);text-transform:uppercase}
-.question{margin:4px 0 14px;font-size:16px;font-weight:680;line-height:1.4}
-.math{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:1.18em;white-space:normal}
-.fields{display:flex;gap:9px;align-items:flex-end;flex-wrap:wrap}
-.field{display:flex;flex-direction:column;gap:5px;min-width:100px;flex:1}
-.field label{font-size:12px;color:var(--muted)}
-.field input{width:100%;color:var(--ink);background:rgba(7,10,16,.55);border:1px solid rgba(232,238,252,.16);border-radius:12px;padding:11px 12px;outline:none;font-size:17px}
-.field input:focus{border-color:rgba(93,214,255,.72);box-shadow:0 0 0 2px rgba(93,214,255,.15)}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.btn{border-radius:12px;border:1px solid var(--border);padding:11px 15px;color:var(--ink);background:linear-gradient(180deg,var(--btn),var(--btn2));font-weight:700}
-.btn.primary{background:linear-gradient(180deg,rgba(61,220,151,.25),rgba(61,220,151,.12));border-color:rgba(61,220,151,.30);color:var(--ink)}.btn.primary:hover{filter:brightness(1.18)}.btn:disabled{cursor:not-allowed;opacity:.35}
-.status{min-height:52px;margin-top:14px;padding:12px 13px;border:1px solid var(--border);border-radius:12px;background:rgba(0,0,0,.18);font-size:13px;color:var(--muted)}
-.status.ok{background:rgba(61,220,151,.10);border-color:rgba(61,220,151,.30);color:#b9f0cf}.status.bad{background:rgba(255,93,122,.10);border-color:rgba(255,93,122,.30);color:#ffd3dd}
-.hint{margin-top:10px;background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.28);border-radius:12px;padding:11px 13px;color:#f9e5b2;font-size:13px}
-.hint[hidden]{display:none}
-.example{border-top:1px solid var(--border);padding:16px 17px}.example h3{font-size:14px;margin:0 0 10px}.example p{color:var(--muted);font-size:13px;line-height:1.65;margin:6px 0}
-.math-block{background:rgba(0,0,0,.15);border:1px solid var(--border);border-radius:11px;padding:10px 12px;color:#fff;margin-top:8px}
-.frac{display:inline-flex;vertical-align:middle;flex-direction:column;align-items:center;line-height:1.05;font-size:.85em;margin:0 .14em;transform:translateY(-.02em)}
-.frac .num{padding:0 .18em .12em;border-bottom:1px solid currentColor}.frac .den{padding:.12em .18em 0}
-.foot{font-size:12px;color:var(--muted);padding:10px 0 28px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-kbd{background:#0d1624;border:1px solid #45566c;border-radius:5px;padding:1px 5px}
-@media(max-width:880px){.main{grid-template-columns:1fr}.canvas-wrap canvas{width:min(100%,570px)}}
-@media(max-width:510px){.shell{width:calc(100% - 18px)}.top{padding:13px 1px}.logo-button{width:54px;height:54px;flex-basis:54px}.brand .name{font-size:14px}.brand .author{font-size:14px}.tag{width:100%;justify-content:center}.card-header{padding:14px}.steps{padding:14px}.question{font-size:15px}.field{min-width:88px}.btn{flex:1}.graph-caption{font-size:11px}}
-@media(prefers-reduced-motion:reduce){.logo-button img.turn{animation:none!important}*{scroll-behavior:auto!important}}
-
-/* Shared SHIMORINMATH interface, extended practice controls */
-.page-switch{text-decoration:none;font-weight:750;border-color:rgba(93,214,255,.38)}.page-switch:hover{background:rgba(93,214,255,.24)}
-.practice-controls{display:flex;gap:11px;align-items:center;flex-wrap:wrap;margin-top:14px;padding:14px;border:1px solid var(--border);background:rgba(232,238,252,.035);border-radius:14px}
-.practice-controls>label:first-child{font-size:13px;font-weight:700;color:var(--ink)}
-.practice-controls select{flex:1;min-width:240px;max-width:470px;color:var(--ink);font:inherit;font-size:14px;padding:11px 13px;border:1px solid rgba(93,214,255,.28);border-radius:11px;background:#1b2740}
-.practice-check{display:flex;gap:8px;align-items:center;width:100%;color:var(--muted);font-size:13px;cursor:pointer}
-.practice-check input{width:18px;height:18px;accent-color:#5dd6ff}
-.free-controls{border-top:1px solid var(--border);padding:12px 17px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.free-controls[hidden]{display:none}
-.free-controls p{font-size:12px;color:var(--muted);margin:0;flex:1}
-.given-formula{border:1px solid rgba(93,214,255,.24);background:rgba(93,214,255,.08);border-radius:12px;padding:10px 12px;margin-bottom:13px;font-size:14px}
-.given-formula[hidden]{display:none}
-.actions{gap:8px}.actions .btn{min-height:42px}
-#skipStep{border-color:rgba(255,209,102,.26);background:rgba(255,209,102,.11)}
-#next{border-color:rgba(93,214,255,.26);background:rgba(93,214,255,.10)}
-#graph{cursor:crosshair}#graph:not([data-mode="free"]){cursor:default}
-input[type="text"]{font-size:16px}
-@media(max-width:560px){
- .practice-controls{padding:11px;align-items:stretch}.practice-controls select{width:100%;min-width:0;max-width:none}
- .free-controls{flex-direction:column;align-items:stretch}.free-controls .btn{width:100%}
- .actions{display:grid;grid-template-columns:1fr 1fr}
- .actions .btn{padding:11px 7px;font-size:13px}
- .graph-caption{overflow-wrap:anywhere}
-}
-
-/* Compact first screen and expressive statistics cards */
-.intro{padding:10px 1px 3px}
-.tabs{margin-top:3px}
-.practice-controls{margin-top:11px}
-.top{position:relative}
-.statebar{
- display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
- margin:13px 0 0;padding:0;border:0;
-}
-.stat-card{
- min-width:0;display:flex;align-items:center;justify-content:space-between;gap:8px;
- padding:13px 16px;border-radius:14px;border:1px solid rgba(232,238,252,.14);
- box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 6px 18px rgba(0,0,0,.13);
-}
-.stat-name{font-size:15px;font-weight:800;white-space:nowrap;line-height:1.15}
-.stat-value{font-size:28px;font-weight:850;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
-.stat-success{background:linear-gradient(130deg,rgba(255,137,99,.25),rgba(255,111,78,.12));border-color:rgba(255,140,103,.5)}
-.stat-success .stat-value{color:#ffb28c}
-.stat-error{background:linear-gradient(130deg,rgba(156,85,79,.3),rgba(89,46,53,.19));border-color:rgba(211,114,112,.45)}
-.stat-error .stat-value{color:#ff9c96}
-.stat-skip{background:linear-gradient(130deg,rgba(91,124,166,.28),rgba(50,64,91,.22));border-color:rgba(117,156,209,.4)}
-.stat-skip .stat-value{color:#a7c8f8}
-@media(max-width:540px){
- .statebar{gap:6px;margin-top:10px}
- .stat-card{padding:11px 8px;border-radius:12px;min-height:65px;flex-direction:column;justify-content:center;gap:5px}
- .stat-name{font-size:12px}
- .stat-value{font-size:25px}
- .main{margin-top:12px}
-}
-
+button, input, select {font: inherit; color: inherit}
+button, select, label[for], .practice-check {cursor: pointer}
+:focus-visible {outline: 2px solid #a84035; outline-offset: 3px}
+main {padding: 28px 0 36px}
+h1 {margin: 0}
+.title-row, .tabs, .actions, .statebar, .fields, .practice-check {display:flex; align-items:center; flex-wrap:wrap; gap:8px}
+.title-row {justify-content:space-between; gap:16px; margin-bottom:20px}
+.btn, .tab, select, .field input {border:1px solid #cbd0d5; border-radius:10px; background:white; padding:10px 14px}
+button:hover:not(:disabled), select:hover {border-color:var(--coral)}
+.tab.active {background:var(--pale); border-color:var(--coral); color:#983d32}
+.btn.primary {background:var(--ink); color:white; border-color:var(--ink)}
+.btn:disabled {opacity:.45; cursor:default}
+.practice-controls {display:grid; gap:10px; margin:20px 0 16px}
+.practice-controls > label:first-child {font-size:clamp(22px,3vw,30px); font-weight:650; letter-spacing:-.5px}
+.practice-controls select {width:100%; max-width:640px; font-size:clamp(18px,2.4vw,24px); font-weight:600}
+.practice-check {width:fit-content; color:#545b65}
+.practice-check input {accent-color:#a84035; width:18px; height:18px}
+.statebar {margin:0 0 16px}
+.stat-card {display:inline-flex; gap:8px; align-items:baseline; padding:6px 12px; border-radius:8px; font-weight:600}
+.stat-value {font-size:20px; font-variant-numeric:tabular-nums}
+.stat-success,.status.ok {color:#16653b; background:#edf7ef}
+.stat-error,.status.bad {color:#a32934; background:#fff0f0}
+.stat-skip {color:#515963; background:#f3f4f5}
+.workspace {display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:18px; align-items:start}
+.card {min-width:0; border:1px solid var(--line); border-radius:16px; padding:18px}
+.canvas-wrap canvas {display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--line)}
+canvas[data-mode=free] {cursor:crosshair}
+.graph-caption {color:#505966; font-size:14px; text-align:center; margin-top:8px}
+.graph-caption:empty {display:none}
+.free-controls {margin-top:12px}
+.step-label {color:#656b75; font-size:14px}
+.question {font-size:clamp(19px,2vw,23px); font-weight:600; line-height:1.4; margin:8px 0 16px}
+.fields {align-items:end}
+.field {display:grid; gap:4px; flex:1; min-width:90px}
+.field label {color:#505966; font-size:14px}
+.field input {width:100%; font-size:18px}
+.actions {margin-top:16px}
+.given-formula {margin-bottom:12px}
+.math {font-family:"STIX Two Math","Cambria Math",Georgia,serif; font-size:1.12em}
+.frac {display:inline-flex; flex-direction:column; text-align:center; vertical-align:middle; line-height:1.1; font-size:.9em}
+.frac .num {border-bottom:1px solid; padding:0 .15em}
+.status:not(:empty) {margin-top:14px; padding:10px 12px; border-radius:8px}
+dialog {width:min(600px,calc(100% - 28px)); max-height:85vh; color:var(--ink); padding:24px; border:1px solid var(--line); border-radius:16px}
+dialog::backdrop {background:rgba(43,48,56,.45)}
+dialog header {display:flex; align-items:center; justify-content:space-between; gap:12px}
+dialog h2, dialog p {margin:0} dialog h3 {margin:18px 0 4px}
+@media(max-width:740px){.workspace {grid-template-columns:1fr} .page {padding:0 14px} .card {padding:14px} .site-header {gap:8px} .statebar {gap:4px} .stat-card {padding:5px 8px;font-size:14px}}
 </style>
-<link rel="stylesheet" href="../catalog-nav.css">
 </head>
 <body>
-<div class="shell">
-<header class="top">
-<button class="logo-button" type="button" id="logoButton" aria-label="Анимировать логотип SHIMORINMATH"><img id="brandLogo" src="../SHIMORINMATH_Logo_White.svg" alt="Ш!" width="40" height="40"></button>
-<div class="brand"><div class="author">Шиморин Б.В.</div><div class="subtitle">Методические разработки</div><div class="name">Квадратичная функция <span>· тренажёр</span></div></div>
-<a class="catalog-back page-switch" href="../"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10H4M9 5L4 10L9 15"/></svg>Все тренажёры</a>
-</header>
-<section class="intro">
-<div class="tabs" role="tablist" aria-label="Способ нахождения функции">
-<button type="button" class="tab active" data-mode="vertex" aria-selected="true">01 · Вершина и точка<small>Находим a, m, n по клеткам</small></button>
-<button type="button" class="tab" data-mode="three" aria-selected="false">02 · Три точки<small>Находим a, b, c через систему</small></button>
-<button type="button" class="tab" data-mode="free" aria-selected="false">03 · Свои три точки<small>Нажми на три узла сетки</small></button>
+<div class="page">
+<header class="site-header"><div class="author-identity"><button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип Шиморина Б.В." title="Повернуть логотип" style="--logo-size:52px"><img data-logo-mark src="../brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."></button><a class="author-copy" href="../" aria-label="Шиморин Б.В. Методические разработки — главная"><strong>Шиморин Б.В.</strong><small>Методические разработки</small></a></div><a href="../">← Все тренажёры</a></header>
+<main><div class="title-row"><h1>Квадратичная функция</h1><button class="btn" id="openTheory" type="button">Теория</button></div>
+<section>
+<div class="tabs" role="group" aria-label="Способ нахождения функции">
+<button type="button" class="tab active" data-mode="vertex" aria-pressed="true">Вершина и точка</button>
+<button type="button" class="tab" data-mode="three" aria-pressed="false">Три точки</button>
+<button type="button" class="tab" data-mode="free" aria-pressed="false">Свои три точки</button>
 </div>
 <div class="practice-controls">
  <label for="actionSelect">Что тренируем?</label>
  <select id="actionSelect" aria-label="Выбор тренировочного действия">
-  <option value="all">Полная задача: формула, f(t), аргументы, D, вершина</option>
+  <option value="all">Полная задача</option>
   <option value="formula">Только восстановление функции</option>
   <option value="eval">Вычислить f(t)</option>
   <option value="inverse">Найти x, при которых f(x) = k</option>
@@ -147,50 +83,51 @@ input[type="text"]{font-size:16px}
   <option value="vx">Найти абсциссу вершины</option>
   <option value="vy">Найти ординату вершины</option>
  </select>
- <label class="practice-check"><input id="onlyAction" type="checkbox"><span>Только выбранное действие, без поиска коэффициентов (формула будет дана)</span></label>
+ <label class="practice-check"><input id="onlyAction" type="checkbox"><span>Дать формулу</span></label>
 </div>
 </section>
 <section class="statebar" role="group" aria-label="Счётчики результатов">
-  <div class="stat-card stat-success"><span class="stat-name">🔥 Верно</span><strong class="stat-value" id="totalCount">0</strong></div>
-  <div class="stat-card stat-error"><span class="stat-name">💩 Ошибки</span><strong class="stat-value" id="mistakesCount">0</strong></div>
-  <div class="stat-card stat-skip"><span class="stat-name">⏭️ Пропуски</span><strong class="stat-value" id="skippedCount">0</strong></div>
-  <span id="modeCount" hidden></span>
+  <div class="stat-card stat-success"><span class="stat-name">Верно</span><strong class="stat-value" id="totalCount">0</strong></div>
+  <div class="stat-card stat-error"><span class="stat-name">Ошибки</span><strong class="stat-value" id="mistakesCount">0</strong></div>
+  <div class="stat-card stat-skip"><span class="stat-name">Пропуски</span><strong class="stat-value" id="skippedCount">0</strong></div>
 </section>
-<main class="main">
-<section class="card">
-<div class="card-header"><h2 id="graphTitle">Парабола по вершине и точке</h2><p id="graphIntro">Отметки V и P соответствуют узловым точкам сетки.</p></div>
+<div class="workspace"><section class="card">
 <div class="canvas-wrap"><canvas id="graph" width="720" height="720" aria-label="Координатная сетка с графиком параболы и отмеченными точками"></canvas></div>
 <div class="graph-caption" id="dotsText" aria-live="polite">Одна клетка = одна единица.</div>
 <div class="free-controls" id="freeControls" hidden>
- <p>Нажми на три узловые точки. Сайт построит параболу автоматически, если абсциссы различны и точки не лежат на одной прямой.</p>
  <button class="btn" id="clearPoints" type="button">Очистить точки</button>
 </div>
 
 </section>
 <section class="card">
-<div class="card-header"><h2>Задание</h2></div>
+
 <div class="steps">
 <div class="given-formula" id="givenFormula" hidden></div>
-<div class="step-progress" aria-hidden="true"><span id="bar0" class="current"></span><span id="bar1"></span><span id="bar2"></span></div>
 <div class="step-label" id="stepLabel">Шаг 1 из 3</div>
 <div class="question" id="question"></div>
 <div class="fields" id="fields"></div>
 <div class="actions">
 <button class="btn primary" id="check" type="button">Проверить</button>
-<button class="btn" id="hintBtn" type="button">Подсказка</button>
 <button class="btn" id="skipStep" type="button">Пропустить шаг</button>
 <button class="btn" id="next" type="button">Новое задание</button>
 </div>
-<div class="status" id="status" role="status" aria-live="polite">Решай самостоятельно, затем проверяй.</div>
-<div class="hint" id="hintBox" hidden></div>
+<div class="status" id="status" role="status" aria-live="polite"></div>
+</div></section></div></main>
+<footer class="site-footer"><span class="shimorin-wordmark" aria-label="SHIMORINMATH"><span>SHIMORIN</span><span class="wordmark-accent">MATH</span></span></footer>
 </div>
-<div class="example" id="reference">
-<h3>Напоминание о методе</h3>
-<div id="methodText"></div>
-</div>
-</section>
-</main>
-</div>
+<dialog id="theory" aria-labelledby="theoryTitle">
+<header><h2 id="theoryTitle">Теория</h2><form method="dialog"><button class="btn" autofocus>К заданию</button></form></header>
+<h3>Вершина и точка</h3>
+<p>Для вершины V(m; n) функция имеет вид <span class="math">f(x) = a(x − m)² + n</span>. Пусть P(u; v) — другая точка параболы. Подставьте её координаты, чтобы найти <span class="math">a = <span class="frac"><span class="num">v − n</span><span class="den">(u − m)²</span></span></span>. При a &gt; 0 ветви направлены вверх, при a &lt; 0 — вниз.</p>
+<p>Например, для V(2; 3) и P(4; 1) получаем <span class="math">1 = 4a + 3</span>, поэтому <span class="math">a = −½</span>.</p>
+<h3>Три точки</h3>
+<p>Подставьте координаты каждой точки в <span class="math">y = ax² + bx + c</span> и решите систему. Три точки с разными абсциссами задают параболу, если они не лежат на одной прямой.</p>
+<p>Например, точки (0; 1), (1; 2) и (−1; 4) дают c = 1, a + b = 1 и a − b = 3. Сложение последних двух уравнений даёт a = 2, откуда b = −1. Получаем <span class="math">f(x) = 2x² − x + 1</span>.</p>
+<h3>Значение функции и аргументы</h3>
+<p>Чтобы найти f(t), подставьте t вместо x. В примере выше f(−1) = 4. Чтобы найти все аргументы, при которых f(x) = 4, решите <span class="math">2x² − x − 3 = 0</span>. Корни равны −1 и 1,5.</p>
+<h3>Дискриминант и вершина</h3>
+<p>Запишите функцию в виде <span class="math">f(x) = ax² + bx + c</span>. Дискриминант равен <span class="math">D = b² − 4ac</span>. Абсцисса вершины <span class="math">m = <span class="frac"><span class="num">−b</span><span class="den">2a</span></span></span>, ордината <span class="math">n = f(m)</span>.</p>
+</dialog>
 <script>
 (function(){
 "use strict";
@@ -261,15 +198,15 @@ function generate(which){
 function drawGraph(q){
  var w=canvas.width,h=canvas.height,sc=40,ox=w/2,oy=h/2;
  ctx.clearRect(0,0,w,h);
- ctx.fillStyle="#111b2a";ctx.fillRect(0,0,w,h);
- ctx.lineWidth=1;ctx.strokeStyle="rgba(232,238,252,.14)";
+ ctx.fillStyle="#ffffff";ctx.fillRect(0,0,w,h);
+ ctx.lineWidth=1;ctx.strokeStyle="#e2e5e9";
  for(var i=-9;i<=9;i++){
   ctx.beginPath();ctx.moveTo(ox+i*sc,0);ctx.lineTo(ox+i*sc,h);ctx.stroke();
   ctx.beginPath();ctx.moveTo(0,oy+i*sc);ctx.lineTo(w,oy+i*sc);ctx.stroke();
  }
- ctx.strokeStyle="rgba(232,238,252,.75)";ctx.lineWidth=2.5;
+ ctx.strokeStyle="#828995";ctx.lineWidth=2.5;
  ctx.beginPath();ctx.moveTo(0,oy);ctx.lineTo(w,oy);ctx.moveTo(ox,0);ctx.lineTo(ox,h);ctx.stroke();
- ctx.fillStyle="#d4e6f5";ctx.font="16px system-ui";
+ ctx.fillStyle="#434b55";ctx.font="16px system-ui";
  ctx.fillText("x",w-24,oy-10);ctx.fillText("y",ox+10,22);ctx.fillText("0",ox+6,oy+20);
  ctx.font="13px system-ui";
  for(var t=-8;t<=8;t++){
@@ -278,7 +215,7 @@ function drawGraph(q){
   if(t%2===0)ctx.fillText(String(t),ox+9,oy-t*sc+5);
  }
  if(q){
-  ctx.strokeStyle="#5dd6ff";ctx.lineWidth=4;ctx.lineJoin="round";ctx.beginPath();
+  ctx.strokeStyle="#cd5448";ctx.lineWidth=4;ctx.lineJoin="round";ctx.beginPath();
   var lastIn=false;
   for(var xi=-900;xi<=900;xi++){
    var vx=xi/100,vy=f(q,vx),px=ox+vx*sc,py=oy-vy*sc;
@@ -290,9 +227,9 @@ function drawGraph(q){
  var points=q?q.points:(mode==="free"?manualPoints:[]);
  points.forEach(function(p){
   var px=ox+p.x*sc,py=oy-p.y*sc;
-  ctx.beginPath();ctx.arc(px,py,6,0,2*Math.PI);ctx.fillStyle="#ffd166";ctx.fill();
-  ctx.strokeStyle="#0d1521";ctx.lineWidth=2;ctx.stroke();
-  ctx.fillStyle="#ffd166";ctx.font="bold 20px system-ui";
+  ctx.beginPath();ctx.arc(px,py,6,0,2*Math.PI);ctx.fillStyle="#2b3038";ctx.fill();
+  ctx.strokeStyle="#ffffff";ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle="#2b3038";ctx.font="bold 20px system-ui";
   ctx.fillText(p.name,px+10,py-10);
  });
 }
@@ -361,13 +298,11 @@ function loadStats(){
 }
 function saveStats(){try{localStorage.setItem("shimorin-quad-v2",JSON.stringify(stats));}catch(e){}}
 function refreshStats(){
- var s=getModeStats(mode);
- $("modeCount").textContent="В текущем режиме: "+s.ok;
  var total={ok:0,bad:0,skip:0};
  ["vertex","three","free"].forEach(function(m){var x=getModeStats(m);total.ok+=x.ok;total.bad+=x.bad;total.skip+=x.skip;});
- $("totalCount").textContent="Всего верно: "+total.ok;
- $("mistakesCount").textContent="Ошибок: "+total.bad;
- $("skippedCount").textContent="Пропусков: "+total.skip;
+ $("totalCount").textContent=total.ok;
+ $("mistakesCount").textContent=total.bad;
+ $("skippedCount").textContent=total.skip;
 }
 function getSelectedSteps(){
  var action=$("actionSelect").value,only=$("onlyAction").checked;
@@ -377,37 +312,27 @@ function getSelectedSteps(){
 }
 function updateOptions(){
  var modeIsFree=mode==="free";
- document.querySelectorAll(".tab").forEach(function(el){var active=el.dataset.mode===mode;el.classList.toggle("active",active);el.setAttribute("aria-selected",String(active));});
+ document.querySelectorAll(".tab").forEach(function(el){var active=el.dataset.mode===mode;el.classList.toggle("active",active);el.setAttribute("aria-pressed",String(active));});
  $("freeControls").hidden=!modeIsFree;
  $("graph").dataset.mode=mode;
- $("graphTitle").textContent=mode==="vertex"?"Вершина + узловая точка":mode==="three"?"Три узловые точки":"Свободное построение";
- $("graphIntro").textContent=mode==="vertex"?"V — вершина, P — дополнительная точка. Читай подъём и отступ.":mode==="three"?"A, B, C — целочисленные точки. Вершина дробная.":"Выбери три точки нажатием на узлы сетки. Для параболы нужны три разные абсциссы.";
  var isFormula=$("actionSelect").value==="formula";
  $("onlyAction").disabled=isFormula;
  $("onlyAction").parentElement.style.opacity=isFormula?".48":"1";
 }
-function renderReference(){
- var ref=mode==="vertex"?
- '<p>По вершине <span class="math">V(m; n)</span> сразу найди <span class="math">m</span> и <span class="math">n</span>. Отступ от вершины по горизонтали <span class="math">h</span>, подъём или спуск <span class="math">v</span>.</p><div class="math-block"><span class="math">|a| = <span class="frac"><span class="num">v</span><span class="den">h²</span></span>, &nbsp; f(x) = a(x − m)² + n</span></div><p>Знак <span class="math">a</span> определяй по направлению ветвей.</p>':
- '<p>Три различные абсциссы дают три уравнения относительно <span class="math">a, b, c</span>. При <span class="math">x = 0</span> сразу видно <span class="math">c</span>.</p><div class="math-block"><span class="math">f(x) = ax² + bx + c</span></div><p>Дискриминант: <span class="math">D = b² − 4ac</span>. Вершина: <span class="math">x<sub>v</sub> = −b/(2a)</span>, затем <span class="math">y<sub>v</sub> = f(x<sub>v</sub>)</span>.</p>';
- if(mode==="free")ref+='<p>При трёх выбранных точках кривая строится сразу. Если точки лежат на одной прямой, параболы с <span class="math">a ≠ 0</span> нет.</p>';
- $("methodText").innerHTML=ref;
-}
 function setStatus(message,kind){$("status").className="status"+(kind?" "+kind:"");$("status").innerHTML=message;}
 function setControlsAwaiting(){
- $("stepLabel").textContent="Выбери три точки на графике";
- $("question").textContent="Нажимай на узлы координатной сетки. После третьей подходящей точки появится парабола и задание.";
+ $("stepLabel").textContent="Отметь три точки на сетке";
+ $("question").textContent="";
  $("fields").innerHTML="";
  $("givenFormula").hidden=true;
- $("check").disabled=true;$("hintBtn").disabled=true;$("skipStep").disabled=true;
- for(var i=0;i<3;i++)$("bar"+i).className="";
+ $("check").disabled=true;$("skipStep").disabled=true;
  setStatus("Выбрано точек: "+manualPoints.length+" из 3.", "");
 }
 function getInputs(){return Array.prototype.map.call($("fields").querySelectorAll("input"),function(inp){return parseNumber(inp.value);});}
 function addField(id,text){
  var w=document.createElement("div");w.className="field";
  var label=document.createElement("label");label.textContent=text;label.htmlFor=id;
- var input=document.createElement("input");input.id=id;input.type="text";input.inputMode="text";input.autocomplete="off";input.autocapitalize="off";input.spellcheck=false;input.placeholder="число или дробь";input.enterKeyHint="done";
+ var input=document.createElement("input");input.id=id;input.type="text";input.inputMode="text";input.autocomplete="off";input.autocapitalize="off";input.spellcheck=false;input.enterKeyHint="done";
  input.addEventListener("keydown",function(ev){if(ev.key==="Enter"){ev.preventDefault();checkCurrent();}});
  w.appendChild(label);w.appendChild(input);$("fields").appendChild(w);
 }
@@ -417,9 +342,7 @@ function renderStep(message,kind){
  if(stepIndex>=steps.length)stepIndex=0;
  var name=steps[stepIndex],total=steps.length;
  $("stepLabel").textContent="Шаг "+(stepIndex+1)+" из "+total;
- for(var i=0;i<3;i++)$("bar"+i).className=(i/3<(stepIndex/total))?"done":(i/3<(stepIndex+1)/total)?"current":"";
- $("fields").innerHTML="";$("check").disabled=false;$("hintBtn").disabled=false;$("skipStep").disabled=false;
- $("hintBox").hidden=true;
+ $("fields").innerHTML="";$("check").disabled=false;$("skipStep").disabled=false;
  var show=$("onlyAction").checked&&!($("actionSelect").value==="formula");
  $("givenFormula").hidden=!show;
  if(show)$("givenFormula").innerHTML="Дана функция: <span class='math'>"+displayFormula(task)+"</span>";
@@ -431,10 +354,10 @@ function renderStep(message,kind){
   $("question").innerHTML="Найди <span class='math'>f("+task.evalX+")</span>.";
   addField("answer","Значение функции");
  }else if(name==="inverse"){
-  $("question").innerHTML="Найди <strong>все</strong> аргументы <span class='math'>x</span>, при которых <span class='math'>f(x) = "+fractionHTML(task.target)+"</span>. В этой задаче два различных корня.";
+  $("question").innerHTML="Найди <strong>все</strong> аргументы <span class='math'>x</span>, при которых <span class='math'>f(x) = "+fractionHTML(task.target)+"</span>.";
   addField("x1","Первый корень");addField("x2","Второй корень");
  }else if(name==="disc"){
-  $("question").innerHTML="Найди дискриминант квадратного трёхчлена <span class='math'>D = b² − 4ac</span>.";
+  $("question").innerHTML="Найди дискриминант квадратного трёхчлена.";
   addField("D","Дискриминант D");
  }else if(name==="vx"){
   $("question").innerHTML="Укажи <strong>точную абсциссу вершины</strong> параболы.";
@@ -443,7 +366,7 @@ function renderStep(message,kind){
   $("question").innerHTML="Укажи <strong>точную ординату вершины</strong> параболы.";
   addField("n","Ордината вершины");
  }
- setStatus(message||"Вводи числа или дроби, например −3/2 или −1,5.",kind||"");
+ setStatus(message||"",kind||"");
 }
 function correctForCurrent(){
  var n=steps[stepIndex],v=getInputs();
@@ -460,12 +383,11 @@ function correctForCurrent(){
  return false;
 }
 function markCompleted(){
- done=true;$("check").disabled=true;$("hintBtn").disabled=true;$("skipStep").disabled=true;
- for(var i=0;i<3;i++)$("bar"+i).className="done";
+ done=true;$("check").disabled=true;$("skipStep").disabled=true;
  var current=getModeStats(mode);
  if(!hadSkip){current.ok++;}else{current.skip++;}
  saveStats();refreshStats();
- setStatus(hadSkip?"Задание закончено, но были пропущенные шаги. Оно не засчитано как полностью решённое. Нажми «Новое задание».":"Правильно! Задание решено полностью. Нажми «Новое задание» для продолжения.","ok");
+ setStatus(hadSkip?"Задание завершено с пропуском.":"Верно. Задание решено.","ok");
 }
 function advance(message,kind){
  if(stepIndex+1===steps.length){markCompleted();return;}
@@ -477,9 +399,9 @@ function checkCurrent(){
  if(isRight===null){setStatus("Заполни все поля. Разрешены обычные дроби вида 3/2, десятичные 1,5 и отрицательные числа.","bad");return;}
  if(!isRight){
   getModeStats(mode).bad++;saveStats();refreshStats();
-  setStatus("Пока неверно. Проверь знаки, координаты, дроби и последовательность преобразований.","bad");return;
+  setStatus("Ответ не совпадает с графиком.","bad");return;
  }
- var original=steps[stepIndex],message=original==="coeff"?"Коэффициенты верны! Функция: <span class='math'>"+displayFormula(task)+"</span>.": "Верно! Переходим к следующему действию.";
+ var original=steps[stepIndex],message=original==="coeff"?"Коэффициенты верны! Функция: <span class='math'>"+displayFormula(task)+"</span>.": "Верно.";
  advance(message,"ok");
 }
 function skipCurrent(){
@@ -499,12 +421,12 @@ function resetTask(modeChanged){
  if(mode==="free"){
   if(modeChanged)manualPoints=[];
   task=null;drawGraph(null);
-  $("dotsText").textContent=manualPoints.length?manualPoints.map(function(p){return p.name+"("+p.x+"; "+p.y+")";}).join(" · "):"Коснись узла сетки для первой точки.";
+  $("dotsText").textContent=manualPoints.length?manualPoints.map(function(p){return p.name+"("+p.x+"; "+p.y+")";}).join(" · "):"";
  }else{
   task=generate(mode);drawGraph(task);
   $("dotsText").textContent=task.points.map(function(p){return p.name+"("+formatN(p.x)+"; "+formatN(p.y)+")";}).join(" · ")+"  |  клетка = 1";
  }
- updateOptions();renderReference();refreshStats();renderStep();
+ updateOptions();refreshStats();renderStep();
 }
 function startNew(){
  if(task&&!done){var s=getModeStats(mode);s.skip++;saveStats();}
@@ -525,26 +447,14 @@ function handleCanvasPoint(ev){
   if(!q){setStatus("Три точки оказались на одной прямой. Выбери другое положение третьей точки.","bad");return;}
   manualPoints=test;task=enrichFree(q);
   drawGraph(task);$("dotsText").textContent=manualPoints.map(function(p){return p.name+"("+p.x+"; "+p.y+")";}).join(" · ");
-  done=false;hadSkip=false;stepIndex=0;renderStep("Парабола построена. Теперь определяй функцию и выполняй выбранное действие.","ok");
+  done=false;hadSkip=false;stepIndex=0;renderStep("Парабола построена.","ok");
  }else{
   manualPoints=test;drawGraph(null);
   $("dotsText").textContent=manualPoints.map(function(p){return p.name+"("+p.x+"; "+p.y+")";}).join(" · ");
-  setStatus("Точек: "+manualPoints.length+" из 3. Выбери следующую.", "");
+  setStatus("Выбрано точек: "+manualPoints.length+" из 3.", "");
  }
 }
-function hint(){
- if(!task||done)return;
- var item=steps[stepIndex],message="";
- if(item==="coeff")message=mode==="vertex"?"Прочти вершину (m; n). До другой точки отступ h по горизонтали, подъём v по вертикали. |a| = v/h², знак определяется ветвями.":"Подставь координаты каждой из трёх точек в y = ax² + bx + c и реши систему.";
- else if(item==="eval")message="Подставь число в скобках вместо каждого x. Для отрицательного аргумента используйте скобки.";
- else if(item==="inverse")message="Приравняй формулу функции заданному значению, перенеси всё в одну часть и реши получившееся квадратное уравнение.";
- else if(item==="disc")message="Если функция записана в вершинной форме, сначала раскрой скобки. Затем найди b² − 4ac.";
- else if(item==="vx")message="Используй формулу −b/(2a) или прочти абсциссу вершины из вершинной формы.";
- else if(item==="vy")message="Подставь абсциссу вершины в формулу f(x) либо прочти n из вершинной формы.";
- $("hintBox").textContent=message;$("hintBox").hidden=!$("hintBox").hidden;
-}
 $("check").addEventListener("click",checkCurrent);
-$("hintBtn").addEventListener("click",hint);
 $("skipStep").addEventListener("click",skipCurrent);
 $("next").addEventListener("click",startNew);
 $("clearPoints").addEventListener("click",function(){manualPoints=[];resetTask(true);});
@@ -556,18 +466,18 @@ document.querySelectorAll(".tab").forEach(function(btn){btn.addEventListener("cl
 function reselect(){
  if(mode==="free"){
   done=false;hadSkip=false;stepIndex=0;
-  updateOptions();renderReference();renderStep();
+  updateOptions();renderStep();
  }else{resetTask(false);}
 }
 $("actionSelect").addEventListener("change",reselect);
 $("onlyAction").addEventListener("change",reselect);
-var logo=$("brandLogo");
-function animateLogo(){if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;if(!logo.classList.contains("turn"))logo.classList.add("turn");}
-$("logoButton").addEventListener("click",animateLogo);
-logo.addEventListener("animationend",function(){logo.classList.remove("turn");});
-loadStats();resetTask(true);animateLogo();
+$("openTheory").addEventListener("click", function () {
+ $("theory").showModal();
+});
+loadStats();resetTask(true);
 
 })();
 </script>
 </body>
 </html>
+
