@@ -284,3 +284,45 @@ body.trig-assessment .grade .t {color:#667085}
 body.trig-workspace .trig-feedback {display:none;margin:2px 0 12px;padding:10px 14px;background:#EDF7EF;color:#16653B;border:1px solid #B8E2C2;border-radius:10px;font-size:14px;font-weight:650}
 body.trig-workspace .trig-feedback.visible {display:block}
 body.trig-workspace .trig-feedback:empty {display:none}
+
+/* Final visual QA: compact mathematical drawing settings and clear active modes. */
+body.trig-workspace .view-settings {margin-top:14px;border-top:1px solid #E5E9EE;padding-top:9px}
+body.trig-workspace .view-settings > summary {
+  list-style:none;cursor:pointer;display:inline-flex;align-items:center;
+  color:#616D7C;font-size:13px;font-weight:650;min-height:42px;
+  padding:8px 14px;border:1px solid #D9E0E8;border-radius:10px;background:#F7F8FA;
+}
+body.trig-workspace .view-settings > summary::-webkit-details-marker {display:none}
+body.trig-workspace .view-settings > summary::after {content:"⌄";font-size:18px;margin-left:14px}
+body.trig-workspace .view-settings[open] > summary::after {transform:rotate(180deg)}
+body.trig-workspace .view-settings > summary:focus-visible {outline:3px solid #E06357;outline-offset:3px}
+body.trig-workspace .view-settings .tog {padding:9px 0 3px}
+body.trig-circle #btnModeLearn.active,
+body.trig-circle #btnModeMem.active {
+  background:#2B3038!important;color:#fff!important;
+  border-color:#2B3038!important;
+}
+body.trig-circle #btnModeLearn:not(.active),
+body.trig-circle #btnModeMem:not(.active) {
+  background:#fff!important;color:#2B3038!important;border-color:#D9E0E8!important;
+}
+body.trig-reduction .head > .toolbar {
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  width:100%;
+}
+body.trig-reduction .mode-control {
+  display:inline-flex;align-items:center;gap:12px;
+  border:1px solid #D9E0E8;background:#F7F8FA;
+  border-radius:10px;padding:5px 7px 5px 13px;
+  color:#667085;font-size:13px;font-weight:650;
+  margin-left:auto;
+}
+body.trig-reduction #modeSelect {
+  width:auto;max-width:230px;background:#fff;color:#2B3038;
+  border:1px solid #D9E0E8;border-radius:8px;
+}
+@media(max-width:650px){
+  body.trig-workspace .view-settings > summary {font-size:12px}
+  body.trig-reduction .mode-control {flex:1 1 100%;margin-left:0;justify-content:space-between}
+  body.trig-reduction #modeSelect {flex:1 1 auto;max-width:230px}
+}
