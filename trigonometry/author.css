@@ -306,10 +306,13 @@ body.trig-circle #btnModeLearn:not(.active),
 body.trig-circle #btnModeMem:not(.active) {
   background:#fff!important;color:#2B3038!important;border-color:#D9E0E8!important;
 }
-body.trig-reduction .head > .toolbar {
+body.trig-reduction #trainCard > .head > .toolbar {
   display:flex;gap:10px;align-items:center;flex-wrap:wrap;
   width:100%;
 }
+body.trig-reduction .stepsCard .head > .toolbar {width:auto;flex:0 0 auto}
+body.trig-reduction .stepsCard .head .title {min-width:56px;flex:0 0 auto}
+body.trig-reduction .stepsCard .head .title span {white-space:normal;overflow:visible;text-overflow:clip}
 body.trig-reduction .mode-control {
   display:inline-flex;align-items:center;gap:12px;
   border:1px solid #D9E0E8;background:#F7F8FA;
