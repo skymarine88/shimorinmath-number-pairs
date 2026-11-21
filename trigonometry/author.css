@@ -1,48 +1,282 @@
-:root {
-  --ink:#2b3038;
-  --text:#2b3038;
-  --muted:#56616f;
-  --line:#d9e0e8;
-  --accent:#b34c41;
+/* SHIMORINMATH / Trigonometry — shared light application theme.
+   These rules deliberately follow each original trainer's CSS so mathematical
+   generators, geometry and interactions remain unchanged. */
+body.trig-workspace,
+body.trig-assessment {
+  --bg:#FFFFFF;
+  --bg1:#FFFFFF;
+  --bg2:#FFFFFF;
+  --card:#FFFFFF;
+  --text:#2B3038;
+  --ink:#2B3038;
+  --muted:#667085;
+  --line:#D9E0E8;
+  --accent:#E06357;
+  --good:#16A34A;
+  --bad:#DC2626;
+  --warn:#D97706;
   --shadow:none;
+  color-scheme:light;
+  font-family:Manrope,Inter,Arial,sans-serif;
+  color:#2B3038;
+  background:#FFFFFF;
 }
-body {background:white;color:var(--text);font-family:Manrope,Inter,Arial,sans-serif}
-.brand-shell,.section-nav,.wrap {width:min(100%,1320px);margin-inline:auto;padding-inline:clamp(12px,3vw,32px)}
-.section-nav {padding-top:16px}
-.section-nav a {color:var(--muted);text-decoration:underline;text-underline-offset:3px}
-.wrap {padding-block:16px 28px}
-.wrap > *, .grid > *, .toolbar {min-width:0}
-.top,.card,.panel,.overlay .panel,.modal,.successCard {
-  background:white;border:1px solid var(--line);border-radius:16px;box-shadow:none
+body.trig-workspace, body.trig-assessment {background:#fff!important}
+body.trig-workspace *,body.trig-assessment * {box-sizing:border-box}
+body.trig-workspace .brand-shell,body.trig-workspace .section-nav,body.trig-workspace .wrap {
+  width:min(100%,1320px);
+  margin-inline:auto;
+  padding-inline:clamp(16px,3vw,32px);
 }
-.top {padding:16px}
-.head,.modalHead,.overlay .bar {background:#f4f6f8;border-color:var(--line)}
-.head,.toolbar {flex-wrap:wrap}
-.title,.pageTitle {color:var(--ink)}
-.title {line-height:1.3}
-.top .title {font-size:clamp(22px,3vw,30px)}
-.task,.step,.node,.example,.example .f,.setbox,.toggleRow,.formula,.grade,.pill,.badge {
-  background:#f4f6f8;border-color:var(--line)
+body.trig-workspace .brand-shell .site-header {
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  min-height:94px;border-bottom:1px solid #E8E9ED;
 }
-.stephead,.arrow {color:var(--text)}
-.finalArea {background:white}
-button,.btn,.iconbtn,button.ghost,.btn.ghost,.seg,.select,.ansBtn,body.mem .ansBtn,select,label {
-  background:white;border-color:#cbd0d5;color:var(--text)
+body.trig-workspace .section-nav {
+  padding-top:19px;padding-bottom:4px;font-size:13px;color:#697380;
 }
-#modeSelect {background:white!important;border-color:#cbd0d5!important;color:var(--text)}
-button.primary,.btn.primary,.seg .active {background:#2b3038;color:white;border-color:#2b3038}
-button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible {outline:2px solid #a84035;outline-offset:3px}
-#cv,.svgwrap svg {background:#101c2c;border:1px solid #263548}
-.svgwrap svg {max-width:100%;--line:#748196}
-.flash.ok {color:#16653b}.flash.bad {color:#a32934}
-#score,.countersRow {margin:8px 0}
-#score {justify-content:flex-start}
-body.mem .ansBtn.good {border-color:#16a34a}
-body.mem .ansBtn.bad {border-color:#dc2626}
-@media(max-width:600px){
-  .head,.top {gap:8px}.kv {grid-template-columns:auto 1fr}
-  .select,select {max-width:100%}
-  .overlay {padding:6px}
-  .finalBtn {padding-inline:3px}
+body.trig-workspace .section-nav a {
+  color:#677180;text-decoration:none;
 }
-@media(prefers-reduced-motion:reduce){.confetti{display:none}button{transition:none}}
+body.trig-workspace .section-nav a:hover {color:#B34C41}
+body.trig-workspace .wrap {
+  padding-top:14px;padding-bottom:56px;
+  gap:18px;
+}
+body.trig-workspace .wrap > *,body.trig-workspace .grid > *,body.trig-workspace .toolbar > * {min-width:0}
+body.trig-workspace .top,body.trig-workspace .card,
+body.trig-workspace .modal,body.trig-workspace .successCard {
+  background:#fff;
+  color:#2B3038;
+  border:1px solid #E4E8ED;
+  border-radius:16px;
+  box-shadow:none;
+}
+body.trig-workspace .top {
+  gap:16px;padding:18px 21px;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+}
+body.trig-workspace .top .title,body.trig-workspace .pageTitle {
+  color:#2B3038;font-size:clamp(23px,2.4vw,31px);
+  font-weight:700;letter-spacing:-.65px;line-height:1.22;
+}
+body.trig-workspace .copyright,body.trig-workspace #badgeMode {display:none!important}
+body.trig-workspace .card {padding:20px}
+body.trig-workspace .card .head {background:#F6F7F9;border-bottom:1px solid #E2E7EC}
+body.trig-workspace .card .head .title {color:#2B3038;font-size:16px;font-weight:650}
+body.trig-workspace .card .body {padding:20px}
+body.trig-workspace .toolbar,body.trig-workspace .controls {display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+body.trig-workspace .pill,body.trig-workspace .select,
+body.trig-workspace .seg,body.trig-workspace .badge {
+  background:#F4F6F8;color:#56616F;border:1px solid #D9E0E8;box-shadow:none;
+}
+body.trig-workspace .pill {margin-left:0;font-size:12px;font-weight:650}
+body.trig-workspace .seg {border-radius:12px;overflow:hidden;display:inline-flex}
+body.trig-workspace .seg button {border:0;border-right:1px solid #D9E0E8;border-radius:0;min-height:44px}
+body.trig-workspace .seg button:last-child {border-right:0}
+body.trig-workspace .seg .active {background:#2B3038;color:#fff}
+body.trig-workspace button,body.trig-workspace select,
+body.trig-assessment button,body.trig-assessment select {
+  font-family:Manrope,Inter,Arial,sans-serif;
+  border-radius:10px;border:1px solid #CED5DE;
+  color:#2B3038;background:#fff;
+  font-size:14px;font-weight:650;line-height:1.3;
+  min-height:44px;transition:background .16s,border-color .16s;
+}
+body.trig-workspace button:hover:not(:disabled),body.trig-assessment button:hover:not(:disabled) {
+  background:#F7F8FA;border-color:#AAB4C2;
+}
+body.trig-workspace button.primary,
+body.trig-workspace .seg .active,body.trig-assessment button.primary {
+  background:#2B3038;color:white;border-color:#2B3038;
+}
+body.trig-workspace button.primary:hover:not(:disabled),
+body.trig-assessment button.primary:hover:not(:disabled) {background:#414854;border-color:#414854}
+body.trig-workspace button.ghost,body.trig-workspace .iconbtn,body.trig-assessment button.ghost {
+  background:#fff;color:#2B3038;border:1px solid #CED5DE;
+}
+body.trig-workspace button[disabled],body.trig-assessment button[disabled]{opacity:.45;cursor:not-allowed}
+body.trig-workspace button.good,body.trig-assessment button.good,
+body.trig-workspace .ansBtn.good {background:#EDF7EF;color:#16653B;border-color:#16A34A;box-shadow:none}
+body.trig-workspace button.bad,body.trig-assessment button.bad,
+body.trig-workspace .ansBtn.bad {background:#FFF0F0;color:#A32934;border-color:#DC2626;box-shadow:none}
+body.trig-workspace :is(button,select,input,a):focus-visible,
+body.trig-assessment :is(button,select,input,a):focus-visible {
+  outline:3px solid #E06357;outline-offset:3px;
+}
+body.trig-workspace :is(.task,.step,.setbox,.toggleRow,.node,.example,.example .f,.formula,.grade) {
+  background:#F7F8FA;color:#2B3038;border:1px solid #E4E8ED;box-shadow:none;
+  border-radius:12px;
+}
+body.trig-workspace .task {padding:20px;margin-top:15px}
+body.trig-workspace .task .prompt {font-family:'STIX Two Math','Cambria Math',serif;color:#2B3038}
+body.trig-workspace .task h3 {font-size:14px;color:#667085;font-weight:650}
+body.trig-workspace .task .sub {color:#667085;line-height:1.5}
+body.trig-workspace .task .answers {gap:8px}
+body.trig-workspace .answerCol {gap:8px}
+body.trig-workspace .ansBtn {background:white;color:#2B3038;border:1px solid #CED5DE;min-height:56px}
+body.trig-workspace .ansBtn:hover:not(:disabled){background:#F7F8FA}
+body.trig-workspace #rightTitle {color:#2B3038;font-size:24px!important;font-weight:700}
+body.trig-workspace #memHint {display:none!important}
+body.trig-workspace .kv {grid-template-columns:minmax(120px,38%) 1fr;gap:12px;font-size:18px}
+body.trig-workspace .k {color:#667085;font-size:15px;font-weight:600}
+body.trig-workspace .v {font-family:'STIX Two Math','Cambria Math',serif;font-size:22px;font-weight:600;color:#2B3038}
+body.trig-workspace label {background:#F7F8FA;color:#56616F;border:1px solid #E4E8ED;font-size:13px}
+body.trig-workspace input[type=checkbox] {accent-color:#E06357;width:18px;height:18px}
+body.trig-workspace .tog {gap:7px;margin-top:16px;font-size:13px}
+body.trig-workspace #cv {
+  background:#FBFCFD!important;border:1px solid #E3E8EE!important;
+  border-radius:12px;width:100%;height:clamp(430px,64vh,680px);
+  touch-action:none;
+}
+body.trig-workspace .svgwrap svg {
+  background:#FBFCFD!important;border:1px solid #E3E8EE!important;
+  border-radius:12px;width:min(100%,485px);max-width:100%;height:auto;
+}
+body.trig-workspace .axis {stroke:#9BA6B3;stroke-width:2.5}
+body.trig-workspace .circle {stroke:#687484;stroke-width:2.3}
+body.trig-workspace .qp {fill:rgba(224,99,87,.055);stroke:#DBE0E6;stroke-width:1.5}
+body.trig-workspace .qp:hover {fill:rgba(224,99,87,.12)}
+body.trig-workspace .qp.good {fill:rgba(22,163,74,.18);stroke:#16A34A}
+body.trig-workspace .qp.bad {fill:rgba(220,38,38,.1);stroke:#DC2626}
+body.trig-workspace .kt {fill:#fff;stroke:#E06357;stroke-width:4}
+body.trig-workspace .kt:hover {fill:#FFF4F2}
+body.trig-workspace .kt.good {fill:#16A34A;stroke:#128039}
+body.trig-workspace .kt.bad {fill:#DC2626;stroke:#9F1F25}
+body.trig-workspace .lbl {fill:#384353}
+body.trig-workspace .lbl2 {fill:#667085}
+body.trig-workspace .formula {
+  background:#F7F8FA;padding:18px 22px;
+  font-family:'STIX Two Math','Cambria Math',serif;
+  font-size:clamp(28px,3.2vw,38px);font-weight:600;
+  letter-spacing:0;min-height:80px;
+}
+body.trig-workspace .pageTitle {margin:4px 0 18px;text-align:left}
+body.trig-workspace .stephead {color:#2B3038}
+body.trig-workspace .step {padding:15px}
+body.trig-workspace .badge.good {background:#E5F5E9;color:#16653B;border-color:#B8E2C2}
+body.trig-workspace .countersRow {justify-content:flex-start;margin-bottom:16px}
+body.trig-workspace .countersRow .trainer-score {font-size:14px}
+body.trig-workspace .finalArea {
+  position:relative;bottom:auto;background:#fff;border-top:1px solid #E4E8ED;
+  border-radius:0;padding:16px 0 2px;margin-top:18px;
+}
+body.trig-workspace .finalGrid {gap:9px;padding:4px 0 9px}
+body.trig-workspace .finalBtn {min-height:54px;background:#fff;border:1px solid #CBD3DC;
+  font-family:'STIX Two Math','Cambria Math',serif;font-size:19px;font-weight:600}
+body.trig-workspace .finalBtn:hover:not(:disabled) {border-color:#E06357;background:#FFF9F8}
+body.trig-workspace .muted,body.trig-workspace .node p,
+body.trig-workspace .example ul {color:#667085}
+body.trig-workspace .node h4,body.trig-workspace .setbox h4 {color:#2B3038}
+body.trig-workspace .arrow {color:#8993A0}
+body.trig-workspace .toggleRow {background:#fff}
+body.trig-workspace .toggleRow label {background:transparent;border:0;color:#2B3038}
+body.trig-workspace .modal {width:min(850px,100%);max-height:min(90vh,820px);overflow-y:auto}
+body.trig-workspace .modalHead,body.trig-workspace .overlay .bar {
+  background:#F5F7F9;border-bottom:1px solid #E1E6EC;color:#2B3038;
+}
+body.trig-workspace .modalBody {padding:22px;color:#2B3038}
+body.trig-workspace .overlay,.trig-workspace .successOverlay {
+  background:rgba(22,30,42,.48);backdrop-filter:blur(4px)
+}
+body.trig-workspace .overlay .panel {
+  background:#fff;border:1px solid #D9E0E8;border-radius:16px;
+  box-shadow:0 18px 55px rgba(22,30,42,.16)
+}
+body.trig-workspace .overlay iframe {background:#fff;min-height:0}
+body.trig-workspace .successCard {background:#fff}
+body.trig-workspace .successCard .big {font-size:26px;letter-spacing:0;color:#2B3038}
+body.trig-workspace .successCard .sub {color:#667085}
+body.trig-workspace .stephead,.trig-workspace .badge {letter-spacing:0}
+/* Frame containing the original tabular-angle assessment. */
+body.trig-assessment .wrap {width:min(100%,1230px);padding:16px 20px 28px;margin:0 auto}
+body.trig-assessment .top,body.trig-assessment .panel {
+  background:#fff;border:1px solid #E4E8ED;border-radius:14px;
+  box-shadow:none;color:#2B3038;
+}
+body.trig-assessment .top {padding:18px 20px}
+body.trig-assessment .title h1 {font-size:24px;font-weight:700;color:#2B3038;letter-spacing:-.5px}
+body.trig-assessment .title .copy {display:none}
+body.trig-assessment .pill {background:#F4F6F8;border-color:#D9E0E8;color:#56616F}
+body.trig-assessment .grid {grid-template-columns:minmax(0,1.06fr) minmax(340px,.94fr);gap:16px}
+body.trig-assessment .panel {padding:18px}
+body.trig-assessment .panel.right h2 {font-size:24px;font-weight:700;color:#2B3038}
+body.trig-assessment #cv {
+  background:#FBFCFD!important;border:1px solid #E3E8EE!important;
+  border-radius:12px;height:clamp(430px,64vh,680px);width:100%;
+}
+body.trig-assessment .select,body.trig-assessment .btn {
+  padding:10px 13px;background:white;border:1px solid #CED5DE;
+  color:#2B3038;border-radius:10px;min-height:44px
+}
+body.trig-assessment .btn.primary {background:#2B3038;color:white;border-color:#2B3038}
+body.trig-assessment .task,body.trig-assessment .grade {
+  background:#F7F8FA;color:#2B3038;border:1px solid #E4E8ED
+}
+body.trig-assessment .task .q {
+  font-family:'STIX Two Math','Cambria Math',serif;font-size:clamp(30px,3.2vw,42px);
+  color:#2B3038;font-weight:600
+}
+body.trig-assessment .task .meta,body.trig-assessment .sub {color:#667085}
+body.trig-assessment .answerCol {gap:8px}
+body.trig-assessment .answers {gap:8px}
+body.trig-assessment .ansBtn {
+  background:white;color:#2B3038;border:1px solid #CED5DE;
+  min-height:53px;font:600 19px 'STIX Two Math','Cambria Math',serif;border-radius:10px
+}
+body.trig-assessment .ansBtn:hover:not(:disabled){background:#F8F9FB;border-color:#AAB4C2}
+body.trig-assessment .ansBtn:disabled {background:#F2F4F7}
+body.trig-assessment .flash {background:#F4F6F8;color:#2B3038;border-color:#D9E0E8}
+body.trig-assessment .flash.ok {background:#EDF7EF;color:#16653B;border-color:#B8E2C2}
+body.trig-assessment .flash.bad {background:#FFF0F0;color:#A32934;border-color:#F0B7B9}
+body.trig-assessment .grade .g {color:#2B3038;font-weight:700}
+body.trig-assessment .grade .t {color:#667085}
+@media(max-width:1000px){
+  body.trig-workspace .grid {grid-template-columns:1fr}
+  body.trig-assessment .grid {grid-template-columns:1fr}
+  body.trig-workspace .wrap {grid-template-columns:1fr}
+  body.trig-workspace .grid>.card:first-child {order:2}
+  body.trig-workspace .grid>.card:last-child {order:1}
+  body.trig-assessment .grid>.panel.right {order:-1}
+}
+@media(max-width:650px){
+  body.trig-workspace .brand-shell .site-header {min-height:76px}
+  body.trig-workspace .wrap {padding-top:10px;padding-bottom:30px;gap:12px}
+  body.trig-workspace .top {padding:14px;gap:12px}
+  body.trig-workspace .card,body.trig-assessment .panel {padding:13px}
+  body.trig-workspace .card .body {padding:14px}
+  body.trig-workspace .controls {width:100%}
+  body.trig-workspace .seg {width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+  body.trig-workspace .seg button {padding:9px 5px;font-size:12px}
+  body.trig-workspace .seg button:last-child {border-right:0}
+  body.trig-workspace .controls > button {flex:1 1 auto;font-size:12px}
+  body.trig-workspace #cv,body.trig-assessment #cv {height:clamp(330px,88vw,470px)}
+  body.trig-workspace .kv {grid-template-columns:1fr 1fr;font-size:16px}
+  body.trig-workspace .k {font-size:13px}
+  body.trig-workspace .v {font-size:18px}
+  body.trig-workspace .tog {font-size:12px}
+  body.trig-workspace .tog label {flex:1 1 45%;padding:8px}
+  body.trig-workspace .task {padding:12px}
+  body.trig-workspace .task .row {gap:8px}
+  body.trig-workspace .task .select {font-size:13px;padding:8px}
+  body.trig-workspace .task .answers {gap:6px}
+  body.trig-workspace .answerCol {gap:6px}
+  body.trig-workspace .ansBtn,body.trig-assessment .ansBtn {font-size:15px;min-height:46px}
+  body.trig-workspace .finalGrid {gap:5px}
+  body.trig-workspace .finalBtn {font-size:16px;min-height:47px;padding:8px 4px}
+  body.trig-workspace .overlay {padding:6px}
+  body.trig-workspace .overlay .panel {width:100%;height:96dvh}
+  body.trig-workspace .modal {max-height:94dvh}
+  body.trig-workspace .modalBody {padding:14px}
+  body.trig-assessment .wrap {padding:7px}
+  body.trig-assessment .top {padding:13px}
+  body.trig-assessment .title h1 {font-size:20px}
+  body.trig-assessment .panel.right h2 {font-size:21px}
+  body.trig-assessment .task .q {font-size:31px}
+  body.trig-assessment .answers {gap:6px}
+  body.trig-assessment .answerCol {gap:6px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.trig-workspace *,body.trig-assessment *{transition:none!important}
+  body.trig-workspace .confetti {display:none!important}
+}
