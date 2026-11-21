@@ -1,0 +1,1490 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Табличные углы — окружность и проекции</title>
+  <link rel="stylesheet" href="../catalog.css">
+<link rel="stylesheet" href="../catalog-identity.css">
+<link rel="stylesheet" href="../brand-details.css">
+<link rel="stylesheet" href="../trainer-scores.css">
+<link rel="icon" href="../SHIMORINMATH_Favicon.svg">
+<script defer src="../brand-motion.js"></script>
+<style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1b31;
+      --text:#e9eefc;
+      --muted:#9bb0d6;
+      --line:#2a3b63;
+      --accent:#ff4d6d;
+      --good:#35d07f;
+      --warn:#ffd166;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 800px at 30% 10%, #13274a, var(--bg));
+      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    .wrap{
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .title{
+      font-weight:800;
+      letter-spacing:.2px;
+      font-size: 18px;
+    }
+    .copyright{
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--muted);
+      opacity: .95;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.25);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 920px){
+      .grid{ grid-template-columns: 1.12fr .88fr; align-items:start; }
+    }
+
+    canvas{
+      width:100%;
+      /* чуть больше поле под картинку */
+      height: clamp(560px, 78vh, 980px);
+      display:block;
+      background: rgba(0,0,0,.12);
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      touch-action: manipulation;
+    }
+
+    .controls{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    button{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select:none;
+    }
+    button:active{ transform: translateY(1px); }
+    button.primary{
+      background: rgba(255,77,109,.16);
+      border-color: rgba(255,77,109,.35);
+    }
+    button.ghost{
+      background: transparent;
+      border-color: rgba(255,255,255,.14);
+    }
+    .tog{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+    }
+    label{
+      display:flex; gap:8px; align-items:center;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+    }
+    input[type="checkbox"]{
+      width:18px; height:18px;
+      accent-color: var(--accent);
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px 12px;
+      align-items:center;
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    .k{ color: var(--muted); font-weight:700; }
+    .v{ font-weight:800; }
+
+    /* красивое отображение дробей */
+    .frac{
+      display:inline-grid;
+      grid-template-rows: auto auto;
+      align-items:center;
+      justify-items:center;
+      line-height:1;
+      vertical-align: middle;
+      font-weight: 800;
+      margin: 0 2px;
+    }
+    .frac sup, .frac sub{
+      font-size: .78em;
+      padding: 0 2px;
+    }
+    .frac .bar{
+      width: 100%;
+      height: 2px;
+      background: currentColor;
+      opacity:.9;
+      border-radius: 2px;
+    }
+    .sqrt{ font-weight: 900; }
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.12);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      margin-left: 10px;
+    }
+    .mono{ font-variant-numeric: tabular-nums; }
+  
+    .seg{display:inline-flex;border:1px solid rgba(255,255,255,.14);border-radius:999px;overflow:hidden;background:rgba(0,0,0,.12)}
+    .seg button{border:0;border-right:1px solid rgba(255,255,255,.14);border-radius:0;padding:8px 12px;font-weight:900}
+    .seg button:last-child{border-right:0}
+    .seg .active{background:rgba(255,255,255,.12);color:var(--text)}
+
+    .task{margin-top:14px;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.10)}
+    .task h3{margin:0 0 10px 0;font-size:16px;letter-spacing:.2px}
+    .task .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .task .prompt{font-size:18px;font-weight:900}
+    .task .sub{color:var(--muted);font-size:13px;margin-top:6px}
+    .task .answers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+    .answerCol{display:flex;flex-direction:column;gap:10px}
+    .ansBtn{padding:12px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.14);color:var(--text);font-weight:900;font-size:18px;cursor:pointer;width:100%;min-height:54px;display:flex;align-items:center;justify-content:center}
+    .ansBtn:hover{background:rgba(255,255,255,.10)}
+    .ansBtn.good{border-color: rgba(53,208,127,.7); box-shadow: 0 0 0 2px rgba(53,208,127,.22) inset;}
+    .ansBtn.bad{border-color: rgba(255,77,109,.75); box-shadow: 0 0 0 2px rgba(255,77,109,.22) inset;}
+    .score{
+      margin-left:auto;
+      font-weight:900;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding: 8px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.14);
+      box-shadow: 0 6px 20px rgba(0,0,0,.20);
+    }
+    .score .it{
+      display:inline-flex;
+      gap:6px;
+      align-items:center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      line-height:1;
+      white-space:nowrap;
+    }
+    .score .ok{ border-color: rgba(53,208,127,.45); }
+    .score .bad{ border-color: rgba(255,77,109,.45); }
+    .score .streak{ border-color: rgba(255,209,102,.45); }
+    .select{padding:8px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.12);color:var(--text);font-weight:900}
+
+body.mem #rightTitle{font-size:30px}
+body.mem .task{padding:16px}
+body.mem .task h3{font-size:22px}
+body.mem .task .prompt{font-size:36px}
+body.mem .task .sub{font-size:16px}
+body.mem .ansBtn{padding:12px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.14);color:var(--text);font-weight:900;font-size:18px;cursor:pointer;width:100%;min-height:54px;display:flex;align-items:center;justify-content:center}
+body.mem .select{font-size:18px;padding:10px 12px}
+body.mem .pill{font-size:14px;padding:7px 12px}
+body.mem .score{font-size:18px}
+
+
+    /* EXAM overlay (isolated iframe) */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter: blur(6px);display:none;align-items:center;justify-content:center;z-index:9999;padding:18px}
+    .overlay.show{display:flex}
+    .overlay .panel{width:min(1200px,96vw);height:min(92vh,900px);background:rgba(16,25,41,.92);border:1px solid rgba(255,255,255,.12);border-radius:18px;box-shadow: 0 30px 80px rgba(0,0,0,.55);overflow:hidden;display:flex;flex-direction:column}
+    .overlay .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(0,0,0,.18);border-bottom:1px solid rgba(255,255,255,.10)}
+    .overlay .bar .ttl{font-weight:1000;letter-spacing:.2px}
+    .overlay iframe{flex:1;border:0;width:100%;background:#0b1220}
+
+</style>
+<link rel="stylesheet" href="author.css">
+</head>
+<body><div class="brand-shell"><header class="site-header"><div class="author-identity"><button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип Шиморина Б.В." title="Повернуть логотип" style="--logo-size:52px"><img data-logo-mark src="../brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."></button><a class="author-copy" href="../" aria-label="Шиморин Б.В. Методические разработки — главная"><strong>Шиморин Б.В.</strong><small>Методические разработки</small></a></div><a href="../">Все тренажёры</a></header></div>
+<nav class="section-nav" aria-label="Раздел"><a href="./">Тригонометрия</a></nav>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="title">Табличные углы • окружность • проекции</div>
+        <div class="copyright">© Шиморин Б.В., 2026. Все права защищены.</div>
+      </div>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Режим">
+          <button class="ghost active" id="btnModeLearn">Обучение</button>
+          <button class="ghost" id="btnModeMem">Запоминание</button>
+          <button class="ghost" id="btnModeExam">Зачёт</button>
+        </div>
+        <button class="primary" id="btnNext">Новый угол</button>
+        <button class="ghost" id="btnReset" title="Сбросить счётчики (в режиме запоминания)">Сброс</button>
+        <button class="ghost" id="btnToggleAnswer">Показать/скрыть значения</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <!-- увеличили базовое разрешение для четкости на ретине -->
+        <canvas id="cv" width="1200" height="960" aria-label="Тригонометрическая окружность"></canvas>
+
+        <div class="tog">
+          <label><input type="checkbox" id="chkAxisNames" checked>названия осей</label>
+          <label><input type="checkbox" id="chkTrigLabels" checked>подписи тригонометрических величин</label>
+          <label><input type="checkbox" id="chkRing" checked>табличные углы на окружности</label>
+          <label><input type="checkbox" id="chkMarks" checked>табличные значения на осях</label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <div style="font-weight:900;font-size:22px;" id="rightTitle">Текущий угол</div>
+          <div class="pill mono" id="badgeMode">режим: обучение</div>
+        </div>
+
+        <div class="task" id="task" style="display:none;">
+          <div class="row" style="justify-content:space-between;">
+            <div class="row">
+              <select class="select" id="levelSel" aria-label="Уровень">
+                <option value="1">Уровень 1</option>
+                <option value="2">Уровень 2</option>
+              </select>
+
+              <select class="select" id="angFmtSel" aria-label="Формат угла" title="Формат угла в задании">
+                <option value="mix">углы: вперемешку</option>
+                <option value="deg">углы: только градусы</option>
+                <option value="rad">углы: только радианы</option>
+              </select>
+              <div class="pill mono" id="memHint">клик по ответу</div>
+            </div>
+            <div class="trainer-scores" id="score">0 ✓ / 0 ✗</div>
+          </div>
+          <h3 style="margin-top:10px;">Задание</h3>
+          <div class="prompt mono" id="prompt"></div>
+          <div class="answers" id="answers"></div>
+          <div class="sub" id="taskSub"></div>
+        </div>
+
+        <div class="kv" id="valuesBox">
+          <div class="k">α (в градусах)</div>
+          <div class="v mono" id="deg"></div>
+
+          <div class="k">α (в радианах)</div>
+          <div class="v mono" id="rad"></div>
+
+          <div class="k">cos α</div>
+          <div class="v" id="cosv"></div>
+
+          <div class="k">sin α</div>
+          <div class="v" id="sinv"></div>
+
+          <div class="k">tg α</div>
+          <div class="v" id="tanv"></div>
+
+          <div class="k">ctg α</div>
+          <div class="v" id="cotv"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const cv = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
+
+  // Ресайз: делаем поле под рисунок реально большим (и по высоте), без мыла на Retina
+  let W = 0, H = 0, dpr = 1;
+  function resizeCanvas(){
+    const rect = cv.getBoundingClientRect();
+    // CSS-пиксели
+    W = Math.max(320, Math.round(rect.width));
+    H = Math.max(420, Math.round(rect.height));
+    dpr = window.devicePixelRatio || 1;
+
+    cv.width  = Math.round(W * dpr);
+    cv.height = Math.round(H * dpr);
+
+    // чтобы дальше рисовать в CSS-пикселях
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  const btnNext = document.getElementById('btnNext');
+  const btnReset = document.getElementById('btnReset');
+  const btnToggleAnswer = document.getElementById('btnToggleAnswer');
+  const chkAxisNames = document.getElementById('chkAxisNames');
+  const chkTrigLabels = document.getElementById('chkTrigLabels');
+  const chkRing = document.getElementById('chkRing');
+  const chkMarks = document.getElementById('chkMarks');
+
+
+
+  const degEl = document.getElementById('deg');
+  const radEl = document.getElementById('rad');
+  const cosEl = document.getElementById('cosv');
+  const sinEl = document.getElementById('sinv');
+  const tanEl = document.getElementById('tanv');
+  const cotEl = document.getElementById('cotv');
+  const badgeMode = document.getElementById('badgeMode');
+
+  const btnModeLearn = document.getElementById('btnModeLearn');
+  const btnModeMem   = document.getElementById('btnModeMem');
+
+  const taskBox  = document.getElementById('task');
+  const levelSel = document.getElementById('levelSel');
+  const angFmtSel = document.getElementById('angFmtSel');
+  const promptEl = document.getElementById('prompt');
+  const answersEl= document.getElementById('answers');
+  const scoreEl  = document.getElementById('score');
+    const valuesBox = document.getElementById('valuesBox');
+const memHint  = document.getElementById('memHint');
+  const taskSub  = document.getElementById('taskSub');
+  const rightTitle = document.getElementById('rightTitle');
+
+  // переключение режимов
+  btnModeLearn.addEventListener('click', ()=> setAppMode('learn'));
+  btnModeMem.addEventListener('click', ()=> setAppMode('mem'));
+  levelSel.addEventListener('change', ()=>{ if(appMode==='mem') startTask(); });
+  angFmtSel.addEventListener('change', ()=>{ if(appMode==='mem') rebuildPool(); startTask(); });
+  
+
+  let showValues = true;
+  // кнопка сброса видна только в режиме запоминания
+  btnReset.style.display = 'none';
+
+  // режим приложения: обучение / запоминание
+  let appMode = 'learn';
+  let memLevel = 1;
+  let scoreOk = 0, scoreBad = 0, streak = 0;
+  updateScore();
+  let currentTask = null;
+  let taskSolved = true; // чтобы первый старт не считался ошибкой
+  function countAbandonIfNeeded(){
+    if(appMode!=='mem') return;
+    if(currentTask && !taskSolved){
+      scoreBad++;
+      streak = 0;
+      updateScore();
+    }
+  }
+
+  let awaitingPlacement = false;
+  let placedCorrect = false; // для уровня 2
+  let placeStatus = null;   // null | 'good' | 'bad'
+
+  function setAppMode(m){
+    appMode = m;
+    const isMem = (appMode === 'mem');
+    btnModeLearn.classList.toggle('active', !isMem);
+    btnModeMem.classList.toggle('active', isMem);
+
+    taskBox.style.display = isMem ? 'block' : 'none';
+    valuesBox.style.display = isMem ? 'none' : 'grid';
+    btnToggleAnswer.style.display = isMem ? 'none' : 'inline-flex';
+    btnReset.style.display = isMem ? 'inline-flex' : 'none';
+    rightTitle.textContent = isMem ? 'Запоминание' : 'Текущий угол';
+    btnNext.textContent = isMem ? 'Следующее задание' : 'Новый угол';
+    document.body.classList.toggle('mem', isMem);
+
+    // при входе в запоминание — сразу стартуем
+    if(isMem){
+      memLevel = Number(levelSel.value || 1);
+      rebuildPool();
+      startTask();
+    }else{
+      currentTask = null;
+      awaitingPlacement = false;
+      placedCorrect = false;
+      placeStatus = null;
+    }
+    renderInfo();
+    draw();
+  }
+
+  function updateScore(){
+    scoreEl.innerHTML = `<span class="trainer-score trainer-score--correct"><span aria-hidden="true">🔥</span> Верно <span aria-hidden="true">·</span> <strong>${scoreOk}</strong></span><span class="trainer-score trainer-score--incorrect"><span aria-hidden="true">💩</span> Ошибки <span aria-hidden="true">·</span> <strong>${scoreBad}</strong></span><span class="trainer-score">Серия · <strong>${streak}</strong></span>`;
+  }
+
+  // Табличные углы
+  const angles = [
+    {deg:0,   rad:"0",        cos:"1",  sin:"0",    tan:"0",            cot:"не определено"},
+    {deg:30,  rad:"π/6",      cos:"√3/2",sin:"1/2", tan:"√3/3",         cot:"√3"},
+    {deg:45,  rad:"π/4",      cos:"√2/2",sin:"√2/2",tan:"1",            cot:"1"},
+    {deg:60,  rad:"π/3",      cos:"1/2", sin:"√3/2",tan:"√3",           cot:"√3/3"},
+    {deg:90,  rad:"π/2",      cos:"0",  sin:"1",    tan:"не определено",cot:"0"},
+    {deg:120, rad:"2π/3",     cos:"-1/2",sin:"√3/2",tan:"-√3",          cot:"-√3/3"},
+    {deg:135, rad:"3π/4",     cos:"-√2/2",sin:"√2/2",tan:"-1",          cot:"-1"},
+    {deg:150, rad:"5π/6",     cos:"-√3/2",sin:"1/2",tan:"-√3/3",        cot:"-√3"},
+    {deg:180, rad:"π",        cos:"-1", sin:"0",    tan:"0",            cot:"не определено"},
+    {deg:210, rad:"7π/6",     cos:"-√3/2",sin:"-1/2",tan:"√3/3",        cot:"√3"},
+    {deg:225, rad:"5π/4",     cos:"-√2/2",sin:"-√2/2",tan:"1",          cot:"1"},
+    {deg:240, rad:"4π/3",     cos:"-1/2",sin:"-√3/2",tan:"√3",          cot:"√3/3"},
+    {deg:270, rad:"3π/2",     cos:"0",  sin:"-1",   tan:"не определено",cot:"0"},
+    {deg:300, rad:"5π/3",     cos:"1/2", sin:"-√3/2",tan:"-√3",         cot:"-√3/3"},
+    {deg:315, rad:"7π/4",     cos:"√2/2",sin:"-√2/2",tan:"-1",          cot:"-1"},
+    {deg:330, rad:"11π/6",    cos:"√3/2",sin:"-1/2",tan:"-√3/3",        cot:"-√3"},
+  ];
+  function parseRadFrac(radStr){
+    // radStr like: 0, π, 2π, π/6, 5π/3, 7π/4, 3π/2
+    const s = String(radStr).replace(/\s+/g,'');
+    if(s==='0') return {n:0,d:1};
+    // match aπ/b  OR  aπ  OR  π/b  OR  π
+    // sign
+    let sign = 1;
+    let t = s;
+    if(t.startsWith('-')){ sign=-1; t=t.slice(1); }
+    if(!t.includes('π')) return {n:0,d:1};
+    const parts = t.split('π');
+    const aStr = parts[0]; // may be '' or number
+    const rest = parts[1]; // may be '' or '/b'
+    let a = (aStr==='') ? 1 : Number(aStr);
+    if(!Number.isFinite(a)) a = 1;
+    let d = 1;
+    if(rest && rest.startsWith('/')){
+      d = Number(rest.slice(1));
+      if(!Number.isFinite(d) || d===0) d = 1;
+    }
+    return {n: sign*a, d};
+  }
+
+  // добавляем рациональное представление радиан для дальнейшего форматирования
+  for(const a of angles){
+    const f = parseRadFrac(a.rad);
+    a.radN = f.n;
+    a.radD = f.d;
+  }
+
+
+  const FN_LABEL = {cos:'cos', sin:'sin', tan:'tg', cot:'ctg'};
+
+  function isDefined(val){
+    return String(val) !== 'не определено';
+  }
+
+  function answerOptionsAll(){
+    return ['-√3','-1','-√3/2','-√2/2','-1/2','-√3/3','0','√3/3','1/2','√2/2','√3/2','1','√3','не существует'];
+  }
+
+  
+  // Рендер ответов в 3 столбика: (1) "синусовые" значения, (2) 0 и "не существует", (3) "тангенсовые" значения
+  function renderAnswerGrid(onPick){
+    answersEl.innerHTML = '';
+    const col1 = document.createElement('div'); col1.className = 'answerCol';
+    const col2 = document.createElement('div'); col2.className = 'answerCol';
+    const col3 = document.createElement('div'); col3.className = 'answerCol';
+    answersEl.appendChild(col1); answersEl.appendChild(col2); answersEl.appendChild(col3);
+
+    const sinCosVals = ['-1','-√3/2','-√2/2','-1/2','1/2','√2/2','√3/2','1'];
+    const midVals    = ['0','не существует'];
+    const tanCotVals = ['-√3','-1','-√3/3','√3/3','1','√3'];
+
+    function addBtn(parent, v){
+      const b = document.createElement('button');
+      b.className = 'ansBtn mono';
+      b.type = 'button';
+      b.textContent = v;
+      b.addEventListener('click', ()=> onPick(b, v));
+      parent.appendChild(b);
+    }
+    for(const v of sinCosVals) addBtn(col1, v);
+    for(const v of midVals) addBtn(col2, v);
+    for(const v of tanCotVals) addBtn(col3, v);
+  }
+
+function randChoice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  
+function radWithTurns(baseRad, k){
+  if(k === 0) return baseRad;
+  const twoPiMul = 2 * Math.abs(k); // 2π, 4π, 6π
+  const add = (twoPiMul === 2) ? '2π' : `${twoPiMul}π`;
+  const sign = (k > 0) ? ' + ' : ' - ';
+  if(baseRad === '0'){
+    return (k > 0) ? add : `-${add}`;
+  }
+  return `${baseRad}${sign}${add}`;
+}
+
+function normDeg360(deg){
+  deg = deg % 360;
+  if(deg < 0) deg += 360;
+  return deg;
+}
+
+function angleByNormDeg(nd){
+  // nd in [0,360)
+  if(nd === 0) return angles[0];
+  for(const a of angles){
+    if(a.deg === nd) return a;
+  }
+  return angles[0];
+}
+
+function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=a%b; a=b; b=t; } return a||1; }
+
+function radImproperFromBase(baseObj, turnsK){
+  // baseObj.radN/baseObj.radD описывают угол в [0,360) как (radN/radD)·π
+  const n0 = baseObj.radN;
+  const d0 = baseObj.radD;
+  let n = n0 + 2*turnsK*d0;
+  let d = d0;
+  const g = gcd(n,d);
+  n/=g; d/=g;
+
+  if(n===0) return '0';
+  const sign = (n<0) ? '-' : '';
+  const nn = Math.abs(n);
+
+  // форматы: π, 2π, 5π/3, π/6, ...
+  if(d===1){
+    if(nn===1) return sign+'π';
+    return sign+`${nn}π`;
+  }
+  if(nn===1) return sign+`π/${d}`;
+  return sign+`${nn}π/${d}`;
+}
+
+function buildAngleText(degVal, baseObj){
+  const fmt = (angFmtSel && angFmtSel.value) ? angFmtSel.value : 'mix';
+  const turnsK = Math.round((degVal - baseObj.deg)/360);
+
+  const useRad = (fmt==='rad') ? true : (fmt==='deg' ? false : (Math.random()<0.5));
+
+  if(!useRad){
+    return `${degVal}°`;
+  }
+  // радианы — только неправильные дроби (без сумм)
+  return radImproperFromBase(baseObj, turnsK);
+}
+
+let ANGLE_POOL = [];
+
+function rebuildPool(){
+  // табличные углы в пределах 3 оборотов в обе стороны: [-1080, 1080]
+  const baseList = angles.concat([{...angles[0], deg:360, rad:'2π', radN:2, radD:1}]);
+  const pool = [];
+  for(const b of baseList){
+    for(let k=-3; k<=3; k++){
+      const degVal = b.deg + 360*k;
+      if(degVal < -1080 || degVal > 1080) continue;
+
+      const nd = normDeg360(degVal);
+      const baseObj = angleByNormDeg(nd);
+
+      const angleText = buildAngleText(degVal, baseObj);
+
+      pool.push({ degVal, angleText, baseObj });
+    }
+  }
+  ANGLE_POOL = pool;
+}
+
+rebuildPool();
+
+function pickTask(){
+  const fns = ['sin','cos','tan','cot'];
+  const fn = randChoice(fns);
+  const pick = randChoice(ANGLE_POOL);
+
+  const v = pick.baseObj[fn];
+  const value = isDefined(v) ? String(v) : 'не существует';
+
+  return {
+    angleText: pick.angleText,
+    degVal: pick.degVal,
+    baseAngle: pick.baseObj,  // для постановки точки и проверки
+    fn,
+    value
+  };
+}
+
+function startTask()
+{
+    memLevel = Number(levelSel.value || 1);
+    currentTask = pickTask();
+    taskSolved = false;
+    updateScore();
+    // сброс подсветки кнопок
+    answersEl.innerHTML = '';
+
+    if(memLevel === 1){
+      awaitingPlacement = false;
+      memHint.textContent = 'клик по ответу';
+      taskSub.textContent = 'Красная точка уже стоит в нужном положении. Выбери табличное значение.';
+      setAngle(currentTask.baseAngle);
+
+      promptEl.textContent = `${FN_LABEL[currentTask.fn]} (${currentTask.angleText})`;
+      renderAnswerGrid((b,v)=>checkAnswerLevel1(b,v));
+    }else{
+      awaitingPlacement = true;
+      placedCorrect = false;
+      placeStatus = null;
+
+      memHint.textContent = 'сначала поставь точку, потом выбери ответ';
+      taskSub.textContent = 'Поставь точку на окружности в нужное табличное положение и отпусти. Зелёный — верно, красный — ошибка. Потом выбери значение.';
+
+      // стартовая позиция — случайная, чтобы не совпадала с ответом
+      const start = randChoice(angles);
+      setAngle(start);
+      setFreeRad(degToRadNum(start.deg) + (Math.random()*0.8-0.4));
+
+      promptEl.textContent = `${FN_LABEL[currentTask.fn]} (${currentTask.angleText})`;
+      answersEl.innerHTML = ''; // появятся после верной установки α
+    }
+
+    renderInfo();
+    draw();
+  }
+
+  function checkAnswerLevel1(btn, v){
+    if(!currentTask || memLevel!==1) return;
+    const ok = (v === currentTask.value);
+    btn.classList.add(ok ? 'good' : 'bad');
+    if(ok){
+      scoreOk++;
+      streak++;
+      taskSolved = true;
+      updateScore();
+      setTimeout(()=> startTask(), 450);
+    }else{
+      scoreBad++;
+      streak = 0;
+      updateScore();
+    }
+  }
+
+
+  function showAnswerButtonsForLevel2(){
+    if(!currentTask || memLevel!==2) return;
+    if(answersEl.childElementCount>0) return;
+    renderAnswerGrid((b,v)=>checkAnswerLevel2(b,v));
+  }
+
+  function checkAnswerLevel2(btn, v){
+    if(!currentTask || memLevel!==2) return;
+    if(!placedCorrect){
+      // ещё не поставили α куда надо
+      taskSub.textContent = 'Сначала поставь точку в правильное положение на окружности.';
+      return;
+    }
+    const ok = (v === currentTask.value);
+    btn.classList.add(ok ? 'good' : 'bad');
+    if(ok){
+      scoreOk++;
+      streak++;
+      taskSolved = true;
+      updateScore();
+      taskSub.textContent = 'Верно ✅';
+      setTimeout(()=> startTask(), 550);
+    }else{
+      scoreBad++;
+      streak = 0;
+      updateScore();
+      taskSub.textContent = 'Ошибка ❌ Попробуй другое значение.';
+    }
+  }
+
+  // helper: отображение выражений (без HTML-тегов)
+function prettyExpr(s){
+  if(s === null || s === undefined || s === "") return "";
+  if(typeof s === "number"){
+    if(!Number.isFinite(s)) return "не определено";
+    const t = (Math.abs(s) < 1e-12 ? 0 : s);
+    let str = t.toFixed(3);
+    str = str.replace(/\.0+$/,"").replace(/(\.[0-9]*?)0+$/,"$1");
+    return str;
+  }
+  return String(s);
+}
+
+  function degToRadNum(deg){
+  return deg * Math.PI / 180;
+}
+
+function normRad(x){
+  const two = Math.PI*2;
+  x = x % two;
+  if(x < 0) x += two;
+  return x;
+}
+
+function angDiff(a,b){
+  // минимальная разница углов по модулю 2π
+  const two = Math.PI*2;
+  let d = normRad(a) - normRad(b);
+  d = (d + Math.PI) % two - Math.PI;
+  return Math.abs(d);
+}
+
+function nearestTabular(rad){
+  // ближайший табличный угол (используем только для подсветки/клика, не для округления при перетаскивании)
+  const eps = degToRadNum(0.4); // ~0.4°
+  let best = null;
+  let bestD = 1e9;
+  for(const a of angles){
+    const d = angDiff(rad, degToRadNum(a.deg));
+    if(d < bestD){
+      bestD = d;
+      best = a;
+    }
+  }
+  return (bestD <= eps) ? best : null;
+}
+
+let cur = angles[Math.floor(Math.random()*angles.length)];
+
+  // режим: табличный угол (из списка) или свободный (перетаскивание)
+  let mode = "tabular";
+  let freeRad = degToRadNum(cur.deg);
+
+  function setFreeRad(rad){
+    mode = "free";
+    freeRad = rad;
+    renderInfo();
+    draw();
+  }
+
+  function currentRad(){
+    return (mode === "tabular") ? degToRadNum(cur.deg) : freeRad;
+  }
+
+  function currentDeg(){
+    return currentRad() * 180 / Math.PI;
+  }
+
+  // Хитбоксы для клика по табличным точкам на окружности
+  let ringHit = [];
+  // Текущая геометрия (для перетаскивания по окружности)
+  const geom = {cx:0, cy:0, R:0};
+
+  function setAngle(a){
+    cur = a;
+    mode = "tabular";
+    freeRad = degToRadNum(cur.deg);
+    renderInfo();
+    draw();
+  }
+
+  function renderInfo(){
+  if(mode === "tabular"){
+    degEl.textContent = `${cur.deg}°`;
+    radEl.textContent = prettyExpr(cur.rad);
+  }else{
+    const a = currentRad();
+    const d = currentDeg();
+    let ds = d.toFixed(1).replace(/\.0$/,"");
+    degEl.textContent = `${ds}°`;
+    radEl.textContent = prettyExpr(a);
+  }
+
+  if(showValues){
+    if(mode === "tabular"){
+      cosEl.textContent = prettyExpr(cur.cos);
+      sinEl.textContent = prettyExpr(cur.sin);
+      tanEl.textContent = prettyExpr(cur.tan);
+      cotEl.textContent = prettyExpr(cur.cot);
+    }else{
+      const a = currentRad();
+      const c = Math.cos(a);
+      const si = Math.sin(a);
+      const t = (Math.abs(c) < 1e-12) ? Infinity : (si/c);
+      const ct = (Math.abs(si) < 1e-12) ? Infinity : (c/si);
+
+      cosEl.textContent = prettyExpr(c);
+      sinEl.textContent = prettyExpr(si);
+      tanEl.textContent = prettyExpr(t);
+      cotEl.textContent = prettyExpr(ct);
+    }
+  }else{
+    cosEl.textContent = "скрыто";
+    sinEl.textContent = "скрыто";
+    tanEl.textContent = "скрыто";
+    cotEl.textContent = "скрыто";
+  }
+
+  // бейдж режима
+  badgeMode.textContent = `режим: ${appMode==='learn'?'обучение':'запоминание'} • ${showValues?'значения видны':'значения скрыты'}`;
+
+}
+
+  function draw(){
+    // W и H — размеры в CSS-пикселях (см. resizeCanvas)
+    ctx.clearRect(0,0,W,H);
+
+    // Центр слегка смещаем влево, чтобы tg/ctg почти всегда помещались
+    const cx = Math.round(W*0.40);
+    const cy = Math.round(H*0.56);
+
+    // Радиус подбираем так, чтобы оставались поля сверху/снизу/слева/справа
+    const pad = 70;
+    // Чуть уменьшаем окружность, чтобы проекции tg/ctg всегда помещались
+    let R  = Math.min(H*0.22, W*0.22);
+    R = Math.min(R, cx - pad, (W - pad) - cx, cy - pad, (H - pad) - cy);
+    R = Math.max(105, Math.floor(R));
+
+    geom.cx = cx; geom.cy = cy; geom.R = R;
+
+    // оси
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "rgba(233,238,252,.25)";
+    ctx.beginPath();
+    ctx.moveTo(0, cy); ctx.lineTo(W, cy);
+    ctx.moveTo(cx, 0); ctx.lineTo(cx, H);
+    ctx.stroke();
+
+    // подписи осей
+    if(chkAxisNames.checked){
+      ctx.font = "800 13px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+      ctx.fillStyle = "rgba(233,238,252,.55)";
+      ctx.textBaseline = "middle";
+
+      // cos по горизонтали (X), sin по вертикали (Y)
+      ctx.textAlign = "right";
+      ctx.fillText("ось косинусов", W-18, cy+18);
+      ctx.textAlign = "left";
+      ctx.fillText("ось синусов", cx+14, 34);
+
+      // касательные: tg (справа), ctg (сверху)
+      ctx.textAlign = "left";
+      ctx.fillText("ось тангенсов", cx+R+14, 34);
+      ctx.textAlign = "right";
+      ctx.fillText("ось котангенсов", W-18, cy-R-24);
+    }
+
+// табличные метки на осях (зелёные)
+    const showMarks = chkMarks.checked;
+    const green = "rgba(53,208,127,.95)";
+    const green2 = "rgba(53,208,127,.55)";
+
+    function drawFraction(expr, x, y, align="center"){
+      // поддерживаем простые дроби: a/b (a может быть "√2" и т.п.)
+      const parts = String(expr).split("/");
+      if(parts.length !== 2){
+        ctx.font = "800 11px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+        ctx.fillStyle = green;
+        ctx.textAlign = align;
+        ctx.textBaseline = "middle";
+        ctx.fillText(String(expr), x, y);
+        return;
+      }
+      const num = parts[0];
+      const den = parts[1];
+      ctx.fillStyle = green;
+      ctx.textAlign = align;
+      ctx.textBaseline = "middle";
+
+      const numFont = "800 10px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+      const denFont = "800 10px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+      ctx.font = numFont;
+      const wNum = ctx.measureText(num).width;
+      ctx.font = denFont;
+      const wDen = ctx.measureText(den).width;
+      const w = Math.max(wNum, wDen) + 4;
+
+      // линия дроби
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = green;
+      ctx.beginPath();
+      ctx.moveTo(x - w/2, y);
+      ctx.lineTo(x + w/2, y);
+      ctx.stroke();
+
+      // числитель/знаменатель
+      ctx.font = numFont;
+      ctx.fillText(num, x, y - 10);
+      ctx.font = denFont;
+      ctx.fillText(den, x, y + 10);
+    }
+
+    function markOnAxisX(val, label){
+      const x = cx + R*val;
+      const y = cy;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = green2;
+      ctx.beginPath();
+      ctx.moveTo(x, y-10);
+      ctx.lineTo(x, y+10);
+      ctx.stroke();
+      ctx.fillStyle = green;
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI*2);
+      ctx.fill();
+
+      // подписи разносим: справа/слева не нужно, по оси X — положительные вниз, отрицательные вверх
+      const ly = y + (val >= 0 ? 26 : -26);
+      if(String(label).includes("/")) drawFraction(label, x, ly);
+      else {
+        ctx.font = "800 11px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+        ctx.fillStyle = green;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(String(label), x, ly);
+      }
+    }
+
+    function markOnAxisY(val, label){
+      const x = cx;
+      const y = cy - R*val;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = green2;
+      ctx.beginPath();
+      ctx.moveTo(x-10, y);
+      ctx.lineTo(x+10, y);
+      ctx.stroke();
+      ctx.fillStyle = green;
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI*2);
+      ctx.fill();
+
+      // подписи разносим: по оси Y — положительные вправо, отрицательные влево
+      const lx = x + (val >= 0 ? 34 : -34);
+      const align = (val >= 0 ? "left" : "right");
+      // дробь рисуем по центру, иначе textAlign ломает геометрию дробной черты
+      if(String(label).includes("/")) drawFraction(label, lx, y, "center");
+      else {
+        ctx.font = "800 11px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+        ctx.fillStyle = green;
+        ctx.textAlign = align;
+        ctx.textBaseline = "middle";
+        ctx.fillText(String(label), lx, y);
+      }
+    }
+
+    function markOnTanAxis(val, label){
+      const x = cx + R;
+      const y = cy - R*val;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = green2;
+      ctx.beginPath();
+      ctx.moveTo(x-10, y);
+      ctx.lineTo(x+10, y);
+      ctx.stroke();
+      ctx.fillStyle = green;
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI*2);
+      ctx.fill();
+
+      const lx = x + 26;
+      if(String(label).includes("/")) drawFraction(label, lx, y, "left");
+      else {
+        ctx.font = "800 11px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+        ctx.fillStyle = green;
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.fillText(String(label), lx, y);
+      }
+    }
+
+    function markOnCotAxis(val, label){
+      const x = cx + R*val;
+      const y = cy - R;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = green2;
+      ctx.beginPath();
+      ctx.moveTo(x, y-10);
+      ctx.lineTo(x, y+10);
+      ctx.stroke();
+      ctx.fillStyle = green;
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI*2);
+      ctx.fill();
+
+      // чтобы подписи по ctg не наезжали друг на друга: положительные выше, отрицательные ниже
+      const ly = y + (val >= 0 ? -26 : 26);
+      if(String(label).includes("/")) drawFraction(label, x, ly);
+      else {
+        ctx.font = "800 11px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+        ctx.fillStyle = green;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(String(label), x, ly);
+      }
+    }
+
+    if(showMarks){
+      const base = [
+        {v: 1/2,   l: "1/2"},
+        {v: Math.SQRT1_2, l: "√2/2"},
+        {v: Math.sqrt(3)/2, l: "√3/2"},
+        {v: 1,     l: "1"},
+      ];
+      base.forEach(o => {
+        markOnAxisX( o.v,  o.l);
+        markOnAxisX(-o.v, `-${o.l}`);
+        markOnAxisY( o.v,  o.l);
+        markOnAxisY(-o.v, `-${o.l}`);
+      });
+
+      // ноль
+      ctx.fillStyle = green;
+      ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI*2); ctx.fill();
+      ctx.font = "800 11px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+      ctx.fillStyle = green;
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.fillText("0", cx+10, cy+28);
+        const marks = [
+          {v: 0, l: "0"},
+          {v: 1/Math.sqrt(3), l: "√3/3"},
+          {v: 1, l: "1"},
+          {v: Math.sqrt(3), l: "√3"},
+        ];
+        // tg по вертикальной касательной
+        marks.forEach(o => {
+          markOnTanAxis(o.v, o.l);
+          if(o.v !== 0) markOnTanAxis(-o.v, `-${o.l}`);
+        });
+        // ctg по горизонтальной касательной
+        marks.forEach(o => {
+          markOnCotAxis(o.v, o.l);
+          if(o.v !== 0) markOnCotAxis(-o.v, `-${o.l}`);
+        });
+    }
+
+    // стрелки осей
+    function arrow(x1,y1,x2,y2){
+      const head = 12;
+      const ang = Math.atan2(y2-y1,x2-x1);
+      ctx.beginPath();
+      ctx.moveTo(x1,y1); ctx.lineTo(x2,y2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x2,y2);
+      ctx.lineTo(x2-head*Math.cos(ang-Math.PI/8), y2-head*Math.sin(ang-Math.PI/8));
+      ctx.lineTo(x2-head*Math.cos(ang+Math.PI/8), y2-head*Math.sin(ang+Math.PI/8));
+      ctx.closePath();
+      ctx.fillStyle = "rgba(233,238,252,.25)";
+      ctx.fill();
+    }
+    ctx.strokeStyle = "rgba(233,238,252,.22)";
+    arrow(cx, cy, cx, 24);
+    arrow(cx, cy, W-24, cy);
+
+    // окружность
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "rgba(233,238,252,.35)";
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI*2);
+    ctx.stroke();
+
+    // табличные угловые положения на окружности (нумерация + кликабельность)
+    ringHit = [];
+    if(chkRing.checked){
+      ctx.font = "800 10px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      angles.forEach((ang, i) => {
+        const aa = degToRadNum(ang.deg);
+        const x = cx + R*Math.cos(aa);
+        const y = cy - R*Math.sin(aa);
+
+        // точка
+        ctx.fillStyle = "rgba(233,238,252,.85)";
+        ctx.beginPath();
+        ctx.arc(x, y, 4.5, 0, Math.PI*2);
+        ctx.fill();
+
+        // номер чуть снаружи окружности
+        const out = 18;
+        const nx = cx + (R+out) * Math.cos(aa);
+        const ny = cy - (R+out) * Math.sin(aa);
+        ctx.fillStyle = "rgba(233,238,252,.80)";
+        ctx.fillText(String(i+1), nx, ny);
+
+        ringHit.push({x, y, r: 14, ang});
+      });
+    }
+
+    // касательные
+    const showTan = true;
+    if(showTan){
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rgba(233,238,252,.18)";
+      ctx.beginPath();
+      ctx.moveTo(cx+R, 0); ctx.lineTo(cx+R, H);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, cy-R); ctx.lineTo(W, cy-R);
+      ctx.stroke();
+    }
+
+    const a = currentRad();
+    const px = cx + R*Math.cos(a);
+    const py = cy - R*Math.sin(a);
+
+    // радиус
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "rgba(255,77,109,.70)";
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(px, py);
+    ctx.stroke();
+
+    // точка на окружности
+    ctx.fillStyle = "rgba(255,77,109,1)";
+    ctx.beginPath();
+    ctx.arc(px, py, 7, 0, Math.PI*2);
+    ctx.fill();
+
+    // подсветка для уровня 2 (верно/ошибка по положению)
+    if(appMode==='mem' && memLevel===2 && placeStatus){
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = (placeStatus==='good') ? "rgba(53,208,127,.95)" : "rgba(255,77,109,.95)";
+      ctx.beginPath();
+      ctx.arc(px, py, 12, 0, Math.PI*2);
+      ctx.stroke();
+    }
+
+    // подпись точки (α)
+    ctx.font = "800 16px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+    ctx.fillStyle = "rgba(255,77,109,.95)";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+    ctx.fillText("α", px + 12, py - 12);
+
+    // проекции (всегда пунктирные)
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "rgba(255,77,109,.85)";
+    ctx.setLineDash([10,8]);
+    ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px, cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(cx, py); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // точки проекций
+    ctx.fillStyle = "rgba(255,77,109,1)";
+    ctx.beginPath(); ctx.arc(px, cy, 6, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx, py, 6, 0, Math.PI*2); ctx.fill();
+
+    // подписи
+    function text(str, x, y, color, align="left"){
+      ctx.font = "700 16px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+      ctx.fillStyle = color;
+      ctx.textAlign = align;
+      ctx.textBaseline = "middle";
+      ctx.fillText(str, x, y);
+    }
+    if(chkTrigLabels.checked){
+      text("sin α", cx+14, py, "rgba(255,77,109,.95)", "left");
+      text("cos α", px, cy+26, "rgba(255,77,109,.95)", "center");
+    }
+
+    // tg и ctg
+    if(showTan){
+      const cosA = Math.cos(a);
+      const sinA = Math.sin(a);
+
+      if(Math.abs(cosA) > 1e-9){
+        const t = 1 / cosA;
+        const ty = t * sinA;
+        const txp = cx + R;
+        const typ = cy - R*ty;
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(255,77,109,.45)";
+        ctx.setLineDash([8,8]);
+        ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(txp, typ); ctx.stroke();
+        ctx.setLineDash([]);
+
+        if(typ > -100 && typ < H+100){
+          ctx.fillStyle = "rgba(255,77,109,1)";
+          ctx.beginPath(); ctx.arc(txp, typ, 6, 0, Math.PI*2); ctx.fill();
+          if(chkTrigLabels.checked){ text("tg α", txp+18, typ, "rgba(255,77,109,.95)", "left"); }
+        }
+      }
+
+      if(Math.abs(sinA) > 1e-9){
+        const t2 = 1 / sinA;
+        const cxUnit = t2 * cosA;
+        const ctp = cy - R;
+        const cpx = cx + R*cxUnit;
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(255,77,109,.45)";
+        ctx.setLineDash([8,8]);
+        ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(cpx, ctp); ctx.stroke();
+        ctx.setLineDash([]);
+
+        if(cpx > -100 && cpx < W+100){
+          ctx.fillStyle = "rgba(255,77,109,1)";
+          ctx.beginPath(); ctx.arc(cpx, ctp, 6, 0, Math.PI*2); ctx.fill();
+          if(chkTrigLabels.checked){ text("ctg α", cpx, ctp-24, "rgba(255,77,109,.95)", "center"); }
+        }
+      }
+    }
+
+    // подпись угла
+    ctx.font = "800 15px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+    ctx.fillStyle = "rgba(233,238,252,.85)";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+    const label = (mode === "tabular")
+      ? `α = ${cur.deg}° = ${cur.rad}`
+      : (()=>{
+          let ds = currentDeg().toFixed(1).replace(/\.0$/,"");
+          return `α = ${ds}° = ${prettyExpr(currentRad())}`;
+        })();
+    ctx.fillText(label, 18, 40);
+    // центр
+    ctx.fillStyle = "rgba(233,238,252,.55)";
+    ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI*2); ctx.fill();
+  }
+
+  btnNext.addEventListener('click', () => {
+    if(appMode==='mem'){
+      // если ученик пропускает задание без правильного ответа — считаем это ошибкой
+      countAbandonIfNeeded();
+      startTask();
+      return;
+    }
+    // обучение: новый табличный угол
+    setAngle(angles[Math.floor(Math.random()*angles.length)]);
+  });
+
+  btnReset.addEventListener('click', () => {
+    // Сброс счётчиков без штрафа
+    scoreOk = 0;
+    scoreBad = 0;
+    streak = 0;
+    updateScore();
+    // стартуем новое задание (и считаем текущее "закрытым", чтобы не прибавить ошибку)
+    taskSolved = true;
+    if(appMode==='mem') startTask();
+  });
+
+  btnToggleAnswer.addEventListener('click', () => {
+    showValues = !showValues;
+    renderInfo();
+  });
+
+  [chkAxisNames, chkTrigLabels, chkMarks, chkRing].forEach(el => el.addEventListener('change', draw));
+
+  resizeCanvas();
+  renderInfo();
+  draw();
+  setAppMode('learn');
+
+  window.addEventListener('resize', () => { resizeCanvas(); draw(); }, {passive:true});
+  window.addEventListener('orientationchange', () => { resizeCanvas(); draw(); }, {passive:true});
+
+  function canvasPointFromEvent(ev){
+    const rect = cv.getBoundingClientRect();
+    const x = (ev.clientX - rect.left);
+    const y = (ev.clientY - rect.top);
+    return {x,y};
+  }
+
+  function tryPickRingPoint(ev){
+    if(!chkRing.checked || ringHit.length === 0) return false;
+    const {x,y} = canvasPointFromEvent(ev);
+    for(const p of ringHit){
+      const dx = x - p.x;
+      const dy = y - p.y;
+      if(dx*dx + dy*dy <= p.r*p.r){
+        setAngle(p.ang);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // --- Перетаскивание красной точки по окружности (в реальном времени) ---
+  let isDragging = false;
+  let didDrag = false;
+  let rafPending = false;
+  let lastEv = null;
+
+  function angleFromCanvasXY(x,y){
+    const dx = x - geom.cx;
+    const dy = geom.cy - y; // инверсия по Y, чтобы вверх было +
+    return Math.atan2(dy, dx); // [-π; π]
+  }
+
+  function requestUpdateFromEvent(ev){
+    lastEv = ev;
+    if(rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      rafPending = false;
+      if(!isDragging || !lastEv) return;
+      const {x,y} = canvasPointFromEvent(lastEv);
+      const rad = angleFromCanvasXY(x,y);
+      setFreeRad(rad);
+    });
+  }
+
+  cv.addEventListener('pointerdown', (ev) => {
+    // 1) если тыкнули в табличную точку на окружности — просто выбираем её (в обучении)
+    if(appMode!=='mem' && tryPickRingPoint(ev)){
+      didDrag = false;
+      return;
+    }
+
+    // 2) иначе — начинаем таскать, если попали близко к окружности/к красной точке
+    const {x,y} = canvasPointFromEvent(ev);
+    const dx = x - geom.cx, dy = y - geom.cy;
+    const dist = Math.hypot(dx,dy);
+
+    // красная точка
+    const a = currentRad();
+    const px = geom.cx + geom.R*Math.cos(a);
+    const py = geom.cy - geom.R*Math.sin(a);
+    const dpr = Math.hypot(x-px, y-py);
+
+    const nearRing = Math.abs(dist - geom.R) <= 22;
+    const nearRed = dpr <= 16;
+
+    if(nearRing || nearRed){
+      isDragging = true;
+      didDrag = false;
+      cv.setPointerCapture(ev.pointerId);
+      setFreeRad(angleFromCanvasXY(x,y));
+      ev.preventDefault();
+    }
+  }, {passive:false});
+
+  cv.addEventListener('pointermove', (ev) => {
+    if(!isDragging) return;
+    didDrag = true;
+    requestUpdateFromEvent(ev);
+    ev.preventDefault();
+  }, {passive:false});
+
+  function endDrag(ev){
+    if(!isDragging) return;
+    isDragging = false;
+    try{ cv.releasePointerCapture(ev.pointerId); }catch(e){}
+
+    // уровень 2: после отпускания проверяем, попали ли в нужный табличный угол
+    if(appMode==='mem' && memLevel===2 && currentTask){
+      const tol = degToRadNum(4); // допуск ~4°
+      // ищем ближайший табличный угол
+      let best = null;
+      let bestD = 1e9;
+      for(const a of angles){
+        const d = angDiff(currentRad(), degToRadNum(a.deg));
+        if(d < bestD){ bestD = d; best = a; }
+      }
+
+      if(best && bestD <= tol && best.deg === currentTask.baseAngle.deg){
+        // успех: фиксируем точно в табличный угол
+        setAngle(currentTask.baseAngle);
+        awaitingPlacement = false;
+        placedCorrect = true;
+        placeStatus = 'good';
+        taskSub.textContent = 'Положение верно ✅ Теперь выбери табличное значение.';
+        showAnswerButtonsForLevel2();
+      }else{
+        awaitingPlacement = true;
+        placedCorrect = false;
+        placeStatus = 'bad';
+        scoreBad++;
+        streak = 0;
+        updateScore();
+        taskSub.textContent = 'Ошибка ❌ Положение неверное. Попробуй ещё раз.';
+      }
+      draw();
+    }
+
+    setTimeout(()=>{ didDrag = false; }, 0);
+  }
+  cv.addEventListener('pointerup', endDrag, {passive:true});
+  cv.addEventListener('pointercancel', endDrag, {passive:true});
+
+  // клик по номеру/точке на окружности → переходим в этот угол
+  cv.addEventListener('click', (ev) => {
+    if(didDrag) return;
+    // в запоминании клики по табличным точкам отключаем, чтобы не было читинга
+    if(appMode==='mem') return;
+    tryPickRingPoint(ev);
+  });
+})();
+</script>
+
+  <div class="overlay" id="examOverlay" aria-hidden="true">
+    <div class="panel">
+      <div class="bar">
+        <div class="ttl">Зачёт</div>
+        <button class="ghost" id="btnExamClose">Закрыть</button>
+      </div>
+      <iframe id="examFrame" title="Зачёт"></iframe>
+    </div>
+  </div>
+
+<div class="brand-shell"><footer class="site-footer"><span class="shimorin-wordmark" aria-label="SHIMORINMATH"><span>SHIMORIN</span><span class="wordmark-accent">MATH</span></span></footer></div>
+</body>
+
+<script>
+(() => {
+  const btnExam = document.getElementById('btnModeExam');
+  const overlay = document.getElementById('examOverlay');
+  const frame = document.getElementById('examFrame');
+  const closeBtn = document.getElementById('btnExamClose');
+
+  const EXAM_DATA_URI = "./unit-circle-exam.html";
+
+  function openExam() {
+    // keep base modes untouched; just open overlay
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden','false');
+        if (!frame.src) frame.src = EXAM_DATA_URI;
+  }
+
+  function closeExam() {
+    overlay.classList.remove('show');
+    overlay.setAttribute('aria-hidden','true');
+  }
+
+  btnExam?.addEventListener('click', () => {
+    openExam();
+  });
+
+  closeBtn?.addEventListener('click', closeExam);
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) closeExam();
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('show')) closeExam();
+  });
+})();
+</script>
+
+</html>

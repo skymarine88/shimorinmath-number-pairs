@@ -1,50 +1,17 @@
 <!doctype html>
 <html lang="ru"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Тригонометрия · SHIMORINMATH</title><link rel="icon" href="../SHIMORINMATH_Favicon.svg">
+<title>Тригонометрия · SHIMORINMATH</title>
 <link rel="stylesheet" href="../catalog.css">
 <link rel="stylesheet" href="../catalog-identity.css">
 <link rel="stylesheet" href="../brand-details.css">
 <link rel="stylesheet" href="../trainer-scores.css">
+<link rel="icon" href="../SHIMORINMATH_Favicon.svg">
 <script defer src="../brand-motion.js"></script>
-<link rel="stylesheet" href="style.css">
-<script type="module" src="app.js"></script>
-</head><body><a class="skip" href="#main">К заданиям</a><div class="page">
+</head><body><a class="skip" href="#main">К тренажёрам</a><div class="page">
 <header class="site-header"><div class="author-identity"><button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип Шиморина Б.В." title="Повернуть логотип" style="--logo-size:52px"><img data-logo-mark src="../brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."></button><a class="author-copy" href="../" aria-label="Шиморин Б.В. Методические разработки — главная"><strong>Шиморин Б.В.</strong><small>Методические разработки</small></a></div><a href="../">Все тренажёры</a></header>
-<main id="main">
-
-<div class="heading"><h1>Тригонометрия</h1><button id="theoryButton">Теория</button></div>
-<label for="mode">Что тренируем?</label>
-<select id="mode">
-  <option value="circle">Углы на единичной окружности</option>
-  <option value="units">Градусы и радианы</option>
-  <option value="values">Табличные значения функций</option>
-  <option value="reduction">Формулы приведения</option>
-</select>
-<div class="trainer-scores" role="group" aria-label="Счётчики выбранного навыка">
-<span class="trainer-score trainer-score--correct"><span aria-hidden="true">🔥</span> Верно <span aria-hidden="true">·</span> <strong id="ok">0</strong></span>
-<span class="trainer-score trainer-score--incorrect"><span aria-hidden="true">💩</span> Ошибки <span aria-hidden="true">·</span> <strong id="bad">0</strong></span>
-<button id="reset">Сбросить счётчики</button></div>
-<section class="exercise" aria-labelledby="prompt">
-<p id="instruction"></p><h2 class="math" id="prompt" tabindex="-1"></h2>
-<div id="circle" role="group" aria-label="Выбор точки на единичной окружности">
- <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M2 50H98l-2 -1m2 1 -2 1M50 98V2l-1 2m1 -2 1 2" fill="none" stroke="#929ba6" stroke-width=".4"/>
- <circle cx="50" cy="50" r="39" fill="none" stroke="#505966" stroke-width=".6"/>
- <g font-size="4" fill="#515963"><text x="96" y="47">x</text><text x="52" y="5">y</text><text x="46" y="55">0</text></g></svg>
-</div>
-<div id="options" role="group" aria-label="Варианты ответа"></div>
-<p id="feedback" role="status"></p><button id="next">Пропустить</button>
-</section>
-<dialog id="theory" aria-labelledby="theoryTitle">
-<h2 id="theoryTitle">Теория</h2>
-<h3>Окружность и углы</h3><p>Начало отсчёта — точка (1; 0). Положительный угол откладывают против часовой стрелки, отрицательный — по часовой. Поворот на 360° возвращает в ту же точку.</p>
-<h3>Градусы и радианы</h3><p>180° = π рад. Чтобы перейти от градусов к радианам, умножьте число градусов на π/180. Например, 150° = 5π/6 рад.</p>
-<h3>Значения функций</h3><p>У точки на единичной окружности x = cos α, y = sin α. Тогда tg α = y/x, а ctg α = x/y. При нулевом знаменателе функция не определена.</p>
-<table><thead><tr><th>α</th><th>0°</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th></tr></thead>
-<tbody><tr><th>sin α</th><td>0</td><td>1/2</td><td>√2/2</td><td>√3/2</td><td>1</td></tr>
-<tr><th>cos α</th><td>1</td><td>√3/2</td><td>√2/2</td><td>1/2</td><td>0</td></tr></tbody></table>
-<h3>Формулы приведения</h3><p>Для острого α в выражениях π ± α и 2π ± α название функции сохраняется. При π/2 ± α и 3π/2 ± α синус меняется на косинус, тангенс — на котангенс и наоборот. Знак определяет исходная функция в соответствующей четверти.</p><p>Например, cos(π/2 + α) = −sin α. Угол во второй четверти, где абсцисса отрицательна.</p>
-<form method="dialog"><button>Закрыть</button></form></dialog>
-</main>
+<main id="main"><h1>Тригонометрия</h1><div class="trainer-grid"><a class="trainer-card" href="unit-circle.html"><div class="card-top"><span class="formula-icon" aria-hidden="true">sin α</span></div><h2>Табличные углы и единичная окружность</h2><p>Обучение, два уровня запоминания и зачёт.</p><span class="open">Открыть тренажёр</span></a>
+<a class="trainer-card" href="reduction.html"><div class="card-top"><span class="formula-icon" aria-hidden="true">π/2 + x</span></div><h2>Формулы приведения</h2><p>Контрольная точка, четверть, знак и итоговая функция.</p><span class="open">Открыть тренажёр</span></a>
+</div></main>
 <footer class="site-footer"><span class="shimorin-wordmark" aria-label="SHIMORINMATH"><span>SHIMORIN</span><span class="wordmark-accent">MATH</span></span></footer>
 </div></body></html>

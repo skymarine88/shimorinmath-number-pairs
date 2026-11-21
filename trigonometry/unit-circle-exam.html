@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Зачёт — табличные углы</title>
+<link rel="stylesheet" href="../trainer-scores.css">
+<style>
+  :root{
+    --bg1:#071025; --bg2:#030711;
+    --card: rgba(255,255,255,.06);
+    --card2: rgba(255,255,255,.08);
+    --stroke: rgba(255,255,255,.14);
+    --text: rgba(255,255,255,.92);
+    --muted: rgba(255,255,255,.62);
+    --accent: #ff4d6d;
+    --ok: #22c55e;
+    --bad:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color:var(--text);
+    background: radial-gradient(1200px 900px at 20% 10%, #10234f 0%, var(--bg1) 45%, var(--bg2) 100%);
+    min-height:100vh;
+  }
+  .wrap{ max-width:1280px; margin:0 auto; padding:16px; }
+  .top{
+    display:flex; gap:12px; align-items:center; justify-content:space-between;
+    padding:12px 14px; border:1px solid rgba(255,255,255,.10); border-radius:16px;
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  }
+  .title{ line-height:1.2; }
+  .title h1{ margin:0; font-size:18px; font-weight:800; letter-spacing:.2px; }
+  .title .copy{ margin-top:4px; font-size:12px; color:var(--muted); }
+  .pill{
+    display:inline-flex; gap:8px; align-items:center;
+    padding:6px 10px; border-radius:999px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05);
+    font-size:12px; color:var(--muted);
+  }
+  .grid{ display:grid; grid-template-columns: 1fr; gap:12px; margin-top:12px; }
+  @media (min-width: 980px){ .grid{ grid-template-columns: 1.15fr .85fr; } }
+
+  .panel{
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:18px;
+    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+    box-shadow: 0 10px 40px rgba(0,0,0,.22);
+    padding:14px;
+  }
+
+  canvas{
+    width:100%;
+    height: clamp(600px, 80vh, 980px);
+    display:block;
+    background: rgba(0,0,0,.10);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.08);
+    touch-action:none;
+  }
+
+  .right h2{ margin:0 0 10px 0; font-size:28px; font-weight:900; letter-spacing:.2px; }
+  .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .select, .btn{
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    color: var(--text);
+    padding:10px 12px;
+    font-weight:800;
+    cursor:pointer;
+  }
+  .select{ cursor:default; }
+  .btn.primary{ background: rgba(255,77,109,.18); border-color: rgba(255,77,109,.35); }
+  .btn.ghost{ background: rgba(255,255,255,.04); }
+  .btn:disabled{ opacity:.45; cursor:not-allowed; }
+
+  .sub{ margin-top:10px; color:var(--muted); font-size:14px; }
+
+  .task{
+    margin-top:14px;
+    padding:14px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05);
+  }
+  .task .q{
+    font-size:40px;
+    font-weight:950;
+    letter-spacing:.2px;
+  }
+  .task .meta{ margin-top:6px; font-size:14px; color:var(--muted); }
+
+  
+  .answers{ margin-top:14px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+  .answerCol{ display:flex; flex-direction:column; gap:12px; }
+  .ansBtn{
+    padding:14px 10px;
+    font-size:24px;
+    font-weight:950;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.22);
+    background: rgba(255,255,255,.10);
+    color: var(--text);
+    cursor:pointer;
+    user-select:none;
+    min-height:56px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .ansBtn:hover{ background: rgba(255,255,255,.14); }
+  .ansBtn:disabled{ opacity:.45; cursor:not-allowed; }
+
+
+  .score{display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin-top:12px; padding:10px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); font-size:16px; color:rgba(255,255,255,.88);}
+  .score b{ color:var(--text); }
+
+  .flash{
+    margin-top:12px;
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05);
+    font-weight:900;
+  }
+  .flash.ok{ border-color: rgba(34,197,94,.45); background: rgba(34,197,94,.12); color: #c8f7d5; }
+  .flash.bad{ border-color: rgba(239,68,68,.45); background: rgba(239,68,68,.12); color: #ffd1d1; }
+
+  .grade{
+    margin-top:12px;
+    padding:14px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05);
+    display:none;
+  }
+  .grade .g{ font-size:56px; font-weight:1000; letter-spacing:.5px; }
+  .grade .t{ margin-top:6px; color:var(--muted); }
+
+</style>
+<link rel="stylesheet" href="author.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="title">
+        <h1>Зачёт • табличные углы • окружность</h1>
+        <div class="copy">© Шиморин Б.В., 2026. Все права защищены.</div>
+      </div>
+      <div class="pill" id="modePill">режим: лайт</div>
+    </div>
+
+    <div class="grid">
+      <div class="panel">
+        <canvas id="cv" width="1200" height="960"></canvas>
+      </div>
+
+      <div class="panel right">
+        <h2>Зачёт</h2>
+
+        <div class="row">
+          <select class="select" id="examTypeSel">
+            <option value="light">Лайт (без времени)</option>
+            <option value="hard">Хард (без времени)</option>
+            <option value="time">На время (5 минут)</option>
+          </select>
+          <select class="select" id="angFmtSel">
+            <option value="mix">углы: вперемешку</option>
+            <option value="deg">углы: только градусы</option>
+            <option value="rad">углы: только радианы</option>
+          </select>
+          <button class="btn primary" id="btnStart">Пуск</button>
+          <button class="btn ghost" id="btnNext" disabled>Следующее</button>
+          <button class="btn ghost" id="btnReset">Сброс</button>
+        </div>
+
+        <div class="sub" id="subLine">Лайт/хард — без таймера. «На время» — 5 минут, потом оценка.</div>
+
+        <div class="task">
+          <div class="q" id="qText">—</div>
+          <div class="meta" id="qMeta">Нажми «Пуск», чтобы начать.</div>
+        </div>
+
+        <div class="trainer-scores"><span class="trainer-score trainer-score--correct"><span aria-hidden="true">🔥</span> Верно <span aria-hidden="true">·</span> <strong id="ok">0</strong></span><span class="trainer-score trainer-score--incorrect"><span aria-hidden="true">💩</span> Ошибки <span aria-hidden="true">·</span> <strong id="bad">0</strong></span><span class="trainer-score">Серия · <strong id="streak">0</strong></span>
+          <span>⏱ <b id="timer">—</b></span>
+        </div>
+
+        <div class="answers" id="answers"></div>
+
+        <div class="flash" id="flash" style="display:none"></div>
+
+        <div class="grade" id="gradeBox">
+          <div class="g" id="grade">5</div>
+          <div class="t" id="gradeText">Итог</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  // ---------- helpers ----------
+  const $ = (id)=>document.getElementById(id);
+  const cv = $('cv');
+  const ctx = cv.getContext('2d');
+
+  function gcd(a,b){ a=Math.round(Math.abs(a)); b=Math.round(Math.abs(b)); while(b){ const t=a%b; a=b; b=t; } return a||1; }
+  function normDeg360(d){ d%=360; if(d<0) d+=360; return d; }
+
+  // base angles (tabular)
+  const BASE = [0,30,45,60,90,120,135,150,180,210,225,240,270,300,315,330,360];
+  // exam angle bank: tabular angles within ±2 turns (±720°)
+  const ANGLE_BANK = (() => {
+    const ks = [-2,-1,0,1,2];
+    const set = new Map(); // deg -> {deg, rad}
+    const radStrFromDeg = (deg) => {
+      const nd = Math.round(deg);
+      let num = nd;
+      let den = 180;
+      const g = gcd(num, den);
+      num = Math.trunc(num / g); den = Math.trunc(den / g);
+      if(num===0) return '0';
+      const sign = num<0 ? '-' : '';
+      num = Math.abs(num);
+      if(den===1){
+        if(num===1) return sign+'π';
+        return sign + num + 'π';
+      }
+      const nPart = (num===1) ? 'π' : (num+'π');
+      return sign + nPart + '/' + den;
+    };
+
+    for (const b of BASE){
+      for (const k of ks){
+        const d = b + 360*k;
+        if (d < -720 || d > 720) continue;
+        if(!set.has(d)) set.set(d, {deg:d, rad: radStrFromDeg(d)});
+      }
+    }
+    return Array.from(set.values()).sort((a,b)=>a.deg-b.deg);
+  })();
+  const FUNS = ['sin','cos','tg','ctg'];
+
+  function sinCosVal(deg){
+    const nd = normDeg360(deg);
+    const s = Math.sin(nd*Math.PI/180);
+    const c = Math.cos(nd*Math.PI/180);
+    return {s,c};
+  }
+
+  function tabStrFor(fun, deg){
+    const nd = normDeg360(deg);
+    const map = {
+      0:   {sin:'0', cos:'1', tg:'0', ctg:'не существует'},
+      30:  {sin:'1/2', cos:'√3/2', tg:'√3/3', ctg:'√3'},
+      45:  {sin:'√2/2', cos:'√2/2', tg:'1', ctg:'1'},
+      60:  {sin:'√3/2', cos:'1/2', tg:'√3', ctg:'√3/3'},
+      90:  {sin:'1', cos:'0', tg:'не существует', ctg:'0'},
+      120: {sin:'√3/2', cos:'-1/2', tg:'-√3', ctg:'-√3/3'},
+      135: {sin:'√2/2', cos:'-√2/2', tg:'-1', ctg:'-1'},
+      150: {sin:'1/2', cos:'-√3/2', tg:'-√3/3', ctg:'-√3'},
+      180: {sin:'0', cos:'-1', tg:'0', ctg:'не существует'},
+      210: {sin:'-1/2', cos:'-√3/2', tg:'√3/3', ctg:'√3'},
+      225: {sin:'-√2/2', cos:'-√2/2', tg:'1', ctg:'1'},
+      240: {sin:'-√3/2', cos:'-1/2', tg:'√3', ctg:'√3/3'},
+      270: {sin:'-1', cos:'0', tg:'не существует', ctg:'0'},
+      300: {sin:'-√3/2', cos:'1/2', tg:'-√3', ctg:'-√3/3'},
+      315: {sin:'-√2/2', cos:'√2/2', tg:'-1', ctg:'-1'},
+      330: {sin:'-1/2', cos:'√3/2', tg:'-√3/3', ctg:'-√3'},
+    };
+    return (map[nd] && map[nd][fun]) ? map[nd][fun] : '0';
+  }
+
+  function radImproper(deg){
+    // represent as nπ/d improper
+    const nd = Math.round(deg);
+    let num = nd;
+    let den = 180;
+    const g = gcd(num, den);
+    num//=g; den//=g;
+    // num/den * π
+    if(num===0) return '0';
+    const sign = num<0 ? '-' : '';
+    num = Math.abs(num);
+    if(den===1){
+      if(num===1) return sign+'π';
+      return sign+num+'π';
+    }
+    const nPart = (num===1) ? 'π' : (num+'π');
+    return sign + nPart + '/' + den;
+  }
+
+  function angleText(deg, fmt){
+    if(fmt==='deg') return `${deg}°`;
+    if(fmt==='rad') return radImproper(deg);
+    // mix
+    return (Math.random()<0.5) ? `${deg}°` : radImproper(deg);
+  }
+
+  // answers set (3 columns layout will be handled by grid order)
+  const COL1 = ['1','√3/2','√2/2','1/2','-1/2','-√2/2','-√3/2','-1'];
+  const COL2 = ['0','не существует'];
+  const COL3 = ['√3','1','√3/3','-√3/3','-1','-√3'];
+
+  const answersEl = $('answers');
+  function buildAnswerButtons(onClick){
+    answersEl.innerHTML='';
+    const colWrap = (arr)=>{
+      const col = document.createElement('div');
+      col.className='answerCol';
+      for(const t of arr){
+        const b=document.createElement('button');
+        b.className='ansBtn';
+        b.type='button';
+        b.textContent=t;
+        b.addEventListener('click', ()=>onClick(t));
+        col.appendChild(b);
+      }
+      return col;
+    };
+    answersEl.appendChild(colWrap(COL1));
+    answersEl.appendChild(colWrap(COL2));
+    answersEl.appendChild(colWrap(COL3));
+  }
+
+
+  function setAnswersEnabled(enabled){
+    const btns = answersEl.querySelectorAll('button.ansBtn');
+    btns.forEach(b=>{ b.disabled = !enabled; });
+  }
+
+  // ---------- canvas drawing (base look) ----------
+  let W=0,H=0,DPR=1;
+  function resize(){
+    DPR = Math.max(1, Math.min(2.5, window.devicePixelRatio||1));
+    const r = cv.getBoundingClientRect();
+    W = Math.max(300, Math.floor(r.width));
+    H = Math.max(300, Math.floor(r.height));
+    cv.width = Math.floor(W*DPR);
+    cv.height= Math.floor(H*DPR);
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    draw();
+  }
+
+  const state = {
+    mode:'light', // light|hard|time
+    angleDeg: 30,
+    dragging:false,
+    dragEnabled:true,
+    showPoint:true,
+    showProj:true,
+  };
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    const cx = W*0.52;
+    const cy = H*0.52;
+    const maxK = Math.sqrt(3); // max |tan| or |cot| for tabular angles
+    const mX = W*0.06;
+    const mY = H*0.06;
+    const availTop = (cy - mY);
+    const availBot = (H - cy - mY);
+    const availLeft = (cx - mX);
+    const availRight = (W - cx - mX);
+    // To keep tg/ctg projections in view: |shift| <= maxK * R
+    const RtanY = Math.min(availTop, availBot) / maxK;
+    const RcotX = Math.min(availLeft, availRight) / maxK;
+    // Also keep the circle itself comfortably inside:
+    const Rcircle = Math.min(availTop, availBot, availLeft, availRight);
+    const R = Math.max(10, Math.min(RtanY, RcotX, Rcircle));
+
+    // axes
+    ctx.lineWidth=2;
+    ctx.strokeStyle='rgba(255,255,255,.20)';
+    ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(W,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,0); ctx.lineTo(cx,H); ctx.stroke();
+
+    // tg/ctg axes (no labels)
+    const tgAxisX = cx + R;
+    const ctgAxisY = cy - R;
+    ctx.beginPath(); ctx.moveTo(tgAxisX,0); ctx.lineTo(tgAxisX,H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,ctgAxisY); ctx.lineTo(W,ctgAxisY); ctx.stroke();
+
+
+    // circle
+    ctx.lineWidth=3;
+    ctx.strokeStyle='rgba(255,255,255,.32)';
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.stroke();
+
+    // tabular positions (light only)
+    if(state.mode==='light'){
+      ctx.fillStyle='rgba(255,255,255,.28)';
+      for(const d of BASE){
+        const aa = d*Math.PI/180;
+        const tx = cx + R*Math.cos(aa);
+        const ty = cy - R*Math.sin(aa);
+        ctx.beginPath(); ctx.arc(tx,ty,5.5,0,Math.PI*2); ctx.fill();
+      }
+    }
+
+    if(!state.showPoint && !state.showProj) return;
+
+    const a = state.angleDeg * Math.PI/180;
+    const px = cx + R*Math.cos(a);
+    const py = cy - R*Math.sin(a);
+
+    // radius
+    if(state.showPoint){
+      ctx.lineWidth=4;
+      ctx.strokeStyle='rgba(255,77,109,.55)';
+      ctx.setLineDash([10,10]);
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(px,py); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // projections
+    if(state.showProj){
+      ctx.lineWidth=4;
+      ctx.strokeStyle='rgba(255,77,109,.55)';
+      ctx.setLineDash([10,10]);
+      // to x axis
+      ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(px,cy); ctx.stroke();
+      // to y axis
+      ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(cx,py); ctx.stroke();
+
+      // tg/ctg projections (light only)
+      if(state.mode==='light'){
+        const cosA = Math.cos(a);
+        const sinA = Math.sin(a);
+        const tgAxisX = cx + R;
+        const ctgAxisY = cy - R;
+
+        // extend ray to tg axis (x = cx+R)
+        if(Math.abs(cosA) > 1e-6){
+          const ty = cy - R*(sinA/cosA);
+          ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(tgAxisX, ty); ctx.stroke();
+          // point on tg axis
+          ctx.fillStyle='rgba(255,77,109,.95)';
+          ctx.beginPath(); ctx.arc(tgAxisX, ty, 7, 0, Math.PI*2); ctx.fill();
+        }
+
+        // extend ray to ctg axis (y = cy-R)
+        if(Math.abs(sinA) > 1e-6){
+          const tx = cx + R*(cosA/sinA);
+          ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(tx, ctgAxisY); ctx.stroke();
+          ctx.fillStyle='rgba(255,77,109,.95)';
+          ctx.beginPath(); ctx.arc(tx, ctgAxisY, 7, 0, Math.PI*2); ctx.fill();
+        }
+      }
+
+      ctx.setLineDash([]);
+
+      // projection dots
+      ctx.fillStyle='rgba(255,77,109,.95)';
+      ctx.beginPath(); ctx.arc(px,cy,7,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(cx,py,7,0,Math.PI*2); ctx.fill();
+    }
+
+    // main point
+    if(state.showPoint){
+      ctx.fillStyle='rgba(255,77,109,.95)';
+      ctx.beginPath(); ctx.arc(px,py,9,0,Math.PI*2); ctx.fill();
+    }
+  }
+
+  function pointFromEvent(ev){
+    const r=cv.getBoundingClientRect();
+    return {x:(ev.clientX-r.left), y:(ev.clientY-r.top)};
+  }
+
+  function setAngleByPointer(ev){
+    const {x,y}=pointFromEvent(ev);
+    const cx = W*0.52;
+    const cy = H*0.52;
+    let ang = Math.atan2((cy - y),(x - cx));
+    let deg = ang*180/Math.PI;
+    // normalize to (-180,180]
+    if(deg<=-180) deg+=360;
+    if(deg>180) deg-=360;
+    state.angleDeg = deg;
+    draw();
+  }
+
+  cv.addEventListener('pointerdown', (ev)=>{
+    if(!state.dragEnabled) return;
+    state.dragging=true;
+    cv.setPointerCapture(ev.pointerId);
+    setAngleByPointer(ev);
+  });
+  cv.addEventListener('pointermove', (ev)=>{
+    if(!state.dragging) return;
+    setAngleByPointer(ev);
+  });
+  cv.addEventListener('pointerup', ()=>{ state.dragging=false; });
+  cv.addEventListener('pointercancel', ()=>{ state.dragging=false; });
+
+  window.addEventListener('resize', resize);
+
+  // ---------- exam engine ----------
+  const examTypeSel = $('examTypeSel');
+  const angFmtSel = $('angFmtSel');
+  const btnStart = $('btnStart');
+  const btnNext = $('btnNext');
+  const btnReset= $('btnReset');
+  const pill = $('modePill');
+
+  const qText = $('qText');
+  const qMeta = $('qMeta');
+  const okEl = $('ok');
+  const badEl = $('bad');
+  const streakEl = $('streak');
+  const timerEl = $('timer');
+  const flash = $('flash');
+  const gradeBox = $('gradeBox');
+  const gradeEl = $('grade');
+  const gradeText = $('gradeText');
+
+  let running=false;
+  let ok=0,bad=0,streak=0;
+  let current=null; // {fun,deg,ans,angleStr}
+  let timeLeft=300;
+  let timerId=null;
+  let answeredThis=false;
+  let nextTaskTimeout=null;
+
+  function setExamMode(mode){
+    state.mode=mode;
+    if(mode==='light'){
+      pill.textContent='режим: лайт';
+      state.dragEnabled=true;
+      state.showPoint=true;
+      state.showProj=true;
+    } else if(mode==='hard'){
+      pill.textContent='режим: хард';
+      state.dragEnabled=false;
+      state.showPoint=false;
+      state.showProj=false;
+    } else {
+      pill.textContent='режим: на время';
+      state.dragEnabled=false;
+      state.showPoint=false;
+      state.showProj=false;
+    }
+    draw();
+  }
+
+  function resetAll(){
+    if(nextTaskTimeout){ clearTimeout(nextTaskTimeout); nextTaskTimeout=null; }
+
+    stopTimer();
+    running=false;
+    ok=bad=streak=0;
+    okEl.textContent=ok; badEl.textContent=bad; streakEl.textContent=streak;
+    current=null;
+    answeredThis=false;
+    btnNext.disabled=true;
+    flash.style.display='none';
+    gradeBox.style.display='none';
+    timerEl.textContent='—';
+    qText.textContent='—';
+    qMeta.textContent='Нажми «Пуск», чтобы начать.';
+  }
+
+  function stopTimer(){
+    if(timerId){ clearInterval(timerId); timerId=null }
+  }
+
+  function startTimer(){
+    timeLeft=300;
+    timerEl.textContent=formatTime(timeLeft);
+    timerId=setInterval(()=>{
+      timeLeft--;
+      timerEl.textContent=formatTime(timeLeft);
+      if(timeLeft<=0){
+        clearInterval(timerId); timerId=null;
+        finishTimed();
+      }
+    },1000);
+  }
+
+  function formatTime(s){
+    const m = Math.floor(s/60);
+    const ss = String(s%60).padStart(2,'0');
+    return `${m}:${ss}`;
+  }
+
+  function randomAngle(){
+    return ANGLE_BANK[Math.floor(Math.random()*ANGLE_BANK.length)];
+  }
+
+  function newTask(){
+    const fun = FUNS[Math.floor(Math.random()*FUNS.length)];
+    const a = randomAngle();
+    const deg = a.deg;
+    const fmt = angFmtSel.value;
+    const aStr = (fmt==='deg') ? `${deg}°` : (fmt==='rad' ? a.rad : ((Math.random()<0.5)?`${deg}°`:a.rad));
+    const ans = tabStrFor(fun, deg);
+    current = {fun,deg,ans,aStr};
+    answeredThis=false;
+
+    qText.textContent = `${fun} (${aStr})`;
+    if(state.mode==='light'){
+      qMeta.textContent = 'Поставь точку (если нужно) и выбери ответ.';
+    } else {
+      qMeta.textContent = 'Решай в уме и выбери ответ.';
+    }
+
+    // in light: move point to that position? (в зачёте не ставим автоматически; лайт — можно двигать)
+    // We'll NOT auto-set: это зачёт.
+
+    btnNext.disabled=false;
+  }
+
+  
+  function scheduleNextTask(delay=420){
+    if(nextTaskTimeout){ clearTimeout(nextTaskTimeout); nextTaskTimeout=null; }
+    nextTaskTimeout = window.setTimeout(()=>{
+      try{
+        newTask();
+      }catch(e){
+        console.error('newTask failed', e);
+        // try once more
+        try{ newTask(); }catch(e2){ console.error('newTask retry failed', e2); }
+      }
+      setAnswersEnabled(true);
+    }, delay);
+  }
+
+function flashMsg(type, text){
+    flash.className = 'flash ' + (type==='ok'?'ok':'bad');
+    flash.textContent=text;
+    flash.style.display='block';
+    setTimeout(()=>{ flash.style.display='none'; }, 900);
+  }
+
+  function computeGrade(){
+    const total = ok+bad;
+    const acc = total ? (ok/total) : 0;
+    // simple rubric
+    if(ok>=27 && acc>=0.90) return {g:5, t:`Отлично: ${ok}/${total} (${Math.round(acc*100)}%)`};
+    if(ok>=24 && acc>=0.80) return {g:4, t:`Хорошо: ${ok}/${total} (${Math.round(acc*100)}%)`};
+    if(ok>=18 && acc>=0.65) return {g:3, t:`Удовлетворительно: ${ok}/${total} (${Math.round(acc*100)}%)`};
+    return {g:2, t:`Нужно подтянуть: ${ok}/${total} (${Math.round(acc*100)}%)`};
+  }
+
+  function finishTimed(){
+    running=false;
+    btnStart.disabled=false;
+    btnNext.disabled=true;
+    const res = computeGrade();
+    gradeEl.textContent = String(res.g);
+    gradeText.textContent = res.t;
+    gradeBox.style.display='block';
+    flashMsg('bad','Время вышло!');
+  }
+
+  function onAnswer(val){
+    if(!running && state.mode==='time') return;
+    if(!current) return;
+    if(answeredThis) return; // защита от повторного клика по тому же заданию
+
+    answeredThis = true;
+    setAnswersEnabled(false);
+
+    if(val === current.ans){
+      ok++; streak++;
+      okEl.textContent=ok; streakEl.textContent=streak;
+      flashMsg('ok','Верно ✅');
+    } else {
+      bad++; streak=0;
+      badEl.textContent=bad; streakEl.textContent=streak;
+      flashMsg('bad','Ошибка ❌');
+    }
+
+    // сразу выдаём следующее задание, чтобы нельзя было "набивать" очки на одном и том же
+    scheduleNextTask(420);
+    }
+
+
+  function start(){
+    const mode = examTypeSel.value;
+    setExamMode(mode);
+    resetAll();
+
+    if(mode==='time'){
+      running=true;
+      btnStart.disabled=true;
+      startTimer();
+    } else {
+      running=true;
+      btnStart.disabled=false;
+      timerEl.textContent='без таймера';
+    }
+
+    buildAnswerButtons(onAnswer);
+    newTask();
+  }
+
+  function nextTask(){
+    if(nextTaskTimeout){ clearTimeout(nextTaskTimeout); nextTaskTimeout=null; }
+
+    if(!current) return;
+    if(!answeredThis){
+      // skip counts as error
+      bad++; streak=0;
+      badEl.textContent=bad; streakEl.textContent=streak;
+      flashMsg('bad','Пропуск = ошибка ❌');
+    }
+    newTask();
+  }
+
+  examTypeSel.addEventListener('change', ()=>{
+    setExamMode(examTypeSel.value);
+    // time mode requires start
+    resetAll();
+  });
+
+  btnStart.addEventListener('click', start);
+  btnNext.addEventListener('click', nextTask);
+  btnReset.addEventListener('click', ()=>{ resetAll(); });
+
+  // init
+  buildAnswerButtons(onAnswer);
+  setExamMode('light');
+  resetAll();
+  resize();
+})();
+</script>
+</body>
+</html>

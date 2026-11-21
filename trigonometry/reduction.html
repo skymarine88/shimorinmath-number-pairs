@@ -1,0 +1,1439 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Тренажёр: формулы приведения</title>
+  <link rel="stylesheet" href="../catalog.css">
+<link rel="stylesheet" href="../catalog-identity.css">
+<link rel="stylesheet" href="../brand-details.css">
+<link rel="stylesheet" href="../trainer-scores.css">
+<link rel="icon" href="../SHIMORINMATH_Favicon.svg">
+<script defer src="../brand-motion.js"></script>
+<style>
+    :root{
+      --bg:#0b1220;
+      --text:#e9eefc;
+      --muted:#a9b6d6;
+      --line:#263a6a;
+      --good:#2dd46b;
+      --bad:#ff4d4d;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --r:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 800px at 20% 10%, #162a55 0%, transparent 60%),
+                  radial-gradient(900px 700px at 80% 30%, #1a3b7a 0%, transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:14px;
+      display:grid;
+      gap:14px;
+      grid-template-columns: 1.1fr .9fr;
+    }
+    @media (max-width: 900px){ .wrap{grid-template-columns:1fr} }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .head{
+      padding:12px 14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      background: rgba(0,0,0,.15);
+    }
+    .title{
+      font-weight:850;
+      letter-spacing:.2px;
+      font-size:15px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .title span{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+    .pill{
+      padding:6px 10px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:999px;
+      background: rgba(0,0,0,.15);
+      white-space:nowrap;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .toolbar{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .iconbtn{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding:9px 10px;
+      border-radius:12px;
+      font-weight:800;
+      cursor:pointer;
+      user-select:none;
+      line-height:1;
+    }
+    .iconbtn:active{ transform: scale(.98); }
+    .body{ padding:12px 14px; }
+    .formula{
+      font-size:26px;
+      font-weight:850;
+      letter-spacing:.2px;
+      padding:12px 14px;
+      border-radius:14px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:64px;
+      text-align:center;
+      margin-bottom:10px;
+    }
+
+    /* SVG */
+    .svgwrap{ display:grid; place-items:center; padding:8px 0 0 0; }
+    svg{
+      width:min(520px, 92vw);
+      height:auto;
+      display:block;
+      border-radius:18px;
+      background: rgba(0,0,0,.12);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .axis{ stroke: var(--line); stroke-width:3; }
+    .circle{ stroke: rgba(255,255,255,.25); stroke-width:3; fill:none; }
+    .qp{ fill: rgba(106,166,255,.08); stroke: rgba(106,166,255,.16); stroke-width:2; cursor:pointer; }
+    .qp:hover{ fill: rgba(106,166,255,.14); }
+    .qp.disabled{ pointer-events:none; opacity:.35; cursor:default; }
+    .qp.good{ fill: rgba(45,212,107,.20); stroke: rgba(45,212,107,.60); }
+    .kt.bad{ fill: rgba(255,77,77,.70); stroke: rgba(255,77,77,1); }
+    .qp.bad{ fill: rgba(255,77,77,.16); stroke: rgba(255,77,77,.70); }
+    .kt{ fill: rgba(255,255,255,.20); stroke: rgba(255,255,255,.55); stroke-width:3; cursor:pointer; }
+    .kt:hover{ fill: rgba(255,255,255,.32); }
+    .kt.disabled{ pointer-events:none; opacity:.35; cursor:default; }
+    .kt.good{ fill: rgba(45,212,107,.75); stroke: rgba(45,212,107,1); }
+    .lbl{ fill: rgba(233,238,252,.9); font-weight:850; font-size:16px; }
+    .lbl2{ fill: rgba(169,182,214,.9); font-weight:750; font-size:13px; }
+
+    /* Steps */
+    .grid{ display:grid; gap:10px; }
+    .step{
+      padding:12px;
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .stephead{
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+      color: rgba(233,238,252,.92);
+      font-weight:850;
+      letter-spacing:.2px;
+    }
+    .badge{
+      font-size:12px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.12);
+      color:var(--muted);
+      min-width:36px;
+      text-align:center;
+    }
+    .badge.good{ color: #0a2a14; background: rgba(45,212,107,.95); border-color: rgba(45,212,107,.35); }
+    .btnrow{ display:flex; flex-wrap:wrap; gap:10px; }
+    .signbtn{
+      flex:1;
+      min-width:110px;
+      padding:14px 12px;
+      border-radius:14px;
+      font-size:18px;
+    }
+
+    button{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:800;
+      cursor:pointer;
+      transition: transform .06s ease, background .15s ease, border-color .15s ease, opacity .15s ease;
+      user-select:none;
+    }
+    button:active{ transform: scale(.98); }
+    button[disabled]{ opacity:.45; cursor:not-allowed; }
+    button.good{ background: rgba(45,212,107,.22); border-color: rgba(45,212,107,.55); }
+    button.bad{ background: rgba(255,77,77,.14); border-color: rgba(255,77,77,.45); }
+
+    /* Final buttons */
+    .finalArea{
+      position:sticky;
+      bottom:0;
+      margin-top:12px;
+      padding:12px 0 2px 0;
+      background: linear-gradient(180deg, rgba(11,18,32,0) 0%, rgba(11,18,32,.65) 18%, rgba(11,18,32,.9) 60%, rgba(11,18,32,.98) 100%);
+      border-radius: 0 0 var(--r) var(--r);
+    }
+    .finalGrid{
+      display:grid;
+      gap:10px;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      justify-content:center;
+      align-items:center;
+      max-width:720px;
+      margin:0 auto;
+      padding:8px 8px 12px 8px;
+    }
+    
+    .finalBtn{
+      padding:16px 10px;
+      border-radius:16px;
+      font-size:16px;
+      font-weight:900;
+      text-align:center;
+      min-height:56px;
+    }
+
+    /* Modals */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.86);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:14px;
+      z-index:50;
+    }
+    .overlay.show{ display:flex; }
+    .modal{
+      width:min(980px, 100%);
+      max-height: min(92vh, 820px);
+      overflow:auto;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+    .modalHead{
+      padding:12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.18);
+      position:sticky;
+      top:0;
+      z-index:2;
+    }
+    .modalHead .t{ font-weight:900; letter-spacing:.2px; }
+    .closeBtn{ padding:9px 10px; border-radius:12px; font-weight:900; }
+    .modalBody{ padding:14px; color: var(--text); }
+    .muted{ color: var(--muted); }
+
+    .flow{ display:grid; gap:10px; grid-template-columns: 1fr; }
+    .node{
+      padding:12px 12px;
+      border-radius:14px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .node h4{ margin:0 0 6px 0; font-size:14px; }
+    .node p{ margin:0; color: var(--muted); line-height:1.35; font-size:13px; }
+    .arrow{
+      height:18px;
+      display:grid;
+      place-items:center;
+      color: rgba(233,238,252,.9);
+      opacity:.85;
+      font-weight:900;
+    }
+    .example{
+      margin-top:14px;
+      padding:12px;
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .example .f{
+      font-weight:900;
+      font-size:18px;
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+      text-align:center;
+      margin-bottom:10px;
+    }
+    .example ul{ margin:0; padding-left:18px; color: var(--muted); line-height:1.4; }
+
+    .settingsGrid{
+      display:grid;
+      gap:10px;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 700px){ .settingsGrid{ grid-template-columns:1fr; } }
+    .setbox{
+      padding:12px;
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .setbox h4{ margin:0 0 8px 0; font-size:14px; }
+    .toggleRow{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:8px 10px;
+      border-radius:12px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      margin-top:8px;
+    }
+    .toggleRow label{ display:flex; align-items:center; gap:10px; cursor:pointer; }
+    .toggleRow input{ transform: scale(1.1); }
+  
+    /* Bigger top buttons (Theory / Settings) */
+    #theoryBtn, #settingsBtn{
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+  
+    /* Bigger icon buttons */
+    .iconbtn{
+      padding: 12px 14px;
+      border-radius:14px;
+      font-size:15px;
+      font-weight:900;
+    }
+    .signbtn{
+      min-height:58px;
+      font-size:18px;
+    }
+
+    /* Success overlay (learn mode) */
+    .successOverlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:100;
+      background: rgba(0,0,0,.86);
+    }
+    .successOverlay.show{ display:flex; }
+    .successCard{
+      width:min(560px, 92vw);
+      border-radius:22px;
+      padding:20px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow: var(--shadow);
+      text-align:center;
+    }
+    .successCard .big{
+      font-size:48px;
+      font-weight:950;
+      letter-spacing:.6px;
+      margin:0 0 6px 0;
+    }
+    .successCard .sub{
+      color: var(--muted);
+      font-weight:800;
+      margin:0;
+    }
+    .confetti{
+      position:fixed;
+      top:-12px;
+      width:10px;
+      height:14px;
+      opacity:.95;
+      z-index:101;
+      pointer-events:none;
+      animation: fall 900ms linear forwards;
+    }
+    @keyframes fall{
+      to{ transform: translateY(110vh) rotate(540deg); opacity:1; }
+    }
+
+    /* Hard mode: hide steps panel */
+    body.hardMode .stepsCard{ display:none; }
+    body.hardMode .wrap{ grid-template-columns: 1fr; }
+
+  
+    .pageTitle{
+      font-size: 28px;
+      font-weight: 950;
+      letter-spacing: .4px;
+      text-align:center;
+      margin: 4px 0 12px 0;
+    }
+
+  
+    .countersRow{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      margin: 2px 0 10px 0;
+    }
+    .countersRow .pill{
+      color: var(--text);
+      font-weight:900;
+      font-size:14px;
+    }
+
+  
+    .disabledAll{
+      pointer-events:none !important;
+      opacity:.75;
+      filter: saturate(.9);
+    }
+
+  </style>
+<link rel="stylesheet" href="author.css">
+</head>
+<body><div class="brand-shell"><header class="site-header"><div class="author-identity"><button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип Шиморина Б.В." title="Повернуть логотип" style="--logo-size:52px"><img data-logo-mark src="../brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."></button><a class="author-copy" href="../" aria-label="Шиморин Б.В. Методические разработки — главная"><strong>Шиморин Б.В.</strong><small>Методические разработки</small></a></div><a href="../">Все тренажёры</a></header></div>
+<nav class="section-nav" aria-label="Раздел"><a href="./">Тригонометрия</a></nav>
+  <div class="wrap">
+    <div class="card" id="trainCard">
+      <div class="head">
+        <div class="title"><span></span></div>
+        <div class="toolbar">
+          <button class="iconbtn" id="theoryBtn" title="Теория и правило">📘 Теория</button>
+          <button class="iconbtn" id="settingsBtn" title="Настройки">⚙ Настройки</button>
+
+          <div class="pill" style="display:flex;gap:10px;align-items:center;">
+            Режим:
+            <select id="modeSelect" style="padding:8px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);font-weight:900;">
+              <option value="learn">Обучение</option>
+              <option value="lite">Зачёт лайт</option>
+              <option value="hard">Зачёт хард</option>
+              <option value="exam">Зачёт на 5 (таймер)</option>
+            </select>
+          </div>
+<div class="pill">Разработчик: <b>Шиморин Б.В.</b> · Все права защищены</div>
+        </div>
+      </div>
+      <div class="body">
+
+        <div class="countersRow">
+          <span class="trainer-score trainer-score--correct"><span aria-hidden="true">🔥</span> Верно <span aria-hidden="true">·</span> <strong id="ok">0</strong></span><span class="trainer-score trainer-score--incorrect"><span aria-hidden="true">💩</span> Ошибки <span aria-hidden="true">·</span> <strong id="bad">0</strong></span><span class="trainer-score">Серия · <strong id="streak">0</strong></span>
+          <div class="pill" id="timerPill" style="display:none;">⏱ <b id="timerText">05:00</b></div>
+        </div>
+        <div class="pageTitle">Формулы приведения</div>
+        <div class="formula" id="formula">…</div>
+
+        <div class="svgwrap">
+          <svg viewBox="0 0 500 500" aria-label="Окружность с осями и четвертями">
+            <path id="q1" class="qp" d="M250 250 L420 250 A170 170 0 0 0 250 80 Z" data-q="1"></path>
+            <path id="q2" class="qp" d="M250 250 L250 80  A170 170 0 0 0 80 250 Z" data-q="2"></path>
+            <path id="q3" class="qp" d="M250 250 L80 250  A170 170 0 0 0 250 420 Z" data-q="3"></path>
+            <path id="q4" class="qp" d="M250 250 L250 420 A170 170 0 0 0 420 250 Z" data-q="4"></path>
+
+            <circle class="circle" cx="250" cy="250" r="170"></circle>
+            <line class="axis" x1="80" y1="250" x2="420" y2="250"></line>
+            <line class="axis" x1="250" y1="80" x2="250" y2="420"></line>
+
+            <circle id="kt0" class="kt" cx="420" cy="250" r="10" data-kt="0"></circle>
+            <circle id="kt90" class="kt" cx="250" cy="80"  r="10" data-kt="90"></circle>
+            <circle id="kt180" class="kt" cx="80"  cy="250" r="10" data-kt="180"></circle>
+            <circle id="kt270" class="kt" cx="250" cy="420" r="10" data-kt="270"></circle>
+<text class="lbl2" x="330" y="150">I</text>
+            <text class="lbl2" x="150" y="150">II</text>
+            <text class="lbl2" x="150" y="360">III</text>
+            <text class="lbl2" x="340" y="360">IV</text>
+          </svg>
+        </div>
+
+        <div class="finalArea">
+          <div class="finalGrid" id="finalBtns"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card stepsCard">
+      <div class="head">
+        <div class="title"><span>Шаги</span></div>
+        <div class="toolbar">
+          <button class="iconbtn" id="newBtn" title="Новый пример">↻ Новый</button>
+          <button class="iconbtn" id="resetBtn" title="Сброс счёта">⟲ Сброс</button>
+        </div>
+      </div>
+      <div class="body">
+        <div class="grid">
+          <div class="step"><div class="stephead"><div>1) КТ</div><span id="b1" class="badge">…</span></div>
+            <div class="muted" style="margin-top:8px;font-size:13px;line-height:1.35;">Нажми на верную <b>КТ</b> на окружности (точка пересечения с осью).</div></div>
+          <div class="step"><div class="stephead"><div>2) Четверть</div><span id="b2" class="badge">…</span></div>
+            <div class="muted" style="margin-top:8px;font-size:13px;line-height:1.35;">Нажми на верную <b>четверть</b>, куда попадает угол <b>КТ ± x</b>.</div></div>
+          <div class="step">
+            <div class="stephead"><div>3) Знак</div><span id="b3" class="badge">…</span></div>
+            <div class="muted" style="margin-top:8px;font-size:13px;line-height:1.35;">Нажми на знак, который будет иметь <b>исходная функция</b> в выбранной четверти.</div>
+            <div class="btnrow" style="margin-top:10px;">
+              <button class="signbtn" id="plusBtn" disabled>+ Плюс</button>
+              <button class="signbtn" id="minusBtn" disabled>− Минус</button>
+            </div>
+          </div>
+          <div class="step"><div class="stephead"><div>4) Итог</div><span id="b4" class="badge">…</span></div>
+            <div class="muted" style="margin-top:8px;font-size:13px;line-height:1.35;">Выбери правильный <b>ответ</b> среди кнопок внизу.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THEORY -->
+  <div class="overlay" id="theoryOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Теория и правило">
+      <div class="modalHead">
+        <div class="t">Теория и правило</div>
+        <button class="iconbtn closeBtn" id="closeTheory">Закрыть</button>
+      </div>
+      <div class="modalBody">
+        
+        <div class="flow">
+          <div class="node">
+            <h4>Что такое контрольная точка (КТ)</h4>
+            <p><b>КТ</b> — это точка пересечения тригонометрической окружности с одной из осей координат.
+               Таких положений четыре: по оси <b>Ox</b> (0 и π) и по оси <b>Oy</b> (π/2 и 3π/2), а также любые углы, отличающиеся от них на целое число оборотов.</p>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node">
+            <h4>Вертикальные и горизонтальные КТ</h4>
+            <p><b>Вертикальные КТ</b> лежат на оси <b>Oy</b> (π/2 и 3π/2) — при приведении функция меняется на <b>кофункцию</b>.<br/>
+               <b>Горизонтальные КТ</b> лежат на оси <b>Ox</b> (0 и π) — при приведении функция <b>сохраняется</b>.</p>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node">
+            <h4>Что называют формулами приведения</h4>
+            <p>Тригонометрические величины вида <b>f(КТ ± x)</b> или <b>f(x ± КТ)</b>, где один из углов — контрольная точка, образуют <b>формулы приведения</b>.
+               Они позволяют заменить значение функции от «неудобного» угла значением функции от <b>острого угла</b> (в тренажёре это переменная <b>x</b>).</p>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node">
+            <h4>Зачем это нужно</h4>
+            <p>С помощью формул приведения можно сводить вычисление тригонометрических функций любых углов к функциям углов первой четверти.
+               В более общем виде тригонометрическую функцию любого угла можно заменить равной ей функцией угла, который не превосходит по модулю <b>45°</b> (это делают, комбинируя приведение с симметриями окружности).</p>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="node">
+            <h4>Алгоритм приведения (как в тренажёре)</h4>
+            <p>1) Выбрать КТ (на оси).<br/>
+               2) Определить четверть, куда попадает угол от КТ ± x.<br/>
+               3) Поставить знак исходной функции в этой четверти.<br/>
+               4) Заменить функцию на кофункцию (если КТ вертикальная) или оставить прежней (если КТ горизонтальная).</p>
+          </div>
+        </div>
+
+        <div class="example">
+          <div class="f">cos(−270° − x)</div>
+          <ul>
+            <li>КТ = −270° (это 90° по модулю окружности) — вертикальная ⇒ cos → <b>sin</b>.</li>
+            <li>−270° − x попадает в I четверть (эквивалентно 90° − x).</li>
+            <li>В I четверти cos положителен ⇒ знак «+».</li>
+            <li>Итог: <b>cos(−270° − x) = sin(x)</b>.</li>
+          </ul>
+        </div>
+        <div class="muted" style="margin-top:10px;font-size:13px;line-height:1.35;">
+          Для выражения вида <b>x − КТ</b> удобно мыслить как <b>(−КТ) + x</b>: тогда “контрольная точка” равна <b>−КТ</b>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="overlay" id="settingsOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Настройки">
+      <div class="modalHead">
+        <div class="t">Настройки</div>
+        <button class="iconbtn closeBtn" id="closeSettings">Закрыть</button>
+      </div>
+      <div class="modalBody">
+        <div class="settingsGrid">
+          <div class="setbox">
+            <h4>Как задаётся КТ в заданиях</h4>
+            <div class="toggleRow">
+              <label><input id="showDeg" type="checkbox" checked> КТ в градусах</label>
+              <span class="muted">например −450°</span>
+            </div>
+            <div class="toggleRow">
+              <label><input id="showRad" type="checkbox"> КТ в радианах</label>
+              <span class="muted">например −5π/2</span>
+            </div>
+            <div class="muted" style="margin-top:8px;font-size:13px;line-height:1.35;">
+              Если включить оба флажка, то задания будут вперемешку: часть с КТ в градусах, часть — в радианах.
+            </div>
+          </div>
+
+          <div class="setbox">
+            <h4>Режим ответа</h4>
+            <div class="toggleRow">
+              <label><input id="sequential" type="checkbox" checked> строгая последовательность</label>
+              <span class="muted">1→2→3→4</span>
+            </div>
+            <div class="toggleRow">
+              <label><input id="needKT" type="checkbox" checked> требовать КТ</label>
+              <span class="muted">шаг 1</span>
+            </div>
+            <div class="toggleRow">
+              <label><input id="needQ" type="checkbox" checked> требовать четверть</label>
+              <span class="muted">шаг 2</span>
+            </div>
+            <div class="toggleRow">
+              <label><input id="needSign" type="checkbox" checked> требовать знак</label>
+              <span class="muted">шаг 3</span>
+            </div>
+            <div class="toggleRow">
+              <label><input id="needFinal" type="checkbox" checked> требовать итог</label>
+              <span class="muted">шаг 4</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="setbox" style="margin-top:10px;">
+          <h4>Переменная</h4>
+          <div class="toggleRow">
+            <label><input id="varToggle" type="checkbox" checked> использовать x (иначе θ)</label>
+            <span class="muted">x / θ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+(() => {
+
+  // --- Seeded RNG (tied to current time) ---
+  // Some HTML viewers can behave oddly with rand01(); we use our own RNG seeded from current time.
+  const __seed = (Date.now() ^ Math.floor((performance?.now?.() || 0) * 1000)) >>> 0;
+
+  function mulberry32(a){
+    return function(){
+      let t = a += 0x6D2B79F5;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  let __rng = mulberry32(__seed);
+  function rand01(){ return __rng(); }
+
+  const $ = (id) => document.getElementById(id);
+
+  const okEl = $("ok"), badEl = $("bad"), streakEl = $("streak");
+  const formulaEl = $("formula");
+  const finalBtns = $("finalBtns");
+  const plusBtn = $("plusBtn"), minusBtn = $("minusBtn");
+  const b1 = $("b1"), b2 = $("b2"), b3 = $("b3"), b4 = $("b4");
+  const newBtn = $("newBtn"), resetBtn = $("resetBtn");
+
+  const theoryBtn = $("theoryBtn"), settingsBtn = $("settingsBtn");
+  const theoryOverlay = $("theoryOverlay"), closeTheory = $("closeTheory");
+  const settingsOverlay = $("settingsOverlay"), closeSettings = $("closeSettings");
+
+  const showDeg = $("showDeg"), showRad = $("showRad");
+  const sequential = $("sequential");
+  const needKT = $("needKT"), needQ = $("needQ"), needSign = $("needSign"), needFinal = $("needFinal");
+  const varToggle = $("varToggle");
+  const modeSelect = $("modeSelect");
+  const successOverlay = $("successOverlay");
+  const examOverlay = $("examOverlay");
+  const examGrade = $("examGrade");
+  const examSummary = $("examSummary");
+  const repeatExamBtn = $("repeatExamBtn");
+  const timerPill = $("timerPill");
+  const timerText = $("timerText");
+
+  const ktNodes = { 0:$("kt0"), 90:$("kt90"), 180:$("kt180"), 270:$("kt270") };
+  const qNodes = { 1:$("q1"), 2:$("q2"), 3:$("q3"), 4:$("q4") };
+  let stats = { ok:0, bad:0, streak:0 };
+  let mode = "learn";
+  let learnPrefs = null; // remember user toggles for learn mode
+  
+  const EXAM_SECONDS = 5 * 60; // 5 минут
+  let examRemaining = EXAM_SECONDS;
+  let examTimerId = null;
+  let examEnded = false;
+
+  const funcs = ["sin","cos","tg","ctg"];
+  const signTable = {
+    sin: {1:+1, 2:+1, 3:-1, 4:-1},
+    cos: {1:+1, 2:-1, 3:-1, 4:+1},
+    tg:  {1:+1, 2:-1, 3:+1, 4:-1},
+    ctg: {1:+1, 2:-1, 3:+1, 4:-1},
+  };
+
+  function toCofunc(f){
+    if (f === "sin") return "cos";
+    if (f === "cos") return "sin";
+    if (f === "tg")  return "ctg";
+    if (f === "ctg") return "tg";
+    return f;
+  }
+
+  function baseDegOf(ktDeg){
+    let d = ktDeg % 360;
+    if (d < 0) d += 360;
+    return d;
+  }
+  function isVerticalKT(ktDeg){
+    const b = baseDegOf(ktDeg);
+    return b === 90 || b === 270;
+  }
+  function quadrantFrom(ktDeg, op){
+    const b = baseDegOf(ktDeg);
+    if (b === 0)   return (op === +1) ? 1 : 4;
+    if (b === 90)  return (op === +1) ? 2 : 1;
+    if (b === 180) return (op === +1) ? 3 : 2;
+    if (b === 270) return (op === +1) ? 4 : 3;
+    return 1;
+  }
+
+  const radForBase = { 0:"0", 90:"π/2", 180:"π", 270:"3π/2" };
+
+  function unitMode(){
+    const d = showDeg.checked;
+    const r = showRad.checked;
+    if (d && r) return "mix";
+    if (r) return "rad";
+    return "deg";
+  }
+  function pickTaskUnit(){
+    const m = unitMode();
+    if (m === "mix") return (rand01() < 0.5 ? "deg" : "rad");
+    return m;
+  }
+
+  function fmtKTDeg(ktDeg){
+    return `${ktDeg}°`;
+  }
+
+  function fmtKTRad(ktDeg){
+    // ktDeg is multiple of 90, range [-1080..1080]
+    const k = Math.round(ktDeg / 90); // -12..12
+    if (k === 0) return "0";
+    if (k === 1) return "π/2";
+    if (k === -1) return "−π/2";
+    // simplify to integer π if even
+    if (k % 2 === 0){
+      const m = k / 2; // integer
+      if (m === 1) return "π";
+      if (m === -1) return "−π";
+      return `${m}π`;
+    }
+    // improper fraction kπ/2
+    return `${k}π/2`.replace("-", "−");
+  }
+
+  function fmtKT(ktDeg, unit){
+    return unit === "deg" ? fmtKTDeg(ktDeg) : fmtKTRad(ktDeg);
+  }
+
+  function fmtKTAbs(ktDeg, unit){
+    return fmtKT(Math.abs(ktDeg), unit);
+  }
+
+  function varOpKT(varSym, opChar, ktDeg, unit){
+    // formats: x ± KT without producing "+ -270°"
+    // if KT is negative: x + (-a) => x − a ; x − (-a) => x + a
+    let op = opChar;
+    let a = ktDeg;
+    if (a < 0){
+      a = -a;
+      op = (opChar === "+") ? "−" : "+";
+    }
+    return `${varSym} ${op} ${fmtKTAbs(a, unit)}`;
+  }
+
+  function updateAxisLabels(){ /* подписи КТ на окружности скрыты */ }
+
+  function getVarSym(){ return varToggle.checked ? "x" : "θ"; }
+
+  function enabledSteps(){
+    return { kt: needKT.checked, q: needQ.checked, sign: needSign.checked, final: needFinal.checked };
+  }
+
+  let task = null;
+  let solved = { kt:false, q:false, sign:false, final:false };
+  let stageKey = null;
+  let varSym = "x";
+
+  function setBadge(el, done){
+    el.classList.toggle("good", !!done);
+    el.textContent = done ? "✔" : "…";
+  }
+  function updateBadges(){
+    const e = enabledSteps();
+    setBadge(b1, solved.kt || !e.kt);
+    setBadge(b2, solved.q || !e.q);
+    setBadge(b3, solved.sign || !e.sign);
+    setBadge(b4, solved.final || !e.final);
+  }
+
+  function updateStats(){
+    okEl.textContent = stats.ok;
+    badEl.textContent = stats.bad;
+    streakEl.textContent = stats.streak;
+  }
+
+  function fmtTime(sec){
+    const s = Math.max(0, Math.floor(sec));
+    const m = Math.floor(s / 60);
+    const r = s % 60;
+    return String(m).padStart(2,"0") + ":" + String(r).padStart(2,"0");
+  }
+
+  function showTimer(show){
+    timerPill.style.display = show ? "inline-flex" : "none";
+  }
+
+  function stopExamTimer(){
+    if (examTimerId){
+      clearInterval(examTimerId);
+      examTimerId = null;
+    }
+  }
+
+  function startExamTimer(){
+    stopExamTimer();
+    examRemaining = EXAM_SECONDS;
+    timerText.textContent = fmtTime(examRemaining);
+    showTimer(true);
+    examTimerId = setInterval(()=>{
+      examRemaining -= 1;
+      timerText.textContent = fmtTime(examRemaining);
+      if (examRemaining <= 0){
+        finishExam();
+      }
+    }, 1000);
+  }
+
+  function gradeFromExamMetrics(ok, bad){
+    // Эталон: 20 верных из 20 без ошибок.
+    // Учитываем и точность, и количество верных ответов (прогресс к 20).
+    const total = ok + bad;
+    const accuracy = total > 0 ? (ok / total) : 0;      // 0..1
+    const ok20 = Math.min(ok, 20);
+    const volume = ok20 / 20;                           // 0..1 (сколько от эталона по количеству)
+    const score = accuracy * volume;                    // 0..1 (комбинированная оценка)
+
+    // Пороги подобраны так, чтобы "5" реально требовала выйти на 20 и держать точность.
+    if (ok >= 20 && score >= 0.90) return 5;
+    if (ok >= 15 && score >= 0.75) return 4;
+    if (ok >= 10 && score >= 0.60) return 3;
+    return 2;
+  }
+
+  function examStats(ok, bad){
+    const total = ok + bad;
+    const accuracy = total > 0 ? (ok / total) : 0;
+    const ok20 = Math.min(ok, 20);
+    const volume = ok20 / 20;
+    const score = accuracy * volume;
+    return { total, accuracy, ok20, volume, score };
+  }
+function finishExam(){
+    if (examEnded) return;
+    examEnded = true;
+    stopExamTimer();
+
+    document.getElementById("trainCard").classList.add("disabledAll");
+    const sc = document.querySelector(".stepsCard");
+    if (sc) sc.classList.add("disabledAll");
+
+    const s = examStats(stats.ok, stats.bad);
+    const grade = gradeFromExamMetrics(stats.ok, stats.bad);
+examGrade.textContent = "Оценка: " + grade + " ⭐";
+    examSummary.textContent = `✅ Верно: ${stats.ok} из 20 · ❌ Ошибки: ${stats.bad} · 🎯 Точность: ${Math.round(s.accuracy*100)}%`;
+
+    examOverlay.classList.add("show");
+    examOverlay.setAttribute("aria-hidden","false");
+  }
+
+  function resetExamUI(){
+    examEnded = false;
+    examOverlay.classList.remove("show");
+    examOverlay.setAttribute("aria-hidden","true");
+    document.getElementById("trainCard").classList.remove("disabledAll");
+    const sc = document.querySelector(".stepsCard");
+    if (sc) sc.classList.remove("disabledAll");
+  }
+
+  function wrong(){ if (mode === "learn") return; stats.bad++; stats.streak = 0; updateStats(); }
+  function rightSolvedAll(){ if (mode === "learn") return; stats.ok++; stats.streak++; updateStats(); }
+
+  function popSuccess(){
+    successOverlay.classList.add("show");
+    successOverlay.setAttribute("aria-hidden","false");
+
+    const W = window.innerWidth;
+    for (let i=0; i<36; i++){
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = (rand01()*W) + "px";
+      c.style.background = `hsl(${Math.floor(rand01()*360)}, 90%, 60%)`;
+      document.body.appendChild(c);
+      setTimeout(()=> c.remove(), 1000);
+    }
+
+    setTimeout(()=>{
+      successOverlay.classList.remove("show");
+      successOverlay.setAttribute("aria-hidden","true");
+    }, 650);
+  }
+
+
+  function rand(arr){ return arr[Math.floor(rand01()*arr.length)]; }
+
+  function makeTask(){
+    varSym = getVarSym();
+    const unit = pickTaskUnit();
+
+    // ====== DECK LOGIC ======
+    // We build a "deck" of task types to ensure variety:
+    // for each trig function × each base KT × each direction (±x) × each order (KT first / x first).
+    // Then we shuffle and draw without replacement.
+    if (!window.__deckState){
+      window.__deckState = { deck: [], lastSig: "" };
+    }
+    const st = window.__deckState;
+
+    function buildDeck(){
+      const funcsLocal = ["sin","cos","tg","ctg"];
+      const baseKTs = [0,90,180,270];
+      const ops = [+1,-1];           // +x or -x relative to KT (when KT first)
+      const orders = ["KT_FIRST","X_FIRST"]; // order in the bracket
+      const d = [];
+
+      for (const f of funcsLocal){
+        for (const b of baseKTs){
+          for (const op of ops){
+            for (const order of orders){
+              d.push({ f0: f, baseKT: b, op, order });
+            }
+          }
+        }
+      }
+
+      // Shuffle
+      for (let i=d.length-1;i>0;i--){
+        const j = Math.floor(rand01()*(i+1));
+        [d[i], d[j]] = [d[j], d[i]];
+      }
+      st.deck = d;
+    }
+
+    if (st.deck.length === 0){
+      buildDeck();
+    }
+
+    // Pull next, but try to avoid immediate repetition of the same "signature"
+    let pick = st.deck.pop();
+    let tries = 0;
+    while (tries < 6){
+      const sig = `${pick.f0}|${pick.baseKT}|${pick.op}|${pick.order}`;
+      if (sig !== st.lastSig) break;
+      // swap with another card if possible
+      if (st.deck.length === 0) break;
+      st.deck.unshift(pick);
+      pick = st.deck.pop();
+      tries++;
+    }
+    st.lastSig = `${pick.f0}|${pick.baseKT}|${pick.op}|${pick.order}`;
+
+    const f0 = pick.f0;
+
+    // ====== Choose KT number (in degrees) in [-1080..1080], but minimize multiples of 360 ======
+    // Prefer non-360 multiples strongly; allow 360-multiples rarely.
+    const allKs = [];
+    for (let k=-12; k<=12; k++) allKs.push(k); // ktDeg = 90k
+    const nonEasy = allKs.filter(k => (k % 4) !== 0);  // not multiple of 360°
+    const easy = allKs.filter(k => (k % 4) === 0);     // multiples of 360°
+
+    let k;
+    if (mode === "exam" || mode === "hard"){
+      // In exam/hard: almost never give easy KTs (0, ±360, ±720, ±1080)
+      k = nonEasy[Math.floor(rand01()*nonEasy.length)];
+    } else {
+      // In learn/lite: allow easy rarely (~10%)
+      if (rand01() < 0.10){
+        k = easy[Math.floor(rand01()*easy.length)];
+      } else {
+        k = nonEasy[Math.floor(rand01()*nonEasy.length)];
+      }
+    }
+
+    // Combine base KT with turns, keep within [-1080..1080]
+    // baseKT is 0/90/180/270, so baseKT = 90*bK where bK in {0,1,2,3}
+    // We'll compute ktDeg as baseKT + 360*t, but represent as single number.
+    // Choose t so that result stays in range and not too often exact 360 multiples.
+    const tCandidates = [];
+    for (let t=-3; t<=3; t++){
+      const val = pick.baseKT + 360*t; // in degrees
+      if (val >= -1080 && val <= 1080) tCandidates.push(val);
+    }
+    // Prefer values that are not multiples of 360 (again)
+    const tNonEasy = tCandidates.filter(v => (v % 360) !== 0);
+    const tEasy = tCandidates.filter(v => (v % 360) === 0);
+
+    let shownKT;
+    if (mode === "exam" || mode === "hard"){
+      // choose from nonEasy if possible
+      shownKT = tNonEasy.length ? tNonEasy[Math.floor(rand01()*tNonEasy.length)]
+                                : tCandidates[Math.floor(rand01()*tCandidates.length)];
+    } else {
+      if (rand01() < 0.10 && tEasy.length){
+        shownKT = tEasy[Math.floor(rand01()*tEasy.length)];
+      } else {
+        shownKT = tNonEasy.length ? tNonEasy[Math.floor(rand01()*tNonEasy.length)]
+                                  : tCandidates[Math.floor(rand01()*tCandidates.length)];
+      }
+    }
+
+    // Override with k-based "noise" occasionally to diversify away from only base+360t:
+    // but still keep multiples of 90 and within bounds.
+    if (rand01() < 0.25){
+      const noisy = 90*k;
+      if (noisy >= -1080 && noisy <= 1080 && (mode !== "exam" && mode !== "hard" ? true : (noisy % 360 !== 0))){
+        shownKT = noisy;
+      }
+    }
+
+    // ====== Build inside string with only TWO elements (KT and x), in given order and op ======
+    // We support:
+    // - KT_FIRST: KT ± x   (op tells +x or -x relative to KT)
+    // - X_FIRST:  x ± KT   (same op meaning: x + KT corresponds to KT + x; x - KT corresponds to x - KT)
+    const KTtxt = fmtKT(shownKT, unit);
+
+    let ctrlKT = shownKT;
+    let op = pick.op; // +1 or -1
+    let inside = "";
+
+    if (pick.order === "KT_FIRST"){
+      if (op === +1){
+        inside = `${KTtxt} + ${varSym}`;
+      } else {
+        inside = `${KTtxt} − ${varSym}`;
+      }
+      ctrlKT = shownKT;
+    } else {
+      // X_FIRST:
+      // x + KT  => same as KT + x  (ctrlKT = KT, op=+)
+      // x - KT  => treat as (-KT) + x (ctrlKT=-KT, op=+)
+      if (op === +1){
+        inside = varOpKT(varSym, "+", shownKT, unit);
+        ctrlKT = shownKT;
+        op = +1;
+      } else {
+        // x - KT:
+        inside = varOpKT(varSym, "−", shownKT, unit);
+        ctrlKT = -shownKT;
+        op = +1;
+      }
+    }
+
+    const quad = quadrantFrom(ctrlKT, op);
+    const mapped = isVerticalKT(ctrlKT) ? toCofunc(f0) : f0;
+    const sgn = signTable[f0][quad];
+    const final = { sign: sgn, f: mapped };
+
+    return { f0, shownKT, ctrlKT, op, quad, sgn, final, inside, unit };
+  }
+
+  function renderTask(){
+    formulaEl.innerHTML = `${task.f0}(${task.inside})`;
+  }
+
+  function clearHighlights(){
+    Object.values(ktNodes).forEach(n=> n.classList.remove("good","bad","disabled"));
+    Object.values(qNodes).forEach(n=> n.classList.remove("good","bad","disabled"));
+    plusBtn.classList.remove("good","bad");
+    minusBtn.classList.remove("good","bad");
+    [...finalBtns.querySelectorAll("button")].forEach(b=> b.classList.remove("good","bad"));
+  }
+
+  function buildFinalButtons(){
+    finalBtns.innerHTML = "";
+
+    // Fixed layout:
+    // Top row:  +sin +cos +tg +ctg
+    // Bottom:   -sin -cos -tg -ctg
+    const top = [
+      {sign:+1, f:"sin"},
+      {sign:+1, f:"cos"},
+      {sign:+1, f:"tg"},
+      {sign:+1, f:"ctg"},
+    ];
+    const bottom = [
+      {sign:-1, f:"sin"},
+      {sign:-1, f:"cos"},
+      {sign:-1, f:"tg"},
+      {sign:-1, f:"ctg"},
+    ];
+
+    const options = top.concat(bottom);
+
+    for (const opt of options){
+      const btn = document.createElement("button");
+      btn.className = "finalBtn";
+      btn.dataset.sign = String(opt.sign);
+      btn.dataset.f = opt.f;
+      const s = opt.sign === +1 ? "" : "−";
+      btn.textContent = `${s}${opt.f}(${varSym})`;
+      btn.addEventListener("click", ()=> onFinalPick(btn));
+      finalBtns.appendChild(btn);
+    }
+  }
+
+  function enabledOrder(){
+    const e = enabledSteps();
+    const order = [];
+    if (e.kt) order.push("kt");
+    if (e.q) order.push("q");
+    if (e.sign) order.push("sign");
+    if (e.final) order.push("final");
+    return order;
+  }
+  function setStageToFirst(){
+    const order = enabledOrder();
+    stageKey = sequential.checked ? (order[0] ?? null) : null;
+  }
+  function advanceStageIfSequential(){
+    if (!sequential.checked) return;
+    const order = enabledOrder();
+    if (!stageKey) return;
+    const idx = order.indexOf(stageKey);
+    if (idx < 0){ stageKey = order[0] ?? null; return; }
+    for (let i=idx+1;i<order.length;i++){
+      const k = order[i];
+      if (!solved[k]){ stageKey = k; return; }
+    }
+    stageKey = order[order.length-1] ?? null;
+  }
+
+  function gateBySettings(){
+    const e = enabledSteps();
+    const seq = sequential.checked;
+
+    Object.entries(ktNodes).forEach(([deg,node])=>{
+      const active = e.kt && (seq ? (stageKey === "kt") : true) && !solved.kt;
+      node.classList.toggle("disabled", !active);
+    });
+
+    Object.entries(qNodes).forEach(([q,node])=>{
+      const active = e.q && (seq ? (stageKey === "q") : true) && !solved.q;
+      node.classList.toggle("disabled", !active);
+    });
+
+    const signActive = e.sign && (seq ? (stageKey === "sign") : true) && !solved.sign;
+    plusBtn.disabled = !signActive;
+    minusBtn.disabled = !signActive;
+
+    const finalActive = e.final && (seq ? (stageKey === "final") : true) && !solved.final;
+    [...finalBtns.querySelectorAll("button")].forEach(btn=> btn.disabled = !finalActive);
+
+    if (!e.final){
+      [...finalBtns.querySelectorAll("button")].forEach(btn=> btn.disabled = true);
+    }
+
+    updateBadges();
+  }
+
+  function resetRun(){
+    solved = { kt:false, q:false, sign:false, final:false };
+    clearHighlights();
+    buildFinalButtons();
+    setStageToFirst();
+    gateBySettings();
+  }
+
+  function newTask(){
+    if (!showDeg.checked && !showRad.checked) showDeg.checked = true;
+    task = makeTask();
+    renderTask();
+    resetRun();
+  }
+
+  function onKTPick(baseDeg){
+    if (examEnded) return;
+const e = enabledSteps();
+    if (!e.kt) return;
+    if (sequential.checked && stageKey !== "kt") return;
+    if (solved.kt) return;
+
+    const correctBase = baseDegOf(task.ctrlKT);
+    const isCorrect = Number(baseDeg) === correctBase;
+
+    Object.values(ktNodes).forEach(n=> n.classList.remove("good","bad"));
+    if (isCorrect){
+      ktNodes[baseDeg].classList.add("good");
+      solved.kt = true;
+      advanceStageIfSequential();
+    } else {
+      ktNodes[baseDeg].classList.add("bad");
+      wrong();
+    }
+    gateBySettings();
+  }
+
+  function onQuadrantPick(q){
+    if (examEnded) return;
+const e = enabledSteps();
+    if (!e.q) return;
+    if (sequential.checked && stageKey !== "q") return;
+    if (solved.q) return;
+
+    const isCorrect = Number(q) === task.quad;
+
+    Object.values(qNodes).forEach(n=> n.classList.remove("good","bad"));
+    if (isCorrect){
+      qNodes[q].classList.add("good");
+      solved.q = true;
+      advanceStageIfSequential();
+    } else {
+      qNodes[q].classList.add("bad");
+      wrong();
+    }
+    gateBySettings();
+  }
+
+  function onSignPick(sign){
+    if (examEnded) return;
+const e = enabledSteps();
+    if (!e.sign) return;
+    if (sequential.checked && stageKey !== "sign") return;
+    if (solved.sign) return;
+
+    const isCorrect = Number(sign) === task.sgn;
+    plusBtn.classList.remove("good","bad");
+    minusBtn.classList.remove("good","bad");
+    if (isCorrect){
+      (sign === +1 ? plusBtn : minusBtn).classList.add("good");
+      solved.sign = true;
+      advanceStageIfSequential();
+    } else {
+      (sign === +1 ? plusBtn : minusBtn).classList.add("bad");
+      wrong();
+    }
+    gateBySettings();
+  }
+
+  function onFinalPick(btn){
+    if (examEnded) return;
+const e = enabledSteps();
+    if (!e.final) return;
+    if (sequential.checked && stageKey !== "final") return;
+    if (solved.final) return;
+
+    const requiredOk = (!e.kt || solved.kt) && (!e.q || solved.q) && (!e.sign || solved.sign);
+    const pick = { sign: Number(btn.dataset.sign), f: btn.dataset.f };
+    const isCorrectFinal = (pick.sign === task.final.sign && pick.f === task.final.f);
+
+    [...finalBtns.querySelectorAll("button")].forEach(b=> b.classList.remove("good","bad"));
+
+    if (isCorrectFinal && (requiredOk || mode === "learn")){
+      btn.classList.add("good");
+      solved.final = true;
+
+      if (mode === "learn"){
+        popSuccess();
+        // сразу готовим следующий пример, чтобы всё было кликабельно после анимации
+        newTask();
+        return;
+      } else {
+        rightSolvedAll();
+        if (mode === "exam" && stats.ok >= 20){
+          finishExam();
+          return;
+        }
+        gateBySettings();
+        setTimeout(()=> newTask(), 650);
+      }
+    } else {
+      btn.classList.add("bad");
+      wrong();
+      gateBySettings();
+    }
+  }
+
+  // Wiring
+  Object.entries(ktNodes).forEach(([deg,node])=> node.addEventListener("click", ()=> onKTPick(deg)));
+  Object.entries(qNodes).forEach(([q,node])=> node.addEventListener("click", ()=> onQuadrantPick(q)));
+  plusBtn.addEventListener("click", ()=> onSignPick(+1));
+  minusBtn.addEventListener("click", ()=> onSignPick(-1));
+
+  newBtn.addEventListener("click", ()=> { if (examEnded) return; wrong(); newTask(); });
+resetBtn.addEventListener("click", ()=> { stats = { ok:0, bad:0, streak:0 }; updateStats(); });
+
+  repeatExamBtn.addEventListener("click", ()=> {
+    modeSelect.value = "exam";
+    applyMode();
+  });
+
+  // Modals
+  function openOverlay(el){ el.classList.add("show"); el.setAttribute("aria-hidden","false"); }
+  function closeOverlay(el){ el.classList.remove("show"); el.setAttribute("aria-hidden","true"); }
+
+  theoryBtn.addEventListener("click", ()=> openOverlay(theoryOverlay));
+  closeTheory.addEventListener("click", ()=> closeOverlay(theoryOverlay));
+  theoryOverlay.addEventListener("click", (e)=> { if (e.target === theoryOverlay) closeOverlay(theoryOverlay); });
+
+  settingsBtn.addEventListener("click", ()=> openOverlay(settingsOverlay));
+  closeSettings.addEventListener("click", ()=> closeOverlay(settingsOverlay));
+  settingsOverlay.addEventListener("click", (e)=> { if (e.target === settingsOverlay) closeOverlay(settingsOverlay); });
+
+
+  function setInputsDisabled(disabled){
+    [sequential, needKT, needQ, needSign, needFinal].forEach(el=> { el.disabled = disabled; });
+  }
+
+  function applyMode(){
+
+const prevMode = mode;
+
+// Remember user-chosen settings for "Обучение" before we jump into exam/hard presets
+if (prevMode === "learn"){
+  learnPrefs = {
+    sequential: sequential.checked,
+    needKT: needKT.checked,
+    needQ: needQ.checked,
+    needSign: needSign.checked,
+    needFinal: needFinal.checked,
+  };
+}
+
+mode = modeSelect.value;
+
+    if (mode === "learn"){
+
+document.body.classList.remove("hardMode");
+
+// Restore the last "learn" configuration (otherwise badges may appear green after hard/exam)
+if (learnPrefs){
+  sequential.checked = !!learnPrefs.sequential;
+  needKT.checked = !!learnPrefs.needKT;
+  needQ.checked = !!learnPrefs.needQ;
+  needSign.checked = !!learnPrefs.needSign;
+  needFinal.checked = !!learnPrefs.needFinal;
+} else {
+  // sensible defaults for learning
+  sequential.checked = true;
+  needKT.checked = true;
+  needQ.checked = true;
+  needSign.checked = true;
+  needFinal.checked = true;
+}
+      setInputsDisabled(false);
+      showTimer(false);
+      stopExamTimer();
+      resetExamUI();
+    }
+
+    if (mode === "lite"){
+      document.body.classList.remove("hardMode");
+      sequential.checked = true;
+      needKT.checked = true;
+      needQ.checked = true;
+      needSign.checked = true;
+      needFinal.checked = true;
+      setInputsDisabled(true);
+      showTimer(false);
+      stopExamTimer();
+      resetExamUI();
+    }
+
+    if (mode === "hard"){
+      document.body.classList.add("hardMode");
+      sequential.checked = false;
+      needKT.checked = false;
+      needQ.checked = false;
+      needSign.checked = false;
+      needFinal.checked = true;
+      setInputsDisabled(true);
+      showTimer(false);
+      stopExamTimer();
+      resetExamUI();
+    }
+
+    if (mode === "exam"){
+      document.body.classList.add("hardMode");
+      sequential.checked = false;
+      needKT.checked = false;
+      needQ.checked = false;
+      needSign.checked = false;
+      needFinal.checked = true;
+      setInputsDisabled(true);
+      resetExamUI();
+      startExamTimer();
+    }
+stats = { ok:0, bad:0, streak:0 };
+    updateStats();
+
+    setStageToFirst();
+    gateBySettings();
+    newTask();
+  }
+
+  function onSettingsChange(){
+    if (!showDeg.checked && !showRad.checked) showDeg.checked = true;
+    updateAxisLabels();
+    newTask();
+  }
+  showDeg.addEventListener("change", onSettingsChange);
+  modeSelect.addEventListener("change", applyMode);
+  showRad.addEventListener("change", onSettingsChange);
+  varToggle.addEventListener("change", onSettingsChange);
+
+  sequential.addEventListener("change", ()=> { setStageToFirst(); gateBySettings(); });
+  [needKT, needQ, needSign, needFinal].forEach(ch => ch.addEventListener("change", ()=> { setStageToFirst(); gateBySettings(); }));
+
+  // Init
+  updateStats();
+  updateAxisLabels();
+  modeSelect.value = "learn";
+  applyMode();
+})();
+});
+</script>
+
+  <div class="successOverlay" id="successOverlay" aria-hidden="true">
+    <div class="successCard">
+      <p class="big">ВЕРНО! 🎉</p>
+      <p class="sub">Отлично — следующий пример</p>
+    </div>
+  </div>
+
+
+  <div class="successOverlay" id="examOverlay" aria-hidden="true">
+    <div class="successCard" style="width:min(640px, 94vw);">
+      <p class="big" id="examGrade">Оценка: 5 ⭐</p>
+      <p class="sub" id="examSummary">Верно: 0 · Ошибки: 0 · Точность: 0%</p>
+      <div style="margin-top:14px;display:flex;justify-content:center;">
+        <button class="iconbtn" id="repeatExamBtn" style="padding:14px 16px;font-size:16px;border-radius:16px;">↻ Повторить</button>
+      </div>
+    </div>
+  </div>
+
+<div class="brand-shell"><footer class="site-footer"><span class="shimorin-wordmark" aria-label="SHIMORINMATH"><span>SHIMORIN</span><span class="wordmark-accent">MATH</span></span></footer></div>
+</body>
+</html>
