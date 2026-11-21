@@ -1,0 +1,79 @@
+/* SHIMORINMATH — trigonometry landing; complements the existing catalog. */
+.trig-landing {
+  --trig-ink:#2B3038;
+  --trig-coral:#E06357;
+  --trig-line:#E4E7EB;
+  --trig-muted:#667085;
+  background:#fff;
+  color:var(--trig-ink);
+  font-family:Manrope,Inter,Arial,sans-serif;
+}
+.trig-landing .back-link {
+  display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:650;
+  color:#616873;text-decoration:none;white-space:nowrap;
+}
+.trig-landing .back-link:hover,.trig-landing .trig-breadcrumb a:hover {color:#B34C41}
+.trig-landing .site-header {min-height:94px}
+.trig-landing main {padding:46px 0 76px}
+.trig-heading {margin-bottom:35px}
+.trig-breadcrumb {display:flex;align-items:center;gap:12px;margin-bottom:26px;font-size:12px;color:#89919C}
+.trig-breadcrumb span[aria-current=page] {color:#48515D}
+.trig-heading h1 {font-size:clamp(34px,5vw,52px);letter-spacing:-1.7px;line-height:1.12;margin:0 0 16px;font-weight:700}
+.trig-heading p {margin:0;max-width:730px;color:var(--trig-muted);font-size:16px;line-height:1.65}
+.trig-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.trig-topic {
+  display:flex;flex-direction:column;min-width:0;min-height:550px;
+  border:1px solid var(--trig-line);border-radius:16px;background:#fff;
+  overflow:hidden;text-decoration:none;color:inherit;
+  transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease;
+}
+.trig-topic:hover {border-color:#E9A89E;transform:translateY(-2px);box-shadow:0 12px 35px rgba(43,48,56,.055)}
+.trig-topic:focus-visible {outline:3px solid var(--trig-coral);outline-offset:4px}
+.topic-meta {padding:23px 26px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#88919B;font-size:11px;font-weight:700;letter-spacing:.5px}
+.topic-meta span:first-child {color:var(--trig-coral);font-variant-numeric:tabular-nums;font-size:13px}
+.topic-visual {
+  display:grid;place-items:center;margin:0 18px;border:1px solid #E9EDF1;
+  border-radius:12px;background:#FAFBFC;min-height:250px;overflow:hidden;
+}
+.topic-visual svg {display:block;width:100%;max-width:480px;height:auto;max-height:255px}
+.diagram-axis {stroke:#A8B0BC;stroke-width:1.35;fill:none}
+.diagram-arrow {stroke:#A8B0BC;stroke-width:1.35;fill:none}
+.diagram-ring {fill:none;stroke:#596473;stroke-width:1.8}
+.diagram-radius {stroke:#E06357;stroke-width:2.8;stroke-linecap:round}
+.diagram-point {fill:#E06357;stroke:#fff;stroke-width:2}
+.diagram-angle {fill:none;stroke:#E06357;stroke-width:1.3}
+.diagram-projection {fill:none;stroke:#D17C70;stroke-dasharray:5 5;stroke-width:1.25}
+.diagram-quadrant {fill:rgba(224,99,87,.09);stroke:none}
+.diagram-label {fill:#C45348;font:italic 20px 'STIX Two Math','Cambria Math',serif}
+.diagram-small {fill:#727D89;font:15px 'STIX Two Math','Cambria Math',serif}
+.diagram-muted {fill:#9CA5B0;font:14px 'STIX Two Math','Cambria Math',serif}
+.diagram-formula,.diagram-equals {fill:#38404C;font:22px 'STIX Two Math','Cambria Math',serif}
+.diagram-equation {fill:#38404C;font:24px 'STIX Two Math','Cambria Math',serif}
+.diagram-equation.diagram-accent {fill:#C45348}
+.diagram-tiny-rule {stroke:#CBD1D8;stroke-width:1.2}
+.topic-content {display:flex;flex:1;flex-direction:column;min-width:0;padding:28px 27px 27px}
+.topic-content h2 {font-size:clamp(22px,2.3vw,25px);font-weight:700;letter-spacing:-.65px;line-height:1.24;margin:0 0 13px}
+.topic-content p {margin:0 0 24px;color:var(--trig-muted);line-height:1.65;font-size:14px;max-width:470px}
+.topic-action {display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:auto;padding-top:19px;border-top:1px solid #E9EDF1;color:#B34C41;font-weight:700;font-size:13px}
+.trig-topic:hover .topic-action {color:#8D342C}
+.trig-landing .site-footer {padding:28px 0}
+@media(max-width:860px){
+  .trig-grid {grid-template-columns:1fr;gap:18px}
+  .trig-topic {min-height:0}
+  .topic-visual {min-height:230px}
+}
+@media(max-width:560px){
+  .trig-landing main {padding:31px 0 52px}
+  .trig-landing .site-header {min-height:78px}
+  .trig-landing .back-link {font-size:0;gap:0;min-width:42px;min-height:42px;justify-content:center}
+  .trig-landing .back-link span {font-size:25px}
+  .trig-heading {margin-bottom:25px}
+  .trig-breadcrumb {margin-bottom:18px}
+  .trig-heading p {font-size:14px}
+  .topic-meta {padding:18px 19px 12px}
+  .topic-visual {margin:0 10px;min-height:190px}
+  .topic-content {padding:23px 21px}
+  .topic-content h2 {font-size:22px}
+  .topic-content p {font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){.trig-topic{transition:none}.trig-topic:hover{transform:none}}
