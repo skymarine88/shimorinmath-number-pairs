@@ -416,21 +416,19 @@
   <div class="wrap">
     <div class="card" id="trainCard">
       <div class="head">
-        <div class="title"><span>Режим тренировки</span></div>
         <div class="toolbar">
           <button class="iconbtn" id="theoryBtn" title="Теория и правило">Теория</button>
           <button class="iconbtn" id="settingsBtn" title="Настройки">Настройки</button>
 
-          <div class="pill" style="display:flex;gap:10px;align-items:center;">
-            Режим:
+          <label class="mode-control" for="modeSelect">
+            <span>Режим</span>
             <select id="modeSelect" aria-label="Режим тренировки">
               <option value="learn">Обучение</option>
               <option value="lite">Зачёт лайт</option>
               <option value="hard">Зачёт хард</option>
               <option value="exam">Зачёт на 5 (таймер)</option>
             </select>
-          </div>
-
+          </label>
         </div>
       </div>
       <div class="body">
