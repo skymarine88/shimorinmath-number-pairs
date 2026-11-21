@@ -1440,10 +1440,10 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
 </script>
 
   <div class="overlay" id="examOverlay" aria-hidden="true">
-    <div class="panel">
+    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="examDialogTitle">
       <div class="bar">
-        <div class="ttl">Зачёт</div>
-        <button class="ghost" id="btnExamClose">Закрыть</button>
+        <div class="ttl" id="examDialogTitle">Зачёт</div>
+        <button class="ghost" id="btnExamClose">Закрыть зачёт</button>
       </div>
       <iframe id="examFrame" title="Зачёт"></iframe>
     </div>
@@ -1459,18 +1459,22 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
   const frame = document.getElementById('examFrame');
   const closeBtn = document.getElementById('btnExamClose');
 
-  const EXAM_DATA_URI = "./unit-circle-exam.html";
+  const EXAM_PAGE = "./unit-circle-exam.html";
 
   function openExam() {
     // keep base modes untouched; just open overlay
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden','false');
-        if (!frame.src) frame.src = EXAM_DATA_URI;
+    // Closing the window must not leave a hidden timed exam running.
+    frame.src = EXAM_PAGE;
+    closeBtn.focus();
   }
 
   function closeExam() {
     overlay.classList.remove('show');
     overlay.setAttribute('aria-hidden','true');
+    frame.src = 'about:blank';
+    btnExam?.focus();
   }
 
   btnExam?.addEventListener('click', () => {
