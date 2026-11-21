@@ -326,3 +326,26 @@ body.trig-reduction #modeSelect {
   body.trig-reduction .mode-control {flex:1 1 100%;margin-left:0;justify-content:space-between}
   body.trig-reduction #modeSelect {flex:1 1 auto;max-width:230px}
 }
+
+/* Protect the approved master logo from generic button styling. */
+body.trig-workspace .logo-trigger {
+  border:0!important;border-radius:0!important;
+  padding:0!important;background:transparent!important;
+  box-shadow:none!important;min-height:0!important;
+}
+body.trig-workspace .logo-trigger:hover,
+body.trig-workspace .logo-trigger:active {
+  border:0!important;background:transparent!important;
+}
+/* The steps are the interaction structure; detailed explanations live in Theory. */
+body.trig-reduction .stepsCard .body > .grid {
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+}
+body.trig-reduction .stepsCard .step > .muted {display:none}
+body.trig-reduction .stepsCard .step {min-height:86px}
+body.trig-reduction .stepsCard .step .stephead {font-size:14px}
+body.trig-reduction .stepsCard .step .btnrow {margin-top:10px}
+@media(max-width:650px){
+  body.trig-reduction .stepsCard .body > .grid {grid-template-columns:1fr}
+  body.trig-reduction .stepsCard .step {min-height:62px}
+}
