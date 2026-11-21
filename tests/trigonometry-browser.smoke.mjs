@@ -49,6 +49,11 @@ try{
     await frame.locator('#examTypeSel').selectOption('time');
     await frame.locator('#btnStart').click();
     assert.notEqual(await frame.locator('#timer').textContent(),'—');
+    const examBackground=await frame.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor);
+    const examCanvas=await frame.locator('#cv').evaluate(el=>getComputedStyle(el).backgroundColor);
+    assert.equal(examBackground,'rgb(255, 255, 255)','Embedded assessment has a dark background');
+    assert.equal(examCanvas,'rgb(251, 252, 253)','Embedded assessment canvas is not light');
+    await frame.locator('.wrap').screenshot({path:screenshots+'/exam-'+size.label+'.png',animations:'disabled'});
     await circle.locator('#btnExamClose').click();
     assert.equal(await circle.locator('#examOverlay').getAttribute('aria-hidden'),'true');
     await circle.close();
