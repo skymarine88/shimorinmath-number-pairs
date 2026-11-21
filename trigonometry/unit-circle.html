@@ -266,12 +266,15 @@ body.mem .score{font-size:18px}
         <!-- увеличили базовое разрешение для четкости на ретине -->
         <canvas id="cv" width="1200" height="960" role="img" aria-label="Единичная окружность с осями и подвижной точкой для определения тригонометрических значений"></canvas>
 
-        <div class="tog">
-          <label><input type="checkbox" id="chkAxisNames" checked>названия осей</label>
-          <label><input type="checkbox" id="chkTrigLabels" checked>подписи тригонометрических величин</label>
-          <label><input type="checkbox" id="chkRing" checked>табличные углы на окружности</label>
-          <label><input type="checkbox" id="chkMarks" checked>табличные значения на осях</label>
-        </div>
+        <details class="view-settings">
+          <summary>Настройки рисунка</summary>
+          <div class="tog">
+            <label><input type="checkbox" id="chkAxisNames" checked>Названия осей</label>
+            <label><input type="checkbox" id="chkTrigLabels" checked>Подписи тригонометрических величин</label>
+            <label><input type="checkbox" id="chkRing" checked>Табличные углы на окружности</label>
+            <label><input type="checkbox" id="chkMarks">Табличные значения на осях</label>
+          </div>
+        </details>
       </div>
 
       <div class="card">
@@ -1295,6 +1298,13 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
   });
 
   [chkAxisNames, chkTrigLabels, chkMarks, chkRing].forEach(el => el.addEventListener('change', draw));
+
+  // On compact screens hide optional diagram annotations that otherwise overlap.
+  // All of them remain available from the drawing settings.
+  if (window.matchMedia('(max-width: 650px)').matches) {
+    chkAxisNames.checked = false;
+    chkRing.checked = false;
+  }
 
   resizeCanvas();
   renderInfo();
