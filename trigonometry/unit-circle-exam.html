@@ -560,7 +560,9 @@
     okEl.textContent=ok; badEl.textContent=bad; streakEl.textContent=streak;
     current=null;
     answeredThis=false;
+    btnStart.disabled=false;
     btnNext.disabled=true;
+    setAnswersEnabled(false);
     flash.style.display='none';
     gradeBox.style.display='none';
     timerEl.textContent='—';
