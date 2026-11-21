@@ -673,6 +673,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const EXAM_SECONDS = 5 * 60; // 5 минут
   let examRemaining = EXAM_SECONDS;
   let examTimerId = null;
+  let examDeadline = 0;
   let examEnded = false;
 
   const funcs = ["sin","cos","tg","ctg"];
@@ -812,20 +813,33 @@ window.addEventListener("DOMContentLoaded", () => {
       clearInterval(examTimerId);
       examTimerId = null;
     }
+    examDeadline = 0;
   }
 
   function startExamTimer(){
     stopExamTimer();
     examRemaining = EXAM_SECONDS;
+    examDeadline = Date.now() + EXAM_SECONDS * 1000;
     timerText.textContent = fmtTime(examRemaining);
     showTimer(true);
+    // Use the actual deadline so inactive tabs cannot lengthen an attempt.
     examTimerId = setInterval(()=>{
-      examRemaining -= 1;
+      examRemaining = Math.max(0, Math.ceil((examDeadline - Date.now()) / 1000));
       timerText.textContent = fmtTime(examRemaining);
-      if (examRemaining <= 0){
-        finishExam();
-      }
-    }, 1000);
+      if (examRemaining <= 0) finishExam();
+    }, 250);
+  }
+
+  function examExpired(){
+    if (mode !== "exam") return false;
+    if (examEnded) return true;
+    if (examDeadline && Date.now() >= examDeadline){
+      examRemaining = 0;
+      timerText.textContent = fmtTime(0);
+      finishExam();
+      return true;
+    }
+    return false;
   }
 
   function gradeFromExamMetrics(ok, bad){
@@ -864,7 +878,7 @@ function finishExam(){
     const s = examStats(stats.ok, stats.bad);
     const grade = gradeFromExamMetrics(stats.ok, stats.bad);
 examGrade.textContent = "Оценка: " + grade + " ⭐";
-    examSummary.textContent = `✅ Верно: ${stats.ok} из 20 · ❌ Ошибки: ${stats.bad} · 🎯 Точность: ${Math.round(s.accuracy*100)}%`;
+    examSummary.textContent = `Верно: ${stats.ok} · Ошибки: ${stats.bad} · Всего попыток: ${s.total} · Точность: ${Math.round(s.accuracy*100)}%`;
 
     examOverlay.classList.add("show");
     examOverlay.setAttribute("aria-hidden","false");
@@ -1175,7 +1189,7 @@ examGrade.textContent = "Оценка: " + grade + " ⭐";
   }
 
   function onKTPick(baseDeg){
-    if (examEnded) return;
+    if (examEnded || examExpired()) return;
 const e = enabledSteps();
     if (!e.kt) return;
     if (sequential.checked && stageKey !== "kt") return;
@@ -1197,7 +1211,7 @@ const e = enabledSteps();
   }
 
   function onQuadrantPick(q){
-    if (examEnded) return;
+    if (examEnded || examExpired()) return;
 const e = enabledSteps();
     if (!e.q) return;
     if (sequential.checked && stageKey !== "q") return;
@@ -1218,7 +1232,7 @@ const e = enabledSteps();
   }
 
   function onSignPick(sign){
-    if (examEnded) return;
+    if (examEnded || examExpired()) return;
 const e = enabledSteps();
     if (!e.sign) return;
     if (sequential.checked && stageKey !== "sign") return;
@@ -1239,7 +1253,7 @@ const e = enabledSteps();
   }
 
   function onFinalPick(btn){
-    if (examEnded) return;
+    if (examEnded || examExpired()) return;
 const e = enabledSteps();
     if (!e.final) return;
     if (sequential.checked && stageKey !== "final") return;
@@ -1267,7 +1281,7 @@ const e = enabledSteps();
           return;
         }
         gateBySettings();
-        setTimeout(()=> newTask(), 650);
+        setTimeout(()=> { if (!examEnded && !examExpired()) newTask(); }, 650);
       }
     } else {
       btn.classList.add("bad");
@@ -1282,8 +1296,8 @@ const e = enabledSteps();
   plusBtn.addEventListener("click", ()=> onSignPick(+1));
   minusBtn.addEventListener("click", ()=> onSignPick(-1));
 
-  newBtn.addEventListener("click", ()=> { if (examEnded) return; wrong(); newTask(); });
-resetBtn.addEventListener("click", ()=> { stats = { ok:0, bad:0, streak:0 }; updateStats(); });
+  newBtn.addEventListener("click", ()=> { if (examEnded || examExpired()) return; wrong(); newTask(); });
+  resetBtn.addEventListener("click", ()=> { if(mode==="exam") return; stats = { ok:0, bad:0, streak:0 }; updateStats(); });
 
   repeatExamBtn.addEventListener("click", ()=> {
     modeSelect.value = "exam";
@@ -1323,6 +1337,7 @@ if (prevMode === "learn"){
 }
 
 mode = modeSelect.value;
+resetBtn.disabled = mode === "exam";
 
     if (mode === "learn"){
 
