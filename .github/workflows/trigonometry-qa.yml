@@ -6,18 +6,40 @@ on:
     paths:
       - "trigonometry/**"
       - "tests/trigonometry-integration.test.mjs"
+      - "tests/trigonometry-browser.smoke.mjs"
       - ".github/workflows/trigonometry-qa.yml"
   pull_request:
     paths:
       - "trigonometry/**"
       - "tests/trigonometry-integration.test.mjs"
+      - "tests/trigonometry-browser.smoke.mjs"
       - ".github/workflows/trigonometry-qa.yml"
 
 jobs:
   verify-trigonometry:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
       - name: Проверить математическое ядро и маршруты
         run: node --test tests/trigonometry-integration.test.mjs
+      - name: Подготовить Chromium
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Проверить интерфейс на компьютере и телефоне
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/trig-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID' EXIT
+          node tests/trigonometry-browser.smoke.mjs
+      - name: Сохранить скриншоты проверки
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trigonometry-visual-qa
+          path: artifacts/trigonometry/
+          if-no-files-found: ignore
