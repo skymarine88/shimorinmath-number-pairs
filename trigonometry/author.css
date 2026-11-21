@@ -280,3 +280,7 @@ body.trig-assessment .grade .t {color:#667085}
   body.trig-workspace *,body.trig-assessment *{transition:none!important}
   body.trig-workspace .confetti {display:none!important}
 }
+
+body.trig-workspace .trig-feedback {display:none;margin:2px 0 12px;padding:10px 14px;background:#EDF7EF;color:#16653B;border:1px solid #B8E2C2;border-radius:10px;font-size:14px;font-weight:650}
+body.trig-workspace .trig-feedback.visible {display:block}
+body.trig-workspace .trig-feedback:empty {display:none}
