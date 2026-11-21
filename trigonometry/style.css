@@ -1,0 +1,28 @@
+main {padding:32px 0 48px}
+h1 {margin:0}
+.heading {display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.heading {justify-content:space-between;margin-bottom:24px}
+label {display:block;font-size:clamp(22px,3vw,30px);font-weight:650;margin-bottom:8px}
+button,select {font:inherit;color:inherit;border:1px solid #cbd0d5;background:white;border-radius:8px;padding:8px 16px;min-height:44px;cursor:pointer}
+:focus-visible {outline:2px solid #a84035;outline-offset:3px}
+select {width:min(100%,600px);font-size:20px}
+.trainer-scores {margin:16px 0}
+.exercise {max-width:760px;border:1px solid var(--line);border-radius:16px;padding:clamp(16px,4vw,32px)}
+#instruction {margin:0;color:#515963;font-size:16px}
+.math,#options button {font-family:"STIX Two Math","Cambria Math",Georgia,serif}
+#prompt {font-size:clamp(32px,5vw,48px);margin:8px 0 20px}
+#options {display:flex;flex-wrap:wrap;gap:8px}
+#options button {min-width:76px;font-size:24px}
+#circle {position:relative;width:min(100%,380px);aspect-ratio:1}
+#circle svg {display:block;width:100%;height:100%}
+#circle button {position:absolute;transform:translate(-50%,-50%);border-radius:50%;min-height:0;padding:0;width:clamp(24px,6vw,32px);aspect-ratio:1;font:600 14px/1 Manrope,Arial,sans-serif}
+#next {margin-top:16px}
+.correct {color:#16653b;background:#edf7ef}
+.incorrect {color:#a32934;background:#fff0f0}
+#feedback:not(:empty) {margin:16px 0 0;border-radius:8px;padding:8px 12px}
+button:disabled {cursor:default}
+dialog {width:min(620px,calc(100% - 24px));max-height:85vh;padding:24px;border:1px solid var(--line);border-radius:16px;color:var(--ink)}
+dialog::backdrop {background:#2b303866}
+dialog h2,dialog h3 {margin:8px 0}
+dialog table {border-collapse:collapse;text-align:center;width:100%;font-variant-numeric:tabular-nums}
+dialog td,dialog th {padding:5px;border-bottom:1px solid var(--line)}
