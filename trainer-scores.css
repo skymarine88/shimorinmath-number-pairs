@@ -1,0 +1,25 @@
+.trainer-scores {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.trainer-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: #f3f4f5;
+  color: #515963;
+  font: 600 16px/1.25 Manrope, Inter, Arial, sans-serif;
+  white-space: nowrap;
+}
+.trainer-score--correct { background: #edf7ef; color: #16653b; }
+.trainer-score--incorrect { background: #fff0f0; color: #a32934; }
+.trainer-score strong {
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
