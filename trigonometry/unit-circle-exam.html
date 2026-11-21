@@ -157,19 +157,19 @@
 
     <div class="grid">
       <div class="panel">
-        <canvas id="cv" width="1200" height="960"></canvas>
+        <canvas id="cv" width="1200" height="960" role="img" aria-label="Тригонометрическая окружность, вспомогательная визуализация для зачёта"></canvas>
       </div>
 
       <div class="panel right">
         <h2>Зачёт</h2>
 
         <div class="row">
-          <select class="select" id="examTypeSel">
+          <select class="select" id="examTypeSel" aria-label="Режим зачёта">
             <option value="light">Лайт (без времени)</option>
             <option value="hard">Хард (без времени)</option>
             <option value="time">На время (5 минут)</option>
           </select>
-          <select class="select" id="angFmtSel">
+          <select class="select" id="angFmtSel" aria-label="Формат угла">
             <option value="mix">углы: вперемешку</option>
             <option value="deg">углы: только градусы</option>
             <option value="rad">углы: только радианы</option>
@@ -282,7 +282,7 @@
     let num = nd;
     let den = 180;
     const g = gcd(num, den);
-    num//=g; den//=g;
+    num = Math.trunc(num/g); den = Math.trunc(den/g);
     // num/den * π
     if(num===0) return '0';
     const sign = num<0 ? '-' : '';
@@ -526,6 +526,7 @@
   let current=null; // {fun,deg,ans,angleStr}
   let timeLeft=300;
   let timerId=null;
+  let examDeadline=0;
   let answeredThis=false;
   let nextTaskTimeout=null;
 
@@ -568,20 +569,24 @@
   }
 
   function stopTimer(){
-    if(timerId){ clearInterval(timerId); timerId=null }
+    if(timerId){ clearInterval(timerId); timerId=null; }
+    examDeadline=0;
   }
 
   function startTimer(){
+    stopTimer();
     timeLeft=300;
+    examDeadline=Date.now()+timeLeft*1000;
     timerEl.textContent=formatTime(timeLeft);
+    // Deadline time survives throttling when the browser tab becomes inactive.
     timerId=setInterval(()=>{
-      timeLeft--;
+      timeLeft=Math.max(0,Math.ceil((examDeadline-Date.now())/1000));
       timerEl.textContent=formatTime(timeLeft);
       if(timeLeft<=0){
-        clearInterval(timerId); timerId=null;
+        stopTimer();
         finishTimed();
       }
-    },1000);
+    },250);
   }
 
   function formatTime(s){
@@ -621,6 +626,8 @@
   function scheduleNextTask(delay=420){
     if(nextTaskTimeout){ clearTimeout(nextTaskTimeout); nextTaskTimeout=null; }
     nextTaskTimeout = window.setTimeout(()=>{
+      if(!running) return;
+      if(state.mode==='time' && Date.now()>=examDeadline){ finishTimed(); return; }
       try{
         newTask();
       }catch(e){
@@ -650,9 +657,14 @@ function flashMsg(type, text){
   }
 
   function finishTimed(){
+    if(!running) return;
     running=false;
+    stopTimer();
+    if(nextTaskTimeout){ clearTimeout(nextTaskTimeout); nextTaskTimeout=null; }
     btnStart.disabled=false;
     btnNext.disabled=true;
+    setAnswersEnabled(false);
+    timerEl.textContent='0:00';
     const res = computeGrade();
     gradeEl.textContent = String(res.g);
     gradeText.textContent = res.t;
@@ -661,8 +673,8 @@ function flashMsg(type, text){
   }
 
   function onAnswer(val){
-    if(!running && state.mode==='time') return;
-    if(!current) return;
+    if(!running || !current) return;
+    if(state.mode==='time' && Date.now()>=examDeadline){ finishTimed(); return; }
     if(answeredThis) return; // защита от повторного клика по тому же заданию
 
     answeredThis = true;
@@ -703,9 +715,9 @@ function flashMsg(type, text){
   }
 
   function nextTask(){
+    if(!running || !current) return;
+    if(state.mode==='time' && Date.now()>=examDeadline){ finishTimed(); return; }
     if(nextTaskTimeout){ clearTimeout(nextTaskTimeout); nextTaskTimeout=null; }
-
-    if(!current) return;
     if(!answeredThis){
       // skip counts as error
       bad++; streak=0;
