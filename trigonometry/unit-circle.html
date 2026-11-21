@@ -242,13 +242,12 @@ body.mem .score{font-size:18px}
 </style>
 <link rel="stylesheet" href="author.css">
 </head>
-<body><div class="brand-shell"><header class="site-header"><div class="author-identity"><button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип Шиморина Б.В." title="Повернуть логотип" style="--logo-size:52px"><img data-logo-mark src="../brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."></button><a class="author-copy" href="../" aria-label="Шиморин Б.В. Методические разработки — главная"><strong>Шиморин Б.В.</strong><small>Методические разработки</small></a></div><a href="../">Все тренажёры</a></header></div>
+<body class="trig-workspace trig-circle"><div class="brand-shell"><header class="site-header"><div class="author-identity"><button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип Шиморина Б.В." title="Повернуть логотип" style="--logo-size:52px"><img data-logo-mark src="../brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."></button><a class="author-copy" href="../" aria-label="Шиморин Б.В. Методические разработки — главная"><strong>Шиморин Б.В.</strong><small>Методические разработки</small></a></div><a href="../">Все тренажёры</a></header></div>
 <nav class="section-nav" aria-label="Раздел"><a href="./">Тригонометрия</a></nav>
   <div class="wrap">
     <div class="top">
       <div>
-        <div class="title">Табличные углы • окружность • проекции</div>
-        <div class="copyright">© Шиморин Б.В., 2026. Все права защищены.</div>
+        <div class="title">Табличные углы и единичная окружность</div>
       </div>
       <div class="controls">
         <div class="seg" role="group" aria-label="Режим">
@@ -265,14 +264,17 @@ body.mem .score{font-size:18px}
     <div class="grid">
       <div class="card">
         <!-- увеличили базовое разрешение для четкости на ретине -->
-        <canvas id="cv" width="1200" height="960" aria-label="Тригонометрическая окружность"></canvas>
+        <canvas id="cv" width="1200" height="960" role="img" aria-label="Единичная окружность с осями и подвижной точкой для определения тригонометрических значений"></canvas>
 
-        <div class="tog">
-          <label><input type="checkbox" id="chkAxisNames" checked>названия осей</label>
-          <label><input type="checkbox" id="chkTrigLabels" checked>подписи тригонометрических величин</label>
-          <label><input type="checkbox" id="chkRing" checked>табличные углы на окружности</label>
-          <label><input type="checkbox" id="chkMarks" checked>табличные значения на осях</label>
-        </div>
+        <details class="view-settings">
+          <summary>Настройки рисунка</summary>
+          <div class="tog">
+            <label><input type="checkbox" id="chkAxisNames" checked>Названия осей</label>
+            <label><input type="checkbox" id="chkTrigLabels" checked>Подписи тригонометрических величин</label>
+            <label><input type="checkbox" id="chkRing" checked>Табличные углы на окружности</label>
+            <label><input type="checkbox" id="chkMarks">Табличные значения на осях</label>
+          </div>
+        </details>
       </div>
 
       <div class="card">
@@ -649,7 +651,7 @@ function startTask()
     if(memLevel === 1){
       awaitingPlacement = false;
       memHint.textContent = 'клик по ответу';
-      taskSub.textContent = 'Красная точка уже стоит в нужном положении. Выбери табличное значение.';
+      taskSub.textContent = 'Выберите точное значение функции.';
       setAngle(currentTask.baseAngle);
 
       promptEl.textContent = `${FN_LABEL[currentTask.fn]} (${currentTask.angleText})`;
@@ -660,7 +662,7 @@ function startTask()
       placeStatus = null;
 
       memHint.textContent = 'сначала поставь точку, потом выбери ответ';
-      taskSub.textContent = 'Поставь точку на окружности в нужное табличное положение и отпусти. Зелёный — верно, красный — ошибка. Потом выбери значение.';
+      taskSub.textContent = 'Установите точку на окружности, затем выберите значение функции.';
 
       // стартовая позиция — случайная, чтобы не совпадала с ответом
       const start = randChoice(angles);
@@ -719,7 +721,7 @@ function startTask()
       scoreBad++;
       streak = 0;
       updateScore();
-      taskSub.textContent = 'Ошибка ❌ Попробуй другое значение.';
+      taskSub.textContent = 'Выбрано неверное значение функции.';
     }
   }
 
@@ -859,13 +861,13 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
     // Чуть уменьшаем окружность, чтобы проекции tg/ctg всегда помещались
     let R  = Math.min(H*0.22, W*0.22);
     R = Math.min(R, cx - pad, (W - pad) - cx, cy - pad, (H - pad) - cy);
-    R = Math.max(105, Math.floor(R));
+    R = Math.max(64, Math.floor(R));
 
     geom.cx = cx; geom.cy = cy; geom.R = R;
 
     // оси
     ctx.lineWidth = 2;
-    ctx.strokeStyle = "rgba(233,238,252,.25)";
+    ctx.strokeStyle = "rgba(103,115,130,.38)";
     ctx.beginPath();
     ctx.moveTo(0, cy); ctx.lineTo(W, cy);
     ctx.moveTo(cx, 0); ctx.lineTo(cx, H);
@@ -874,7 +876,7 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
     // подписи осей
     if(chkAxisNames.checked){
       ctx.font = "800 13px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-      ctx.fillStyle = "rgba(233,238,252,.55)";
+      ctx.fillStyle = "rgba(85,98,113,.75)";
       ctx.textBaseline = "middle";
 
       // cos по горизонтали (X), sin по вертикали (Y)
@@ -892,8 +894,8 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
 
 // табличные метки на осях (зелёные)
     const showMarks = chkMarks.checked;
-    const green = "rgba(53,208,127,.95)";
-    const green2 = "rgba(53,208,127,.55)";
+    const green = "rgba(20,125,73,.95)";
+    const green2 = "rgba(20,125,73,.53)";
 
     function drawFraction(expr, x, y, align="center"){
       // поддерживаем простые дроби: a/b (a может быть "√2" и т.п.)
@@ -1092,16 +1094,16 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
       ctx.lineTo(x2-head*Math.cos(ang-Math.PI/8), y2-head*Math.sin(ang-Math.PI/8));
       ctx.lineTo(x2-head*Math.cos(ang+Math.PI/8), y2-head*Math.sin(ang+Math.PI/8));
       ctx.closePath();
-      ctx.fillStyle = "rgba(233,238,252,.25)";
+      ctx.fillStyle = "rgba(103,115,130,.38)";
       ctx.fill();
     }
-    ctx.strokeStyle = "rgba(233,238,252,.22)";
+    ctx.strokeStyle = "rgba(121,132,145,.29)";
     arrow(cx, cy, cx, 24);
     arrow(cx, cy, W-24, cy);
 
     // окружность
     ctx.lineWidth = 3;
-    ctx.strokeStyle = "rgba(233,238,252,.35)";
+    ctx.strokeStyle = "rgba(103,115,130,.45)";
     ctx.beginPath();
     ctx.arc(cx, cy, R, 0, Math.PI*2);
     ctx.stroke();
@@ -1118,7 +1120,7 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
         const y = cy - R*Math.sin(aa);
 
         // точка
-        ctx.fillStyle = "rgba(233,238,252,.85)";
+        ctx.fillStyle = "rgba(52,65,80,.95)";
         ctx.beginPath();
         ctx.arc(x, y, 4.5, 0, Math.PI*2);
         ctx.fill();
@@ -1127,7 +1129,7 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
         const out = 18;
         const nx = cx + (R+out) * Math.cos(aa);
         const ny = cy - (R+out) * Math.sin(aa);
-        ctx.fillStyle = "rgba(233,238,252,.80)";
+        ctx.fillStyle = "rgba(68,81,97,.93)";
         ctx.fillText(String(i+1), nx, ny);
 
         ringHit.push({x, y, r: 14, ang});
@@ -1138,7 +1140,7 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
     const showTan = true;
     if(showTan){
       ctx.lineWidth = 2;
-      ctx.strokeStyle = "rgba(233,238,252,.18)";
+      ctx.strokeStyle = "rgba(121,132,145,.25)";
       ctx.beginPath();
       ctx.moveTo(cx+R, 0); ctx.lineTo(cx+R, H);
       ctx.stroke();
@@ -1153,14 +1155,14 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
 
     // радиус
     ctx.lineWidth = 3;
-    ctx.strokeStyle = "rgba(255,77,109,.70)";
+    ctx.strokeStyle = "rgba(224,99,87,.70)";
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.lineTo(px, py);
     ctx.stroke();
 
     // точка на окружности
-    ctx.fillStyle = "rgba(255,77,109,1)";
+    ctx.fillStyle = "rgba(224,99,87,1)";
     ctx.beginPath();
     ctx.arc(px, py, 7, 0, Math.PI*2);
     ctx.fill();
@@ -1168,7 +1170,7 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
     // подсветка для уровня 2 (верно/ошибка по положению)
     if(appMode==='mem' && memLevel===2 && placeStatus){
       ctx.lineWidth = 4;
-      ctx.strokeStyle = (placeStatus==='good') ? "rgba(53,208,127,.95)" : "rgba(255,77,109,.95)";
+      ctx.strokeStyle = (placeStatus==='good') ? "rgba(22,163,74,.95)" : "rgba(224,99,87,.95)";
       ctx.beginPath();
       ctx.arc(px, py, 12, 0, Math.PI*2);
       ctx.stroke();
@@ -1176,21 +1178,21 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
 
     // подпись точки (α)
     ctx.font = "800 16px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillStyle = "rgba(255,77,109,.95)";
+    ctx.fillStyle = "rgba(224,99,87,.95)";
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
     ctx.fillText("α", px + 12, py - 12);
 
     // проекции (всегда пунктирные)
     ctx.lineWidth = 3;
-    ctx.strokeStyle = "rgba(255,77,109,.85)";
+    ctx.strokeStyle = "rgba(224,99,87,.85)";
     ctx.setLineDash([10,8]);
     ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px, cy); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(cx, py); ctx.stroke();
     ctx.setLineDash([]);
 
     // точки проекций
-    ctx.fillStyle = "rgba(255,77,109,1)";
+    ctx.fillStyle = "rgba(224,99,87,1)";
     ctx.beginPath(); ctx.arc(px, cy, 6, 0, Math.PI*2); ctx.fill();
     ctx.beginPath(); ctx.arc(cx, py, 6, 0, Math.PI*2); ctx.fill();
 
@@ -1203,8 +1205,8 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
       ctx.fillText(str, x, y);
     }
     if(chkTrigLabels.checked){
-      text("sin α", cx+14, py, "rgba(255,77,109,.95)", "left");
-      text("cos α", px, cy+26, "rgba(255,77,109,.95)", "center");
+      text("sin α", cx+14, py, "rgba(224,99,87,.95)", "left");
+      text("cos α", px, cy+26, "rgba(224,99,87,.95)", "center");
     }
 
     // tg и ctg
@@ -1219,15 +1221,15 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
         const typ = cy - R*ty;
 
         ctx.lineWidth = 2;
-        ctx.strokeStyle = "rgba(255,77,109,.45)";
+        ctx.strokeStyle = "rgba(224,99,87,.45)";
         ctx.setLineDash([8,8]);
         ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(txp, typ); ctx.stroke();
         ctx.setLineDash([]);
 
         if(typ > -100 && typ < H+100){
-          ctx.fillStyle = "rgba(255,77,109,1)";
+          ctx.fillStyle = "rgba(224,99,87,1)";
           ctx.beginPath(); ctx.arc(txp, typ, 6, 0, Math.PI*2); ctx.fill();
-          if(chkTrigLabels.checked){ text("tg α", txp+18, typ, "rgba(255,77,109,.95)", "left"); }
+          if(chkTrigLabels.checked){ text("tg α", txp+18, typ, "rgba(224,99,87,.95)", "left"); }
         }
       }
 
@@ -1238,22 +1240,22 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
         const cpx = cx + R*cxUnit;
 
         ctx.lineWidth = 2;
-        ctx.strokeStyle = "rgba(255,77,109,.45)";
+        ctx.strokeStyle = "rgba(224,99,87,.45)";
         ctx.setLineDash([8,8]);
         ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(cpx, ctp); ctx.stroke();
         ctx.setLineDash([]);
 
         if(cpx > -100 && cpx < W+100){
-          ctx.fillStyle = "rgba(255,77,109,1)";
+          ctx.fillStyle = "rgba(224,99,87,1)";
           ctx.beginPath(); ctx.arc(cpx, ctp, 6, 0, Math.PI*2); ctx.fill();
-          if(chkTrigLabels.checked){ text("ctg α", cpx, ctp-24, "rgba(255,77,109,.95)", "center"); }
+          if(chkTrigLabels.checked){ text("ctg α", cpx, ctp-24, "rgba(224,99,87,.95)", "center"); }
         }
       }
     }
 
     // подпись угла
     ctx.font = "800 15px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillStyle = "rgba(233,238,252,.85)";
+    ctx.fillStyle = "rgba(52,65,80,.95)";
     ctx.textAlign = "left";
     ctx.textBaseline = "alphabetic";
     const label = (mode === "tabular")
@@ -1264,7 +1266,7 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
         })();
     ctx.fillText(label, 18, 40);
     // центр
-    ctx.fillStyle = "rgba(233,238,252,.55)";
+    ctx.fillStyle = "rgba(85,98,113,.75)";
     ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI*2); ctx.fill();
   }
 
@@ -1296,6 +1298,13 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
   });
 
   [chkAxisNames, chkTrigLabels, chkMarks, chkRing].forEach(el => el.addEventListener('change', draw));
+
+  // On compact screens hide optional diagram annotations that otherwise overlap.
+  // All of them remain available from the drawing settings.
+  if (window.matchMedia('(max-width: 650px)').matches) {
+    chkAxisNames.checked = false;
+    chkRing.checked = false;
+  }
 
   resizeCanvas();
   renderInfo();
@@ -1410,7 +1419,7 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
         awaitingPlacement = false;
         placedCorrect = true;
         placeStatus = 'good';
-        taskSub.textContent = 'Положение верно ✅ Теперь выбери табличное значение.';
+        taskSub.textContent = 'Положение точки верно. Выберите значение функции.';
         showAnswerButtonsForLevel2();
       }else{
         awaitingPlacement = true;
@@ -1419,7 +1428,7 @@ let cur = angles[Math.floor(Math.random()*angles.length)];
         scoreBad++;
         streak = 0;
         updateScore();
-        taskSub.textContent = 'Ошибка ❌ Положение неверное. Попробуй ещё раз.';
+        taskSub.textContent = 'Ошибка: точка не соответствует заданному углу.';
       }
       draw();
     }

@@ -145,13 +145,10 @@
 </style>
 <link rel="stylesheet" href="author.css">
 </head>
-<body>
+<body class="trig-assessment">
   <div class="wrap">
     <div class="top">
-      <div class="title">
-        <h1>Зачёт • табличные углы • окружность</h1>
-        <div class="copy">© Шиморин Б.В., 2026. Все права защищены.</div>
-      </div>
+      <div class="title"><h1>Табличные углы · зачёт</h1></div>
       <div class="pill" id="modePill">режим: лайт</div>
     </div>
 
@@ -161,8 +158,6 @@
       </div>
 
       <div class="panel right">
-        <h2>Зачёт</h2>
-
         <div class="row">
           <select class="select" id="examTypeSel" aria-label="Режим зачёта">
             <option value="light">Лайт (без времени)</option>
@@ -377,7 +372,7 @@
 
     // axes
     ctx.lineWidth=2;
-    ctx.strokeStyle='rgba(255,255,255,.20)';
+    ctx.strokeStyle='rgba(112,124,139,.45)';
     ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(W,cy); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(cx,0); ctx.lineTo(cx,H); ctx.stroke();
 
@@ -390,12 +385,12 @@
 
     // circle
     ctx.lineWidth=3;
-    ctx.strokeStyle='rgba(255,255,255,.32)';
+    ctx.strokeStyle='rgba(78,90,105,.60)';
     ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.stroke();
 
     // tabular positions (light only)
     if(state.mode==='light'){
-      ctx.fillStyle='rgba(255,255,255,.28)';
+      ctx.fillStyle='rgba(103,115,130,.52)';
       for(const d of BASE){
         const aa = d*Math.PI/180;
         const tx = cx + R*Math.cos(aa);
@@ -413,7 +408,7 @@
     // radius
     if(state.showPoint){
       ctx.lineWidth=4;
-      ctx.strokeStyle='rgba(255,77,109,.55)';
+      ctx.strokeStyle='rgba(224,99,87,.55)';
       ctx.setLineDash([10,10]);
       ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(px,py); ctx.stroke();
       ctx.setLineDash([]);
@@ -422,7 +417,7 @@
     // projections
     if(state.showProj){
       ctx.lineWidth=4;
-      ctx.strokeStyle='rgba(255,77,109,.55)';
+      ctx.strokeStyle='rgba(224,99,87,.55)';
       ctx.setLineDash([10,10]);
       // to x axis
       ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(px,cy); ctx.stroke();
@@ -441,7 +436,7 @@
           const ty = cy - R*(sinA/cosA);
           ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(tgAxisX, ty); ctx.stroke();
           // point on tg axis
-          ctx.fillStyle='rgba(255,77,109,.95)';
+          ctx.fillStyle='rgba(224,99,87,.95)';
           ctx.beginPath(); ctx.arc(tgAxisX, ty, 7, 0, Math.PI*2); ctx.fill();
         }
 
@@ -449,7 +444,7 @@
         if(Math.abs(sinA) > 1e-6){
           const tx = cx + R*(cosA/sinA);
           ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(tx, ctgAxisY); ctx.stroke();
-          ctx.fillStyle='rgba(255,77,109,.95)';
+          ctx.fillStyle='rgba(224,99,87,.95)';
           ctx.beginPath(); ctx.arc(tx, ctgAxisY, 7, 0, Math.PI*2); ctx.fill();
         }
       }
@@ -457,14 +452,14 @@
       ctx.setLineDash([]);
 
       // projection dots
-      ctx.fillStyle='rgba(255,77,109,.95)';
+      ctx.fillStyle='rgba(224,99,87,.95)';
       ctx.beginPath(); ctx.arc(px,cy,7,0,Math.PI*2); ctx.fill();
       ctx.beginPath(); ctx.arc(cx,py,7,0,Math.PI*2); ctx.fill();
     }
 
     // main point
     if(state.showPoint){
-      ctx.fillStyle='rgba(255,77,109,.95)';
+      ctx.fillStyle='rgba(224,99,87,.95)';
       ctx.beginPath(); ctx.arc(px,py,9,0,Math.PI*2); ctx.fill();
     }
   }

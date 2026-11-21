@@ -1,17 +1,105 @@
 <!doctype html>
-<html lang="ru"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Тригонометрия · SHIMORINMATH</title>
-<link rel="stylesheet" href="../catalog.css">
-<link rel="stylesheet" href="../catalog-identity.css">
-<link rel="stylesheet" href="../brand-details.css">
-<link rel="stylesheet" href="../trainer-scores.css">
-<link rel="icon" href="../SHIMORINMATH_Favicon.svg">
-<script defer src="../brand-motion.js"></script>
-</head><body><a class="skip" href="#main">К тренажёрам</a><div class="page">
-<header class="site-header"><div class="author-identity"><button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип Шиморина Б.В." title="Повернуть логотип" style="--logo-size:52px"><img data-logo-mark src="../brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."></button><a class="author-copy" href="../" aria-label="Шиморин Б.В. Методические разработки — главная"><strong>Шиморин Б.В.</strong><small>Методические разработки</small></a></div><a href="../">Все тренажёры</a></header>
-<main id="main"><h1>Тригонометрия</h1><div class="trainer-grid"><a class="trainer-card" href="unit-circle.html"><div class="card-top"><span class="formula-icon" aria-hidden="true">sin α</span></div><h2>Табличные углы и единичная окружность</h2><p>Обучение, два уровня запоминания и зачёт.</p><span class="open">Открыть тренажёр</span></a>
-<a class="trainer-card" href="reduction.html"><div class="card-top"><span class="formula-icon" aria-hidden="true">π/2 + x</span></div><h2>Формулы приведения</h2><p>Контрольная точка, четверть, знак и итоговая функция.</p><span class="open">Открыть тренажёр</span></a>
-</div></main>
-<footer class="site-footer"><span class="shimorin-wordmark" aria-label="SHIMORINMATH"><span>SHIMORIN</span><span class="wordmark-accent">MATH</span></span></footer>
-</div></body></html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="description" content="SHIMORINMATH: единичная окружность, табличные значения тригонометрических функций и формулы приведения.">
+  <title>Тригонометрия · SHIMORINMATH</title>
+  <link rel="icon" href="../SHIMORINMATH_Favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../catalog.css">
+  <link rel="stylesheet" href="../catalog-identity.css">
+  <link rel="stylesheet" href="../brand-details.css">
+  <link rel="stylesheet" href="landing.css">
+  <script defer src="../brand-motion.js"></script>
+</head>
+<body class="trig-landing">
+  <a class="skip" href="#trig-topics">К разделам тригонометрии</a>
+  <div class="page">
+    <header class="site-header">
+      <div class="author-identity">
+        <button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип" title="Повернуть логотип" style="--logo-size:52px">
+          <img data-logo-mark src="../brand-logo.svg" width="52" height="52" alt="SHIMORINMATH">
+        </button>
+        <a class="author-copy" href="../" aria-label="На главную страницу SHIMORINMATH">
+          <strong>Шиморин Б.В.</strong>
+          <small>Методические разработки</small>
+        </a>
+      </div>
+      <a class="back-link" href="../"><span aria-hidden="true">←</span> Все тренажёры</a>
+    </header>
+
+    <main id="trig-topics">
+      <div class="trig-heading">
+        <div class="trig-breadcrumb"><a href="../">Тренажёры</a><span aria-hidden="true">/</span><span aria-current="page">Тригонометрия</span></div>
+        <h1>Тригонометрия</h1>
+        <p>Два инструмента: работа с углами на окружности и преобразование выражений по формулам приведения.</p>
+      </div>
+
+      <div class="trig-grid">
+        <a class="trig-topic" href="unit-circle.html" aria-label="Открыть тренажёр «Табличные углы и единичная окружность»">
+          <div class="topic-meta"><span>01</span><span>Окружность и значения</span></div>
+          <div class="topic-visual topic-circle" aria-hidden="true">
+            <svg viewBox="0 0 480 255" role="presentation">
+              <g transform="translate(9 5)">
+                <path class="diagram-axis" d="M48 127H275 M163 238V18"/>
+                <path class="diagram-arrow" d="M267 123l8 4-8 4 M159 26l4-8 4 8"/>
+                <circle class="diagram-ring" cx="163" cy="127" r="87"/>
+                <path class="diagram-angle" d="M193 127 A30 30 0 0 0 178 101"/>
+                <line class="diagram-radius" x1="163" y1="127" x2="206.5" y2="51.7"/>
+                <line class="diagram-projection" x1="206.5" y1="51.7" x2="206.5" y2="127"/>
+                <line class="diagram-projection" x1="206.5" y1="51.7" x2="163" y2="51.7"/>
+                <circle class="diagram-point" cx="206.5" cy="51.7" r="5.5"/>
+                <text class="diagram-label" x="221" y="44">α</text>
+                <text class="diagram-small" x="212" y="148">cos α</text>
+                <text class="diagram-small" x="99" y="47">sin α</text>
+                <text class="diagram-muted" x="278" y="142">x</text>
+                <text class="diagram-muted" x="149" y="18">y</text>
+                <text class="diagram-muted" x="148" y="146">0</text>
+                <text class="diagram-formula" x="302" y="101">sin α = y</text>
+                <text class="diagram-equals" x="302" y="139">cos α = x</text>
+              </g>
+            </svg>
+          </div>
+          <div class="topic-content">
+            <h2>Табличные углы и единичная окружность</h2>
+            <p>Положение угла, его проекции и точные значения sin, cos, tg и ctg. Обучение, два уровня запоминания и зачёт.</p>
+            <span class="topic-action">Открыть тренажёр <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16L16 4M5 4H16V15"/></svg></span>
+          </div>
+        </a>
+
+        <a class="trig-topic" href="reduction.html" aria-label="Открыть тренажёр «Формулы приведения»">
+          <div class="topic-meta"><span>02</span><span>Преобразование выражений</span></div>
+          <div class="topic-visual topic-reduction" aria-hidden="true">
+            <svg viewBox="0 0 480 255" role="presentation">
+              <g transform="translate(8 1)">
+                <path class="diagram-axis" d="M39 128H246 M143 228V26"/>
+                <path class="diagram-arrow" d="M238 124l8 4-8 4 M139 34l4-8 4 8"/>
+                <circle class="diagram-ring" cx="143" cy="128" r="79"/>
+                <path class="diagram-quadrant" d="M143 128V49 A79 79 0 0 1 222 128Z"/>
+                <line class="diagram-radius" x1="143" y1="128" x2="109.6" y2="56.4"/>
+                <circle class="diagram-point" cx="109.6" cy="56.4" r="5.5"/>
+                <text class="diagram-small" x="156" y="40">π/2</text>
+                <text class="diagram-small" x="45" y="123">π</text>
+                <text class="diagram-small" x="223" y="144">0</text>
+                <text class="diagram-small" x="82" y="48">II</text>
+                <text class="diagram-small" x="183" y="65">I</text>
+                <text class="diagram-small" x="76" y="195">III</text>
+                <text class="diagram-small" x="184" y="195">IV</text>
+                <text class="diagram-equation" x="266" y="99">sin(π/2 + α)</text>
+                <text class="diagram-equation diagram-accent" x="266" y="151">= cos α</text>
+              </g>
+            </svg>
+          </div>
+          <div class="topic-content">
+            <h2>Формулы приведения</h2>
+            <p>Контрольная точка, четверть, знак и итоговая функция. Пошаговое обучение, облегчённый и сложный зачёты, режим на время.</p>
+            <span class="topic-action">Открыть тренажёр <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16L16 4M5 4H16V15"/></svg></span>
+          </div>
+        </a>
+      </div>
+    </main>
+    <footer class="site-footer"><span class="shimorin-wordmark" aria-label="SHIMORINMATH"><span>SHIMORIN</span><span class="wordmark-accent">MATH</span></span></footer>
+  </div>
+</body>
+</html>
