@@ -1,0 +1,23 @@
+name: SHIMORINMATH · тригонометрия
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "trigonometry/**"
+      - "tests/trigonometry-integration.test.mjs"
+      - ".github/workflows/trigonometry-qa.yml"
+  pull_request:
+    paths:
+      - "trigonometry/**"
+      - "tests/trigonometry-integration.test.mjs"
+      - ".github/workflows/trigonometry-qa.yml"
+
+jobs:
+  verify-trigonometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Проверить математическое ядро и маршруты
+        run: node --test tests/trigonometry-integration.test.mjs
