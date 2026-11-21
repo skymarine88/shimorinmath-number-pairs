@@ -411,26 +411,26 @@
   </style>
 <link rel="stylesheet" href="author.css">
 </head>
-<body><div class="brand-shell"><header class="site-header"><div class="author-identity"><button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип Шиморина Б.В." title="Повернуть логотип" style="--logo-size:52px"><img data-logo-mark src="../brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."></button><a class="author-copy" href="../" aria-label="Шиморин Б.В. Методические разработки — главная"><strong>Шиморин Б.В.</strong><small>Методические разработки</small></a></div><a href="../">Все тренажёры</a></header></div>
+<body class="trig-workspace trig-reduction"><div class="brand-shell"><header class="site-header"><div class="author-identity"><button class="logo-trigger" type="button" data-animated-logo aria-label="Анимировать логотип Шиморина Б.В." title="Повернуть логотип" style="--logo-size:52px"><img data-logo-mark src="../brand-logo.svg" width="52" height="52" alt="Логотип Шиморина Б.В."></button><a class="author-copy" href="../" aria-label="Шиморин Б.В. Методические разработки — главная"><strong>Шиморин Б.В.</strong><small>Методические разработки</small></a></div><a href="../">Все тренажёры</a></header></div>
 <nav class="section-nav" aria-label="Раздел"><a href="./">Тригонометрия</a></nav>
   <div class="wrap">
     <div class="card" id="trainCard">
       <div class="head">
-        <div class="title"><span></span></div>
+        <div class="title"><span>Режим тренировки</span></div>
         <div class="toolbar">
-          <button class="iconbtn" id="theoryBtn" title="Теория и правило">📘 Теория</button>
-          <button class="iconbtn" id="settingsBtn" title="Настройки">⚙ Настройки</button>
+          <button class="iconbtn" id="theoryBtn" title="Теория и правило">Теория</button>
+          <button class="iconbtn" id="settingsBtn" title="Настройки">Настройки</button>
 
           <div class="pill" style="display:flex;gap:10px;align-items:center;">
             Режим:
-            <select id="modeSelect" style="padding:8px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);font-weight:900;">
+            <select id="modeSelect" aria-label="Режим тренировки">
               <option value="learn">Обучение</option>
               <option value="lite">Зачёт лайт</option>
               <option value="hard">Зачёт хард</option>
               <option value="exam">Зачёт на 5 (таймер)</option>
             </select>
           </div>
-<div class="pill">Разработчик: <b>Шиморин Б.В.</b> · Все права защищены</div>
+
         </div>
       </div>
       <div class="body">
@@ -441,6 +441,7 @@
         </div>
         <div class="pageTitle">Формулы приведения</div>
         <div class="formula" id="formula">…</div>
+        <p class="trig-feedback" id="taskFeedback" role="status" aria-live="polite"></p>
 
         <div class="svgwrap">
           <svg viewBox="0 0 500 500" aria-label="Окружность с осями и четвертями">
@@ -656,7 +657,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const needKT = $("needKT"), needQ = $("needQ"), needSign = $("needSign"), needFinal = $("needFinal");
   const varToggle = $("varToggle");
   const modeSelect = $("modeSelect");
-  const successOverlay = $("successOverlay");
+  const feedbackEl = $("taskFeedback");
+  let feedbackTimer = null;
   const examOverlay = $("examOverlay");
   const examGrade = $("examGrade");
   const examSummary = $("examSummary");
@@ -897,25 +899,14 @@ examGrade.textContent = "Оценка: " + grade + " ⭐";
   function rightSolvedAll(){ if (mode === "learn") return; stats.ok++; stats.streak++; updateStats(); }
 
   function popSuccess(){
-    successOverlay.classList.add("show");
-    successOverlay.setAttribute("aria-hidden","false");
-
-    const W = window.innerWidth;
-    for (let i=0; i<36; i++){
-      const c = document.createElement("div");
-      c.className = "confetti";
-      c.style.left = (rand01()*W) + "px";
-      c.style.background = `hsl(${Math.floor(rand01()*360)}, 90%, 60%)`;
-      document.body.appendChild(c);
-      setTimeout(()=> c.remove(), 1000);
-    }
-
-    setTimeout(()=>{
-      successOverlay.classList.remove("show");
-      successOverlay.setAttribute("aria-hidden","true");
-    }, 650);
+    feedbackEl.textContent = "Верно.";
+    feedbackEl.classList.add("visible");
+    if(feedbackTimer) clearTimeout(feedbackTimer);
+    feedbackTimer = setTimeout(()=>{
+      feedbackEl.textContent = "";
+      feedbackEl.classList.remove("visible");
+    }, 1250);
   }
-
 
   function rand(arr){ return arr[Math.floor(rand01()*arr.length)]; }
 
@@ -1430,14 +1421,6 @@ stats = { ok:0, bad:0, streak:0 };
 })();
 });
 </script>
-
-  <div class="successOverlay" id="successOverlay" aria-hidden="true">
-    <div class="successCard">
-      <p class="big">ВЕРНО! 🎉</p>
-      <p class="sub">Отлично — следующий пример</p>
-    </div>
-  </div>
-
 
   <div class="successOverlay" id="examOverlay" aria-hidden="true">
     <div class="successCard" style="width:min(640px, 94vw);">
