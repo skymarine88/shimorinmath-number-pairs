@@ -67,8 +67,35 @@ try{
     await reduction.locator('#theoryBtn').click();
     assert.equal(await reduction.locator('#theoryOverlay').getAttribute('aria-hidden'),'false');
     await reduction.locator('#closeTheory').click();
+    // Final answers must be in the right-side "4) Итог" card, not below the circle.
+    const finalCard=reduction.locator('.stepsCard .final-step');
+    const answers=finalCard.locator('#finalBtns .finalBtn');
+    assert.equal(await answers.count(),8,'Expected 8 final answers inside step 4');
+    assert.equal(await reduction.locator('#trainCard #finalBtns').count(),0);
+    assert.match(await finalCard.locator('#finalHint').textContent(),/итоговый результат/);
+    assert.equal(await answers.first().isDisabled(),true,'Learning mode must gate step 4');
+
     await reduction.locator('#modeSelect').selectOption('hard');
     assert.equal(await reduction.locator('body').getAttribute('class')?.then(x=>x.includes('hardMode')),true);
+    assert.equal(await finalCard.isVisible(),true,'Hard mode must keep step 4 visible');
+    assert.equal(await reduction.locator('.stepsCard .step').first().isVisible(),false);
+    assert.equal(await answers.first().isEnabled(),true,'Hard mode must allow answering');
+    assert.equal(await reduction.locator('.stepsCard .finalBtn:visible').count(),8);
+    await answers.first().click();
+    const hardAttempts=await reduction.locator('#ok, #bad').allTextContents();
+    assert.equal(hardAttempts.reduce((sum,n)=>sum+Number(n),0),1,'Hard-mode answer was not registered');
+
+    await reduction.locator('#modeSelect').selectOption('exam');
+    assert.equal(await finalCard.isVisible(),true,'Timed exam must keep final answers visible');
+    assert.equal(await answers.first().isEnabled(),true);
+    assert.equal(await reduction.locator('#timerPill').isVisible(),true);
+    const examAttempts=await reduction.locator('#ok, #bad').allTextContents();
+    assert.equal(examAttempts.reduce((sum,n)=>sum+Number(n),0),0);
+    await answers.first().click();
+    const afterExamAnswer=await reduction.locator('#ok, #bad').allTextContents();
+    assert.equal(afterExamAnswer.reduce((sum,n)=>sum+Number(n),0),1,'Exam answer was not registered');
+    await assertLight(reduction,'.svgwrap svg');
+    await reduction.screenshot({path:screenshots+'/reduction-answers-'+size.label+'.png',fullPage:true});
     await reduction.close();
   }
   assert.deepEqual(errors,[],'Uncaught browser exceptions');
