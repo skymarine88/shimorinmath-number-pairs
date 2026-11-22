@@ -352,3 +352,73 @@ body.trig-reduction .stepsCard .step .btnrow {margin-top:10px}
   body.trig-reduction .stepsCard .body > .grid {grid-template-columns:1fr}
   body.trig-reduction .stepsCard .step {min-height:62px}
 }
+
+
+/* Reduction trainer: the final answer belongs to step 4, not below the diagram. */
+body.trig-reduction .stepsCard .body > .grid > .step:nth-child(n+3) {
+  grid-column:1 / -1;
+}
+body.trig-reduction .stepsCard .final-step {
+  padding:16px;
+  background:#F7F8FA;
+}
+body.trig-reduction .stepsCard .final-hint {
+  margin:12px 0 0;
+  color:#667085;
+  line-height:1.5;
+  font-size:13px;
+  font-weight:500;
+}
+body.trig-reduction .stepsCard .finalArea {
+  position:static;
+  margin:12px 0 0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+}
+body.trig-reduction .stepsCard .finalGrid {
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+}
+body.trig-reduction .stepsCard .finalBtn {
+  min-width:0;
+  min-height:52px;
+  padding:10px 3px;
+  border-radius:10px;
+  font-size:clamp(15px,1.25vw,18px);
+  overflow-wrap:normal;
+  white-space:nowrap;
+}
+body.trig-reduction .stepsCard .finalBtn:focus-visible {
+  outline:3px solid #E06357;
+  outline-offset:2px;
+}
+/* Hard and timed exams skip intermediate steps, but the answer buttons MUST stay visible. */
+body.trig-reduction.hardMode .stepsCard {display:block}
+body.trig-reduction.hardMode .wrap {
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+}
+body.trig-reduction.hardMode .stepsCard .step:not(.final-step) {display:none}
+body.trig-reduction.hardMode .stepsCard .body > .grid {grid-template-columns:minmax(0,1fr)}
+body.trig-reduction.hardMode .stepsCard .final-step {grid-column:1}
+@media(max-width:1000px){
+  body.trig-reduction.hardMode .wrap {grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:650px){
+  body.trig-reduction .stepsCard .finalGrid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+  body.trig-reduction .stepsCard .finalBtn {
+    min-height:48px;
+    padding:10px 8px;
+    font-size:18px;
+  }
+  body.trig-reduction .stepsCard .final-hint {font-size:13px}
+}
