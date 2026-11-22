@@ -463,9 +463,6 @@
           </svg>
         </div>
 
-        <div class="finalArea">
-          <div class="finalGrid" id="finalBtns"></div>
-        </div>
       </div>
     </div>
 
@@ -491,8 +488,13 @@
               <button class="signbtn" id="minusBtn" disabled>− Минус</button>
             </div>
           </div>
-          <div class="step"><div class="stephead"><div>4) Итог</div><span id="b4" class="badge">…</span></div>
-            <div class="muted" style="margin-top:8px;font-size:13px;line-height:1.35;">Выбери правильный <b>ответ</b> среди кнопок внизу.</div></div>
+          <div class="step final-step">
+            <div class="stephead"><div>4) Итог</div><span id="b4" class="badge">…</span></div>
+            <p class="final-hint" id="finalHint" role="status">Выберите итоговый результат.</p>
+            <div class="finalArea">
+              <div class="finalGrid" id="finalBtns" role="group" aria-label="Выбор итогового результата"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -642,6 +644,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const okEl = $("ok"), badEl = $("bad"), streakEl = $("streak");
   const formulaEl = $("formula");
   const finalBtns = $("finalBtns");
+  const finalHint = $("finalHint");
   const plusBtn = $("plusBtn"), minusBtn = $("minusBtn");
   const b1 = $("b1"), b2 = $("b2"), b3 = $("b3"), b4 = $("b4");
   const newBtn = $("newBtn"), resetBtn = $("resetBtn");
@@ -1153,6 +1156,13 @@ examGrade.textContent = "Оценка: " + grade + " ⭐";
     minusBtn.disabled = !signActive;
 
     const finalActive = e.final && (seq ? (stageKey === "final") : true) && !solved.final;
+    finalHint.textContent = !e.final
+      ? "Итоговый ответ отключён в настройках."
+      : solved.final
+        ? "Итоговый результат выбран."
+        : finalActive
+          ? "Выберите итоговый результат."
+          : "Выполните предыдущие шаги, затем выберите итоговый результат.";
     [...finalBtns.querySelectorAll("button")].forEach(btn=> btn.disabled = !finalActive);
 
     if (!e.final){
